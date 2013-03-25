@@ -217,7 +217,13 @@ content_class.prototype.manageContentAdminEvents = function() {
                 CSSContent: cssContent,
                 Template: template,
                 PublishDate: $("#PublishDate").attr("value"),
-                Title: $("#PageTitle").attr("value")
+                Title: $("#PageTitle").attr("value"),
+                MetaDescription: $("#MetaDescription").attr("value"),
+                OGTitle: $("#OGTitle").attr("value"),
+                OGImage: $("#OGImage").attr("value"),
+                OGType: $("#OGType").attr("value"),
+                OGUrl: $("#OGUrl").attr("value"),
+                Canonical: $("#Canonical").attr("value")
             },
             // Let Ajax handler know if we're using an advanced editor or basic editor
             // Basic editor does not send over JS / CSS rules so we should leave the content as is in the controller

@@ -16,4 +16,13 @@ public class ContentPage
 	public virtual Boolean? IsActive { get; set; }
 	public virtual DateTime? PublishDate { get; set; }
 	public virtual String Template { get; set; }
+
+	// SEO Related
+	public virtual String MetaDescription { get; set; }
+	public virtual String OGTitle { get; set; }
+	public virtual String OGImage { get; set; }
+	public virtual String OGType { get; set; }
+	public virtual String OGUrl { get; set; }
+	public virtual String RobotsNoFollow { get; set; }
+	public virtual String Canonical { get; set; }
 }

@@ -27,8 +27,14 @@
                 string templateName = template.Value.TemplateName;
                 string selected = template.Key == Model.ThePage.Template ? "selected = selected" : "";
                 
-            <option @selected value="@template.Key">@templateName</option>
+                <option @selected value="@template.Key">@templateName</option>
             }            
         }
     </select>
+</div>
+
+
+<div class="panel setMetaInformation">
+    <h4>SEO / Meta</h4>
+    <a href="javascript:void(0);" data-reveal-id="SEOMetaModal">Set Meta Information</a>
 </div>
