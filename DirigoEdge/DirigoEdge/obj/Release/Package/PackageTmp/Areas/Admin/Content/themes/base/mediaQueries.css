@@ -1,0 +1,52 @@
+﻿@media all and (max-width: 840px) and (min-width: 768px) {
+	/** Admin Sidebar icons - hide for iPad and devices slightly above*/
+	#sidebar ul li a img {
+		display: none;
+	}
+	#sidebar ul.tabs li span {
+		margin-left: 0;
+		top: 0;
+
+	}
+}
+
+/** iPad Portrait **/
+@media all and (max-width: 768px) {
+	/** Fix up the iPad top navigation a bit by removing unnecessary dividers*/
+	.top-bar ul > li.has-dropdown a:after {
+		border: none;
+	}
+	ul.right > li.divider {
+		display: none;
+	}
+}
+
+@media all and (max-width: 767px) {
+	.tabletMarginBottom {
+		margin-bottom: 10px;
+	}
+	.tabletBlockStatic {
+	    position: static !important;
+	    display: block;
+    }
+	.confirmModalButton {
+		margin-bottom: 10px;
+		margin-left: 0 !important;
+	}
+	table.manageTable thead tr .hide-for-small {
+		display: none !important;
+	}
+}
+
+@media all and (max-width: 320px) {
+    .mobileBlockStatic {
+	    position: static !important;
+	    display: block;
+    }
+	.mobileMarginBottom {
+		margin-bottom: 10px;
+	}
+	#PreviewContentButton, #ConfirmBlogDelete, #ConfirmDeleteCategory, #ConfirmModuleDelete, #DeleteUserButton {
+		margin-left: 0;
+	}
+}

@@ -1,0 +1,87 @@
+﻿@{
+	ViewBag.Title = "Manage Content";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model DirigoEdge.Areas.Admin.Models.ViewModels.ManageContentViewModel
+
+<div class="manageContent">
+
+    <div class="row">
+        <div class="twelve columns">
+            <h3>Manage Content Pages</h3>
+            <a id="NewContentPage" class="button mobileMarginBottom mobileBlockStatic" href="@Url.Action("NewContentPage", "Admin")">New Page +</a>
+            <table class="manageTable twelve bordered manageTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th class="hide-for-small">Created</th>
+                        <th class="hide-for-small">Is Public</th>
+                        <th class="actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+					    foreach(var page in Model.Pages)
+					    {
+                            string active = (bool)page.IsActive ? "True" : "False";
+                        <tr>
+                            <td class="title"><a href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">@page.DisplayName</a></td>
+                            <td class="hide-for-small">@Convert.ToDateTime(page.CreateDate).ToString("MM/dd/yyyy")</td>
+                            <td class="hide-for-small">@active</td>
+                            <td>
+                                <a class="delete button secondary small tabletMarginBottom" href="javascript:void(0);" data-id="@page.ContentPageId">Delete</a>
+                                @{
+                                        string url = "/Content/" + DirigoEdge.Utils.ContentUtils.GetFormattedUrl(page.DisplayName);
+                                }
+                                <a class="button secondary small tabletMarginBottom" href="@url" target=_blank>Preview</a>
+
+                                <a class="button small tabletMarginBottom" href="@Url.Action("EditContentBasic", "Admin", new { id = @page.ContentPageId })">WYSIWYG Edit</a>
+                                <a class="button small" href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">Code Edit { }</a>
+                            </td>
+                        </tr>
+					    }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Modals {
+    <div id="DeleteModal" class="reveal-modal">
+        <h2>Confirm Delete.</h2>
+        <p class="lead">Are you sure you want to delete this page?</p>
+
+        <p class=""><span id="popTitle"></span>will be <em>permanently</em> deleted.</p>
+        
+        <div class="confirmCancelContainer">
+            <a id="ConfirmContentDelete" class="right button confirmButton confirmModalButton">Confirm</a>
+            <a class="right button secondary" onclick="$('#DeleteModal').trigger('reveal:close');">Cancel</a>    
+        </div>
+        
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+}
+@section Scripts {
+    @{
+        // Only load if there is a good reason to
+        if (Model.Pages.Count > 0)
+        {
+        <script src="/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $("table.manageTable").dataTable({
+                    "iDisplayLength": 25,
+                    "aoColumnDefs": [
+                        { "bSortable": false, "aTargets": ["actions"] } // No Sorting on actions
+                    ],
+                    "aaSorting": [[1, "desc"]] // Sort by Created Date on page load
+                });
+            });
+        </script>
+        }
+    }
+}

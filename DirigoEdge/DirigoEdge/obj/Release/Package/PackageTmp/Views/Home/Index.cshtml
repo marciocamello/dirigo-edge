@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+@model DirigoEdge.Models.ViewModels.HomeViewModel
+
+<!-- First Band (Image Slider) -->
+<div class="row">
+    <div class="twelve columns">
+        @Html.Partial("SlideShowModule", Model.Slideshow)
+    </div>
+</div>
+
+<!-- First Band (Content Sections) -->
+<div class="row">
+    <div class="four columns">
+        @Html.RenderUserContentModuleWithOnScreenEditor("Homepage Module 1")
+    </div>
+    <div class="four columns">
+        @Html.RenderUserContentModuleWithOnScreenEditor("Homepage Module 2")
+    </div>
+    <div class="four columns">
+        @Html.RenderUserContentModuleWithOnScreenEditor("Homepage Module 3")
+    </div>
+</div>
+
+<!-- Call to Action Panel -->
+<div class="row">
+    <div class="twelve columns">
+        <div class="panel">
+            <h4>Get in touch!</h4>
+            <div class="row">
+                <div class="nine columns">
+                    <p>We'd love to hear from you, you attractive person you.</p>
+                </div>
+                <div class="three columns">
+                    <a href="/contact" class="radius button right">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* Call the slideshow*@
+    <script>
+        
+        $("#@Model.Slideshow.SlideShowName").orbit({
+            animationSpeed: @Model.Slideshow.AnimationSpeed,
+            advanceSpeed: @Model.Slideshow.AdvanceSpeed,
+            directionalNav: @Model.Slideshow.UseDirectionalNav.ToString().ToLower(),
+            bullets: @Model.Slideshow.ShowBullets.ToString().ToLower(),
+            animation : '@Model.Slideshow.Animation',
+            timer : @Model.Slideshow.UseTimer.ToString().ToLower(),
+            pauseOnHover : @Model.Slideshow.PauseOnHover.ToString().ToLower()
+        });
+    </script>
+}

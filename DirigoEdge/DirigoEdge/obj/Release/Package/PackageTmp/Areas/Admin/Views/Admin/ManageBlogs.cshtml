@@ -1,0 +1,85 @@
+﻿@{
+	ViewBag.Title = "Manage Blogs";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model  DirigoEdge.Areas.Admin.Models.ViewModels.ManageBlogsViewModel
+
+
+<div class="manageBlogs module2">
+
+    <div class="row">
+        <div class="twelve columns">
+            <h3>Manage Posts</h3>
+            <a id="NewBlogPage" class="button mobileBlockStatic mobileMarginBottom" href="@Url.Action("AddBlog", "Admin")">New Blog +</a>
+            <table class="twelve bordered manageTable" width="100%">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th class="hide-for-small">Publish Date</th>
+                        <th>Author</th>
+                        <th class="hide-for-small">Published</th>
+                        <th class="hide-for-small">Is Featured</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+					    foreach(var blog in Model.BlogListing)
+					    {
+						    blog.IsActive = blog.IsActive == null ? false : true;
+						    string active = (bool)blog.IsActive ? "True" : "False";
+						    string isFeatured = (bool)blog.IsFeatured ? "True" : "False";
+                            <tr>
+                                <td class="title"><a href="@Url.Action("EditBlog", "Admin", new { id = @blog.BlogId })">@blog.Title</a></td>
+                                <td class="hide-for-small">@Convert.ToDateTime(blog.Date).ToString("MM/dd/yyyy")</td>
+                                <td>@blog.Author</td>
+                                <td class="hide-for-small">@active</td>
+                                <td class="hide-for-small">@isFeatured</td>
+                                <td class="actions">
+                                    <a class="delete button secondary small tabletMarginBottom" href="javascript:void" data-id="@blog.BlogId">Delete</a>
+                                    <a class="button secondary small mobileTop" href="/blog/@DirigoEdge.Utils.ContentUtils.GetFormattedUrl(blog.Title)" target=_blank>Preview</a>
+                                </td>
+                            </tr>
+					    }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Modals {
+    <div id="DeleteModal" class="reveal-modal">
+        <h2>Confirm Delete.</h2>
+        <p class="lead">Are you sure you want to delete this blog?</p>
+
+        <p class=""><span id="popTitle"></span>will be <em>permanently</em> deleted.</p>
+
+        <a id="ConfirmBlogDelete" class="right button mobileMarginBottom">Confirm</a>
+        <a class="right button secondary" onclick="$('#DeleteModal').trigger('reveal:close');">Cancel</a>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+}
+
+@section Scripts {
+    @{
+        // Only load if there is a good reason to
+        if (Model.BlogListing.Count > 0)
+        {
+            <script src="/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $("table.manageTable").dataTable({
+                        "iDisplayLength": 25,
+                        "aoColumnDefs": [
+                            { "bSortable": false, "aTargets": ["actions"] } // No Sorting on actions
+                        ],
+                        "aaSorting": [[1, "desc"]] // Sort by publish date on load
+                    });
+                });
+            </script>
+        }
+    }
+}

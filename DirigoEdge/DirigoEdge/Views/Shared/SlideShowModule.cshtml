@@ -1,0 +1,31 @@
+﻿@model DirigoEdge.Entities.SlideshowModule
+
+@{
+    if (DirigoEdge.Utils.UserUtils.UserIsAdmin())
+    {
+        <a href="/admin/editslideshow/@Model.SlideshowModuleId" class="adminEdit slideShow" target="_blank">Edit Slideshow</a>        
+    }
+}
+
+<div id="@Model.SlideShowName" class="graceFulOrbit">
+    @{
+        int count = 0;
+        foreach (var slide in Model.Slides)
+        {
+            string caption = String.IsNullOrEmpty(slide.Caption) ? "" : "data-caption=#caption" + count;
+            <img @caption src="@slide.ImageLocation" alt="slide" />
+            count++;
+        }
+    }
+</div>
+
+@{
+    // Set up the captions, if any
+    int countB = 0;
+    foreach (var slide in Model.Slides)
+    {
+        string caption = String.IsNullOrEmpty(slide.Caption) ? "" : "caption" + countB;
+        <span id="@caption" class="orbit-caption" id="captionOne">@slide.Caption</span>
+        countB++;
+    }
+}
