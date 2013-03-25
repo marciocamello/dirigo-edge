@@ -29,6 +29,7 @@ blog_class.prototype.initPageEvents = function() {
     if ($('#CKEDITBLOG').length > 0) {
         this.CKPageEditor = CKEDITOR.replace('CKEDITBLOG', {
             // options here
+            height:412
         });
     }
 

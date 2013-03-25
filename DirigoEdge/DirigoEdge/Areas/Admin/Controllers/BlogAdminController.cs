@@ -19,7 +19,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
 			if (!String.IsNullOrEmpty(entity.Title))
 			{
-				using (DataContext context = new DataContext())
+				using (var context = new DataContext())
 				{
 					Blog editedBlog = context.Blogs.Where(x => x.BlogId == entity.BlogId).FirstOrDefault();
 					if (editedBlog != null)
@@ -126,10 +126,17 @@ namespace DirigoEdge.Areas.Admin.Controllers
 							editedContent.CSSContent = entity.CSSContent;
 						}
 
-						//jptodo
 						editedContent.Template = entity.Template;
 						editedContent.Title = entity.Title;
 						editedContent.PublishDate = entity.PublishDate;
+
+						// SEO Related Info
+						editedContent.MetaDescription = entity.MetaDescription;
+						editedContent.OGTitle = entity.OGTitle;
+						editedContent.OGImage = entity.OGImage;
+						editedContent.OGType = entity.OGType;
+						editedContent.OGUrl = entity.OGUrl;
+						editedContent.Canonical = entity.Canonical;
 
 						context.SaveChanges();
 					}
