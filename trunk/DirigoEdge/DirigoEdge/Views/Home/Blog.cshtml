@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Blog";
+}
+@using DirigoEdge.Utils
+@model DirigoEdge.Models.ViewModels.BlogHomeViewModel
+
+<div class="row">
+    <div class="twelve columns">
+        <h2>Blog</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="eight columns blogListing">
+        @{
+            // Renders the blog article tags
+            @Html.Partial("/Views/Shared/Partials/BlogArticlePartial.cshtml", Model.Blogs)
+            
+            // Allow the user to load more blogs
+            if (Model.ReachedMaxBlogs)
+            {
+                <a id="LoadMoreBlogs" href="javascript:void(0);" value="Load More" class="full radius button" data-lastblog="@Model.Blogs.LastOrDefault().BlogId" data-blogCount="@Model.MaxBlogCount">Load More</a>
+            }
+        }
+    
+    </div>
+
+    <aside class="four columns">
+
+        <h5>Categories</h5>
+        @{
+            if (Model.Categories.Count < 1)
+            {
+                <p>There are currently no categories to display.</p>
+            }
+            else
+            {
+                <ul class="side-nav">
+                    @{
+                        foreach (var cat in Model.Categories)
+                        {
+                            <li>
+                                <a href="/Blog/Categories/@ContentUtils.GetFormattedUrl(cat.CategoryName)">@cat.CategoryName</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            }
+        }
+        
+        <div class="panel">
+            <h5>Featured</h5>
+            @{
+                if (Model.FeaturedBlog != null)
+                {
+                    <p>@Html.Raw(Model.FeaturedBlog.ShortDesc)</p>
+                    <a href="/blog/@Model.FeaturedBlog.BlogId">Read More →</a>
+                }
+                else
+                {
+                    <p>There are currently no featured blogs to display.</p>
+                }
+            }
+        </div>
+
+    </aside>
+
+</div>

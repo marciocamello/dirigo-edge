@@ -1,0 +1,41 @@
+﻿@{
+	ViewBag.Title = "Edit Content";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model DirigoEdge.Areas.Admin.Models.ViewModels.EditContentViewModel
+@using DirigoEdge.Utils
+
+
+<div class="editContent" data-id="@Model.ThePage.ContentPageId">
+    <div class="row">
+        <div class="twelve columns">
+            <h2>Edit Content</h2>
+        </div>
+    </div>
+
+    <div class="row" id="ContentRowContainer">
+        <div id="ContentRow" class="nine columns">
+            <textarea id="CKEDITCONTENT" cols="40" rows="20" autocomplete="off">@Model.ThePage.HTMLContent</textarea>
+        </div>
+
+        <div class="three columns">
+            @*jptodo*@
+            @*@Html.Partial("~/Views/Shared/Partials/Admin/EditContentSettingsPartial.cshtml")*@
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="twelve columns">
+            <a id="SaveContentButton" class="button">Save</a>
+            <a id="PreviewContentButton" class="secondary button">Preview</a>
+            <div id="SaveSpinner" class="standaloneSpinner"></div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="/scripts/ckeditor/ckeditor.js"></script>
+}

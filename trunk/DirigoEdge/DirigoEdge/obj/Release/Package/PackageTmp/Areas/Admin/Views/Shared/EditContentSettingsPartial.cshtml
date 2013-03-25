@@ -1,0 +1,34 @@
+﻿@model DirigoEdge.Areas.Admin.Models.ViewModels.EditContentViewModel
+
+<div class="panel settings">
+    <h3>Settings</h3>
+    <label>Name / Url</label>
+    <input id="ContentName" type="text" value="@Model.ThePage.DisplayName"/>
+
+    <label>Page Title</label>
+    <input id="PageTitle" type="text" value="@Model.ThePage.Title"/>
+
+    @{
+		string formattedDate = Convert.ToDateTime(Model.ThePage.PublishDate).ToString("MM/dd/yyyy");
+    }
+    <div class="publishContainer">
+        <b>Publish date : </b>
+        <input id="PublishDate" value="@formattedDate" type="text" autocomplete=off>
+    </div>
+
+</div>
+
+<div class="panel template">
+    <h3>Template</h3>
+    <select id="ContentTemplateSelect">
+        @{
+            foreach(var template in Model.Templates)
+            {
+                string templateName = template.Value.TemplateName;
+                string selected = template.Key == Model.ThePage.Template ? "selected = selected" : "";
+                
+            <option @selected value="@template.Key">@templateName</option>
+            }            
+        }
+    </select>
+</div>

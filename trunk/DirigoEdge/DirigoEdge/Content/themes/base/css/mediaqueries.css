@@ -1,0 +1,13 @@
+﻿/* ==========================================================================
+Theses examples override the primary ('mobile first') styles.
+Modify as content requires.
+========================================================================== */
+
+@media all and (max-width: 1320px) {
+    .hide960 {
+        display: none;
+    }
+    .row {
+        width: 960px;
+    }
+}
