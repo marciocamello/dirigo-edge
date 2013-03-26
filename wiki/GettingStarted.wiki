@@ -20,7 +20,7 @@ Please follow the installation instructions below before running the program.
 		- Edge will automatically combine and minify your CSS and Javascript files in this directory when you publish your solution or run in Release mode
 		- More informatino on SquishIt can be found at https://github.com/jetheredge/SquishIt
 
-= Using Automatic Migrations =
+== Using Automatic Migrations ==
     
 	1. Edge uses CodeFirst to handle database interaction.
 	2. Automatic Migrations are enabled by default.
