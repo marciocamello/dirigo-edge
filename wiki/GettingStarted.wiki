@@ -1,5 +1,3 @@
-#summary This page is meant to get quickly get new users  up and running with Dirigo Edge.
-
 ==============================================
        Welcome to Dirigo Edge!
 ==============================================
@@ -32,16 +30,3 @@ Please follow the installation instructions below before running the program.
 			'Enable-Migrations -EnableAutomaticMigrations'
 		Then to update your model, run :
 			'Update-Database -Verbose'
-
-
-
-
-
-
-
-
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
