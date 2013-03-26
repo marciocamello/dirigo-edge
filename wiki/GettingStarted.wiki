@@ -1,5 +1,5 @@
 ==============================================
-       Welcome to Dirigo Edge!
+=       Welcome to Dirigo Edge! =
 ==============================================
 
 Please follow the installation instructions below before running the program.
