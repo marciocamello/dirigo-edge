@@ -18,7 +18,7 @@
         @*Content Rail*@
         <div class="eight columns">
             <article>
-                <h3><a href="/blog/@Model.TheBlog.BlogId">@Model.TheBlog.Title</a></h3>
+                <h3><a href="/blog/@Model.TheBlog.PermaLink">@Model.TheBlog.Title</a></h3>
                 <h6>Written by <a href="#">@Model.TheBlog.Author</a> on @Model.TheBlog.Date.ToLongDateString()</h6>
 
                 <div class="row">
@@ -85,5 +85,5 @@
 </div>
 
 @section meta {
-    <meta name="description" content="Dirigo Design and Development">
+    <meta name="description" content="@Model.TheBlog.MetaDescription">
 }

@@ -49,12 +49,30 @@ input.modifyPasswordButton, input.registerUserButton {
 }
 
 #ui-datepicker-div .ui-widget-header {
-  background: none repeat scroll 0 0 #F5F5F5;
-  border-radius: 0 0 0 0;
-  box-shadow: none;
-  -moz-box-shadow: none;
-  text-shadow: 0 1px 0 #FFFFFF;
+    background: none repeat scroll 0 0 #372F2C;
+    border-radius: 0 0 0 0;
+    box-shadow: none;
+    color: #FFFFFF;
+    text-shadow: 0 1px 0 #000000;
 }
+
+#ui-datepicker-div .ui-widget-header .ui-icon {
+	background-image: url("/Scripts/jqueryui/css/smoothness/images/ui-icons_ffffff_256x240.png");
+}
+
+#ui-datepicker-div .ui-state-default {
+	background: #fff;
+}
+#ui-datepicker-div a.ui-datepicker-prev.ui-state-hover, #ui-datepicker-div a.ui-datepicker-next.ui-state-hover {
+	background: #666;
+	cursor: pointer;
+	top: 2px;
+}
+.ui-state-highlight {
+	border: 1px solid #089FC9;
+}
+
+
 table.ui-datepicker-calendar th {
     padding: 0.7em 0.1em;
 }
