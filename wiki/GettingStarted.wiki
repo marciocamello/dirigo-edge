@@ -4,7 +4,7 @@
 
 Please follow the installation instructions below before running the program.
 
-= Initial Setup =
+== Initial Setup ==
 
 	1. Edit your web.config file with your appopriate database connections.
 	
