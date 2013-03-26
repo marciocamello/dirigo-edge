@@ -182,7 +182,10 @@ content_class.prototype.manageContentAdminEvents = function() {
     if ($('#CKEDITPAGE').length > 0) {
         self.CKPageEditor = CKEDITOR.replace('CKEDITPAGE');
     } else if ($('#CKEDITCONTENT').length > 0) {
-        self.CKPageEditor = CKEDITOR.replace('CKEDITCONTENT');
+        self.CKPageEditor = CKEDITOR.replace('CKEDITCONTENT', {
+            // options here
+            height: 430
+        });
     }
 
     // Save Content Button
