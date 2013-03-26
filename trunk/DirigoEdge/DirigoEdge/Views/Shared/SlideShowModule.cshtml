@@ -25,7 +25,7 @@
     foreach (var slide in Model.Slides)
     {
         string caption = String.IsNullOrEmpty(slide.Caption) ? "" : "caption" + countB;
-        <span id="@caption" class="orbit-caption" id="captionOne">@slide.Caption</span>
+        <span id="@caption" class="orbit-caption">@slide.Caption</span>
         countB++;
     }
 }

@@ -21,7 +21,7 @@
 
         <div class="three columns">
             @*jptodo*@
-            @*@Html.Partial("~/Views/Shared/Partials/Admin/EditContentSettingsPartial.cshtml")*@
+            @Html.Partial("~/Areas/Admin/Views/Shared/EditContentSettingsPartial.cshtml")
         </div>
 
     </div>
@@ -38,4 +38,34 @@
 
 @section Scripts {
     <script src="/scripts/ckeditor/ckeditor.js"></script>
+}
+
+@section Modals {
+    <div id="SEOMetaModal" class="reveal-modal medium">
+        <h2>SEO / Meta</h2>
+        <p class="lead">Set your blog's meta information</p>
+
+        <label class="has-tip tip-top" title="Commonly used by search engines to display preview snippets for a given page.">Meta Description</label>
+        <input id="MetaDescription" type="text" placeholder="" autocomplete=off value="@Model.ThePage.MetaDescription">
+
+        <label class="has-tip tip-top" title="Open Graph : The title of your object as it should appear within the graph, e.g., 'The Rock'.">OG Title</label>
+        <input id="OGTitle" type="text" placeholder="" autocomplete=off value="@Model.ThePage.OGTitle">
+
+        <label class="has-tip tip-top" title="Open Graph : An image URL which should represent your object within the graph.">OGImage</label>
+        <input id="OGImage" type="text" placeholder="" autocomplete=off value="@Model.ThePage.OGImage">
+
+        <label class="has-tip tip-top" title="Open Graph : The type of your object, e.g., 'video.movie'. Depending on the type you specify, other properties may also be required.">OGType</label>
+        <input id="OGType" type="text" placeholder="" autocomplete=off value="@Model.ThePage.OGType">
+
+        <label class="has-tip tip-top" title="Open Graph : The canonical URL of your object that will be used as its permanent ID in the graph, e.g., 'http://www.imdb.com/title/tt0117500/'">OGUrl</label>
+        <input id="OGUrl" type="text" placeholder="" autocomplete=off value="@Model.ThePage.OGUrl">
+
+        <label class="has-tip tip-top" title="The one authoritatively correct URL for a resource.">Canonical</label>
+        <input id="Canonical" type="text" placeholder="" autocomplete=off value="@Model.ThePage.Canonical">
+
+        <a class="right button" onclick=" $('#SEOMetaModal').trigger('reveal:close');">Close</a>
+        <p class="right saveTip" style="">(Changes will be saved when you save your blog)</p>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
 }
