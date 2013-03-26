@@ -22,7 +22,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         @* ** Basic Meta Information ** *@
-        <meta name="description" content="Dirigo Design and Development">
+        @*<meta name="description" content="Dirigo Design and Development">*@
         <meta name="distribution" content="global" />
         <meta name="robots" content="all" />
 
@@ -54,6 +54,10 @@
         }
         @Html.Raw(style)
 
+        @*SquishIt Currently Does not support keyframe animations when minified
+        Uncomment below if you want additional animations. More information at http://daneden.me/animate/*@
+        @*<link href="/Content/themes/base/css/animate.css" type="text/css" rel="stylesheet">*@
+
         @RenderSection("Styles", false)
 
         @* Modernizr stays in <head> *@
@@ -65,13 +69,13 @@
             (function (d, t) {
                 var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
                 g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
-                s.parentNode.insertBefore(g, s)
+                s.parentNode.insertBefore(g, s);
             }(document, 'script'));
         </script>
 
     </head>
     <body>
-        <!--[if lt IE 7]>
+        <!--[if lt IE 8]>
 			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
