@@ -36,7 +36,7 @@ namespace DirigoEdge.Models.ViewModels
 				ReachedMaxBlogs = context.Blogs.Count() > MaxBlogCount;
 
 				Blogs = context.Blogs.Where(x => x.IsActive == true).OrderByDescending(blog => blog.Date).Take(MaxBlogCount).ToList();
-				FeaturedBlog = context.Blogs.FirstOrDefault(x => x.IsFeatured == true);
+				FeaturedBlog = context.Blogs.FirstOrDefault(x => x.IsFeatured == true && x.IsActive == true);
 
 				Categories = context.BlogCategories.Where(x => x.IsActive == true).ToList();
 			}
