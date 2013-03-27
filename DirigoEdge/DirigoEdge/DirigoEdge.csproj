@@ -149,6 +149,7 @@
     <Compile Include="Areas\Admin\Controllers\MediaUploadController.cs" />
     <Compile Include="Areas\Admin\Controllers\SettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SlideAdminController.cs" />
+    <Compile Include="Areas\Admin\Models\DataModels\DefaultAdminModules.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\BlogSettingsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\EditSlideShowViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\DashBoardViewModel.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Entities\BlogCategory.cs" />
     <Compile Include="Entities\ContentPage.cs" />
     <Compile Include="Entities\ContentModule.cs" />
+    <Compile Include="Entities\BlogAdminModules.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\SiteSettings.cs" />
     <Compile Include="Entities\SlideshowModule.cs" />
@@ -794,9 +796,9 @@
     <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\DataModels\" />
     <Folder Include="Content\uploaded\BlogImages\" />
     <Folder Include="Content\uploaded\Sliders\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -860,14 +862,33 @@
     <Content Include="Areas\Admin\Views\Admin\SiteSettings.cshtml" />
     <Content Include="Areas\Admin\Views\Admin\BlogSettings.cshtml" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\Sorting icons.psd" />
-    <None Include="Properties\PublishProfiles\Dirigo 5 Edge 1.pubxml" />
-    <None Include="Properties\PublishProfiles\Dirigo5.pubxml" />
     <Content Include="Views\Shared\SlideShowModule.cshtml" />
     <Content Include="Views\Shared\GridLayoutOverlayPartial.cshtml" />
     <Content Include="Views\Blog\CategoriesSingle.cshtml" />
     <Content Include="Views\Shared\Partials\BlogArticlePartial.cshtml" />
     <Content Include="Views\Shared\FacebookAPIInclude.cshtml" />
     <Content Include="Views\Shared\Partials\SeoMetaModalPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\BlogAdminModules\SEOMetaModule.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\BlogAdminModules\FeaturedImageModule.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\BlogAdminModules\PublishModule.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\BlogAdminModules\AuthorModule.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\BlogAdminModules\CategoriesModule.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\BlogAdminModules\TagsModule.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\BlogAdminModules\FeaturedTextModule.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

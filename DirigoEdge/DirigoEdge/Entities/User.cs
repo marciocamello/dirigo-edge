@@ -37,4 +37,6 @@ using System.ComponentModel.DataAnnotations;
         public virtual DateTime? PasswordVerificationTokenExpirationDate { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }
+
+		public virtual ICollection<BlogAdminModule> BlogAdminModules { get; set; }
     }

@@ -1,0 +1,31 @@
+﻿@model DirigoEdge.Areas.Admin.Models.ViewModels.EditBlogViewModel
+
+<h4>Category</h4>
+
+<div class="content">
+    <dl class="tabs contained">
+        <dd class="active"><a href="#simpleContained1">All</a></dd>
+        <dd><a href="#simpleContained2">Most Used</a></dd>
+    </dl>
+
+    <ul class="tabs-content contained">
+        <li class="active catListing" id="simpleContained1Tab">
+            <form class="custom">
+                @{
+                    int count = 0;
+                    foreach (var cat in Model.Categories)
+                    {
+                        count++;
+                        string inputId = "catCheckbox" + count;
+                        bool isChecked = Model.ThisBlog.MainCategory == cat.CategoryName;
+                        string catChecked = isChecked ? "checked" : "";
+                        string catCheckInput = isChecked ? "checked=checked" : "";
+								
+                        <label for="@inputId"><input name="catGroup" type="radio" id="@inputId" @catCheckInput style="display: none;" autocomplete=off><span class="custom radio @catChecked"></span> @cat.CategoryName</label>
+                    }
+                }
+            </form>
+        </li>
+        <li id="simpleContained2Tab">Coming Soon!</li>
+    </ul>
+</div>

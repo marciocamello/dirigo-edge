@@ -372,3 +372,41 @@ input.commentBelow {
 table.manageTable thead tr .hide-for-small {
 	display: table-cell !important;
 }
+
+div.editArea {
+	margin-bottom: 20px  !important;
+}
+/* Give extra space to drop elements below*/
+#Sortable1 { padding-bottom: 150px; }
+#Sortable2 { padding-bottom: 100px; }
+
+div.connectedSortable div.panel {
+	padding-top: 4px;
+	padding: 0;
+}
+
+div.connectedSortable div.panel h4 {
+	border-bottom: 1px dashed #CCCCCC;
+	cursor: move;
+	margin: 0 0 15px;
+	padding: 10px 20px;
+	background: url("./Images/collapse.png") no-repeat scroll right 14px transparent;
+}
+
+div.connectedSortable div.panel.collapsed h4 {
+	background: url("./Images/expand.png") no-repeat scroll right 14px transparent;
+	margin-bottom: 0 !important;
+	border: none;
+}
+
+div.connectedSortable div.panel div.content {
+	padding: 0 20px 20px 20px;
+	height: auto;
+}
+
+div.connectedSortable div.panel.collapsed div.content {
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	
+}
