@@ -29,4 +29,7 @@ public class DataContext : DbContext
 		// Settings
 		public DbSet<BlogSettings> BlogSettings { get; set; }
 		public DbSet<SiteSettings> SiteSettings { get; set; }
+
+		// Blog Admin Settings
+		public DbSet<BlogAdminModule> BlogAdminModules { get; set; }
     }

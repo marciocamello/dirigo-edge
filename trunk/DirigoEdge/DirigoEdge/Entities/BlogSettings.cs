@@ -24,7 +24,5 @@ namespace DirigoEdge.Entities
 		// Disqus
 		public virtual bool ShowDisqusComents { get; set; }
 		public virtual string DisqusShortName { get; set; }
-
-		
 	}
 }

@@ -17,6 +17,11 @@ blog_class.prototype.initPageEvents = function() {
     //this.initTinyMCEEvents();
     this.initPreviewEvent();
     this.initPublishDateEvents();
+    
+    // Allow sorting on Blog Admin Modules
+    if ($("#Sortable1").length > 0) {
+        this.initBlogAdminModuleEvents();
+    }
 
     // Sidebar menu
     $("#sidebar ul > li.has-dropdown > a").click(function(e) {
@@ -38,6 +43,87 @@ blog_class.prototype.initPageEvents = function() {
             toolbar: [['Source', '-', 'Bold', 'Italic']]
         });
     }
+};
+
+blog_class.prototype.initBlogAdminModuleEvents = function () {
+    var self = this;
+
+    // Sortable widgets
+    $("#Sortable1, #Sortable2").sortable({
+        placeholder: "ui-state-highlight",
+        connectWith: ".connectedSortable",
+        items: ".sortable", // Don't Sort editor
+        handle: "h4",
+        helper: 'clone', // Prevents click event on h4 after drag
+        stop: function(event, ui) {
+            // fire off save event after drop is complete
+            self.saveModulePositions();
+        }
+    });
+
+    // Collapse widgets
+    $("div.connectedSortable div.panel h4").click(function() {
+        $(this).parent().toggleClass("collapsed");
+
+        // fire off save event
+        self.saveModulePositions();
+    });
+};
+
+blog_class.prototype.saveModulePositions = function() {
+    var self = this;
+
+    // Cancel any previos ajax requests
+    if (self.xhr != null) {
+        self.xhr.abort();
+    }
+    var AdminModulesColumn1 = [];
+    var AdminModulesColumn2 = [];
+
+    var count = 0;
+    $("#Sortable1 div.panel.sortable").each(function () {
+
+        AdminModulesColumn1.push({
+            ModuleName : $(this).attr("id"),
+            IsCollapsed: $(this).hasClass("collapsed"),
+            OrderNumber: count,
+            ColumnNumber : 1
+        });
+        
+        count++;
+    });
+
+    var count2 = 0;
+    $("#Sortable2 div.panel.sortable").each(function() {
+
+        AdminModulesColumn2.push({
+            ModuleName : $(this).attr("id"),
+            IsCollapsed: $(this).hasClass("collapsed"),
+            OrderNumber: count2,
+            ColumnNumber: 2
+        });
+        
+        count2++;
+    });
+
+    var data = {
+        entity: {
+            AdminModulesColumn1: AdminModulesColumn1,
+            AdminModulesColumn2: AdminModulesColumn2
+        }
+    };
+
+    self.xhr = $.ajax({
+        url: "/blogAdmin/SaveModules/",
+        type: "POST",
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data, null, 2),
+        success: function (data) {
+            // Nothing to do yet
+        }
+    });
+
 };
 
 blog_class.prototype.initPermaLinkEvents = function() {

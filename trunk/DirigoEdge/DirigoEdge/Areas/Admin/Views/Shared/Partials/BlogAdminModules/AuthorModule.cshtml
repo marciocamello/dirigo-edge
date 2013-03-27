@@ -1,0 +1,15 @@
+﻿@model DirigoEdge.Areas.Admin.Models.ViewModels.EditBlogViewModel
+
+<h4>Author</h4>
+
+<div class="content">
+    <select id="Author" autocomplete="off">
+        @{
+            foreach (var user in Model.BlogUsers)
+            {
+                string selected = user.UserId == Model.ThisBlog.AuthorId ? "selected=\"selected\"" : "";
+                <option data-id="@user.UserId" @selected>@user.DisplayName</option>		
+            }
+        }
+    </select>
+</div>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace DirigoEdge.Areas.Admin.Controllers
 {
@@ -170,9 +171,57 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		[HttpPost]
 		[Authorize(Roles = "Administrators")]
 		[AcceptVerbs(HttpVerbs.Post)]
+		[ValidateInput(false)]
+		public JsonResult SaveModules(AdminModules entity)
+		{
+			var result = new JsonResult();
+
+			if (entity != null)
+			{
+				var user = Membership.GetUser(HttpContext.User.Identity.Name);
+				string userName = user.UserName;
+				
+				using (var context = new DataContext())
+				{
+					// First delete all entries for user
+					var modules = context.BlogAdminModules.Where(x => x.User.Username == userName);
+					foreach (var mod in modules)
+					{
+						context.BlogAdminModules.Remove(mod);
+					}
+
+					// Then add the new modules to the user
+					if (entity.AdminModulesColumn1 != null)
+					{
+						foreach (var module in entity.AdminModulesColumn1)
+						{
+							var thisUser = context.Users.FirstOrDefault(x => x.Username == userName);
+							thisUser.BlogAdminModules.Add(module);
+						}
+					}
+
+					if (entity.AdminModulesColumn2 != null)
+					{
+						foreach (var module in entity.AdminModulesColumn2)
+						{
+							var thisUser = context.Users.FirstOrDefault(x => x.Username == userName);
+							thisUser.BlogAdminModules.Add(module);
+						}
+					}
+
+					context.SaveChanges();
+				}
+			}
+			
+			return result;
+		}
+
+		[HttpPost]
+		[Authorize(Roles = "Administrators")]
+		[AcceptVerbs(HttpVerbs.Post)]
 		public JsonResult ModifyModule(ContentModule entity)
 		{
-			JsonResult result = new JsonResult();
+			var result = new JsonResult();
 
 			if (!String.IsNullOrEmpty(entity.ModuleName))
 			{
@@ -258,4 +307,11 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		public string Title { get; set; }
 		public string HtmlContent { get; set; }
 	}
+
+	public class AdminModules
+	{
+		public List<BlogAdminModule> AdminModulesColumn1 { get; set; }
+		public List<BlogAdminModule> AdminModulesColumn2 { get; set; }
+	}
 }
+

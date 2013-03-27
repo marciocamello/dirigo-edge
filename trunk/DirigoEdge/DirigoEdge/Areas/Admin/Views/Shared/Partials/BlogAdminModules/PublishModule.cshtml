@@ -1,0 +1,26 @@
+﻿@model DirigoEdge.Areas.Admin.Models.ViewModels.EditBlogViewModel
+
+<h4>Visibility</h4>
+
+<div class="content">
+    <div class="status">
+        <a id="PreviewBlogButton" class="button small secondary right mobileMarginBottom">Preview</a>
+        @{
+                        string Checked = (bool)Model.ThisBlog.IsActive ? "checked = checked" : "";
+                        string featChecked = (bool)Model.ThisBlog.IsFeatured ? "checked = checked" : "";
+        }
+        <form class="custom">
+            <label for="IsPublicCheck">
+                <input type="checkbox" @Checked style="display: none;" id="IsPublicCheck"><span id="SpanCheckPublic" class="custom checkbox"></span> Is Public</label>
+            <label for="IsFeaturedCheck">
+                <input type="checkbox" @featChecked style="display: none;" id="IsFeaturedCheck"><span id="SpanIsFeaturedCheck" class="custom checkbox"></span> Is Featured</label>
+        </form>
+    </div>
+    @{
+                    string formattedDate = Convert.ToDateTime(Model.ThisBlog.Date).ToString("MM/dd/yyyy");
+    }
+    <div class="publishContainer">
+        <b>Publish Date : </b>
+        <input id="PublishDate" value="@formattedDate" type="text" autocomplete=off>
+    </div>
+</div>
