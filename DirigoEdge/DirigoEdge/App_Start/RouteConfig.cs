@@ -41,8 +41,6 @@ namespace DirigoEdge
 				new { controller = "Blog", action = "NewPosts", id = UrlParameter.Optional } // Parameter defaults
 			);
 
-
-
 			routes.MapRoute(
 				name: "Blog",
 				url: "blog/{title}",
@@ -59,6 +57,13 @@ namespace DirigoEdge
 				name: "Account",
 				url: "account/{action}/{id}",
 				defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+			);
+
+			// Generated Site Map
+			routes.MapRoute(
+				name: "Sitemap",
+				url: "sitemap.xml",
+				defaults: new { controller = "Home", action = "SitemapXML" }
 			);
 
 			routes.MapRoute(
