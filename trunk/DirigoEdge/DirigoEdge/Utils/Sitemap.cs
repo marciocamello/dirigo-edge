@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 
@@ -19,20 +18,12 @@ namespace DirigoEdge.Utils
 			using (var context = new DataContext())
 			{
 				// Add blogs
-				var activeBlogs = context.Blogs.Where(x => x.IsActive == true);
-
-				foreach (var blog in activeBlogs)
-				{
-					theList.Add(new SitemapItem(host + "blog/" + blog.PermaLink + "/") );
-				}
+				var activeBlogs = context.Blogs.Where(x => x.IsActive);
+				theList.AddRange(activeBlogs.Select(blog => new SitemapItem(host + "blog/" + blog.PermaLink + "/")));
 
 				// Add content pages
 				var pages = context.ContentPages;
-
-				foreach (var page in pages)
-				{
-					theList.Add(new SitemapItem(host + "content/" + page.DisplayName + "/"));
-				}
+				theList.AddRange(pages.Select(page => new SitemapItem(host + "content/" + page.DisplayName + "/")));
 			}
 
 			return theList;
@@ -60,7 +51,7 @@ namespace DirigoEdge.Utils
 
 	public class XmlSitemapResult : ActionResult
 	{
-		private IEnumerable<ISitemapItem> _items;
+		private readonly IEnumerable<ISitemapItem> _items;
 
 		public XmlSitemapResult(IEnumerable<ISitemapItem> items)
 		{
@@ -70,7 +61,7 @@ namespace DirigoEdge.Utils
 		public override void ExecuteResult(ControllerContext context)
 		{
 			string encoding = context.HttpContext.Response.ContentEncoding.WebName;
-			XDocument sitemap = new XDocument(new XDeclaration("1.0", encoding, "yes"),
+			var sitemap = new XDocument(new XDeclaration("1.0", encoding, "yes"),
 				 new XElement("urlset", XNamespace.Get("http://www.sitemaps.org/schemas/sitemap/0.9"),
 					  from item in _items
 					  select CreateItemElement(item)
@@ -84,7 +75,7 @@ namespace DirigoEdge.Utils
 
 		private XElement CreateItemElement(ISitemapItem item)
 		{
-			XElement itemElement = new XElement("url", new XElement("loc", item.Url.ToLower()));
+			var itemElement = new XElement("url", new XElement("loc", item.Url.ToLower()));
 
 			if (item.LastModified.HasValue)
 				itemElement.Add(new XElement("lastmod", item.LastModified.Value.ToString("yyyy-MM-dd")));
@@ -113,7 +104,5 @@ namespace DirigoEdge.Utils
 		public ChangeFrequency? ChangeFrequency { get; set; }
 
 		public float? Priority { get; set; }
-	}
-
-	
+	}	
 }
