@@ -166,6 +166,8 @@
       <DependentUpon>EdgeFinal.MDF</DependentUpon>
     </Content>
     <Content Include="Areas\Admin\Content\themes\base\CSS\jquery.dataTables.css" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\collapse.png" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\expand.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\icons\business_contact.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\icons\services.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\back_disabled.png" />

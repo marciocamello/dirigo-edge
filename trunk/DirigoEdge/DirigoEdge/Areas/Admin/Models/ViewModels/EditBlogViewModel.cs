@@ -59,20 +59,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 				AdminModulesColumn1 = context.BlogAdminModules.Where(x => x.User.Username == _thisUser.Username && x.ColumnNumber == 1).OrderBy(x => x.OrderNumber).ToList();
 				AdminModulesColumn2 = context.BlogAdminModules.Where(x => x.User.Username == _thisUser.Username && x.ColumnNumber == 2).OrderBy(x => x.OrderNumber).ToList();
 
-				//// Delete for testing
-				//foreach (var module in AdminModulesColumn1)
-				//{
-				//	context.BlogAdminModules.Remove(module);
-				//}
-				//// Delete for testing
-				//foreach (var module in AdminModulesColumn2)
-				//{
-				//	context.BlogAdminModules.Remove(module);
-				//}
-
-				//context.SaveChanges();
-
-
+				// If no settings have been saved, set some defaults for the user
 				if (AdminModulesColumn1.Count == 0 && AdminModulesColumn2.Count == 0)
 				{
 					setDefaultModules();
