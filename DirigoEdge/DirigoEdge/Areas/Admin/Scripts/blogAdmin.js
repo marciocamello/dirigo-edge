@@ -126,10 +126,11 @@ blog_class.prototype.saveModulePositions = function() {
 
 };
 
-blog_class.prototype.initPermaLinkEvents = function() {
+blog_class.prototype.initPermaLinkEvents = function () {
     // Edit Permalink on edit blog page
+    var self = this;
 
-    $("#EditPermaLink, #PermaLinkEnd").click(function() {
+    $("#EditPermaLink, #PermaLinkEnd").click(function () {
         var textVal = $("#PermaLinkEnd").text();
         $("#PermaLinkEditPane").removeClass("hide").show().attr("value", textVal);
         $(this).hide();
@@ -138,14 +139,39 @@ blog_class.prototype.initPermaLinkEvents = function() {
         $("#PermaLinkEditPane").focus();
     });
 
+    // Key up format the permalink
+    $("#PermaLinkEditPane").keyup(function () {
+        $(this).attr("value", self.formatBlogLink($(this).val()));
+    });
+
     // Hide the edit pane and update permalink
-    $("#PermaLinkEditPane").blur(function() {
+    $("#PermaLinkEditPane").blur(function () {
+
+        // Clean up permalink by removing spaces and replacing with dashes
+        // Remove all illegal characters
+        var val = self.formatBlogLink($(this).val());
+
+        $(this).attr("value", val);
+
+        // Set the text with the new value
         $("#PermaLinkEnd").text($(this).attr("value"));
         $(this).hide();
         $("#EditPermaLink , #PermaLinkEnd").show();
+
+        // Let the editor know we've made a modification
         $("#PermaLinkEnd").attr("data-modified", "true");
     });
+};
 
+
+// Replace spaces with appropriate character (such as dash)
+// Remove illegal characters
+blog_class.prototype.formatBlogLink = function (value) {
+    // replace spaces with whatever (currently dashes)
+    value = value.replace(/ /g, this.blogSpaceReplacementChar);
+
+    // Strip bad characters
+    return value.replace(/[^a-zA-Z0-9-_]/g, '');
 };
 
 blog_class.prototype.initPublishDateEvents = function() {

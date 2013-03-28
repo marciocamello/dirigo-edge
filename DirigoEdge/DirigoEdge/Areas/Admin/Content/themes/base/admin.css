@@ -386,11 +386,20 @@ div.connectedSortable div.panel {
 }
 
 div.connectedSortable div.panel h4 {
-	border-bottom: 1px dashed #CCCCCC;
+	border-bottom: 1px solid #E6E6E6;
 	cursor: move;
 	margin: 0 0 15px;
 	padding: 10px 20px;
 	background: url("./Images/collapse.png") no-repeat scroll right 14px transparent;
+	font-weight: 300;
+}
+div.connectedSortable div.panel p, div.connectedSortable div.panel label {
+	font-weight: 300;
+}
+div.connectedSortable div.panel h4:hover {
+	border-bottom:1px solid #DDD;
+	color: #000;
+	box-shadow: 0px 0px 8px #FFF inset;
 }
 
 div.connectedSortable div.panel.collapsed h4 {
@@ -408,5 +417,4 @@ div.connectedSortable div.panel.collapsed div.content {
 	height: 0;
 	padding: 0;
 	overflow: hidden;
-	
 }
