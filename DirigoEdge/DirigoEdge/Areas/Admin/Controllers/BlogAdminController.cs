@@ -241,6 +241,29 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			}
 			return result;
 		}
+
+		[HttpPost]
+		[Authorize(Roles = "Administrators")]
+		public ActionResult UploadBlogImage(IEnumerable<HttpPostedFileBase> files)
+		{
+			// The Name of the Upload component is "files"
+			if (files != null)
+			{
+				foreach (var file in files)
+				{
+					// Some browsers send file names with full path.
+					// We are only interested in the file name.
+					var fileName = Path.GetFileName(file.FileName);
+					var physicalPath = Path.Combine(Server.MapPath("~/Content/Uploaded/BlogFeaturedImages/"), fileName);
+
+					// The files are not actually saved in this demo
+					file.SaveAs(physicalPath);
+				}
+			}
+
+			// Return an empty string to signify success
+			return Content("");
+		}
 		
 		[HttpPost]
 		[Authorize(Roles = "Administrators")]

@@ -7,19 +7,29 @@ slideEditor_class = function () {
 };
 
 slideEditor_class.prototype.initPageEvents = function () {
-    this.initslideActions();
-    this.initSaveEvent();
-    this.initMediaModalEvent();
-
     
-
+    // Only fire off init if we're on the slide edit page
+    if ($("#SlideEditList").length > 0) {
+        this.initslideActions();
+        this.initSaveEvent();
+        this.initMediaModalEvent();
+        this.initAdminEvents();
+    }
 };
 
-slideEditor_class.prototype.initMediaModalEvent = function() {
+slideEditor_class.prototype.initAdminEvents = function () {
+    // Update Image Preview
+    $("#SlideEditList input.imageLocation").live("keyup", function () {
+        $(this).closest("div.container").find("img.previewImg").attr("src", $(this).attr("value"));
+    });
+};
+
+slideEditor_class.prototype.initMediaModalEvent = function () {
     var self = this;
-    
+
     $("#SlideEditList a.revealUpload").click(function () {
         self.inputBox = $(this).parent().find("input.imageLocation");
+        self.imagePreview = $(this).closest("div.container").find("img.previewImg");
 
         $("#MediaModal").reveal();
     });
@@ -28,8 +38,9 @@ slideEditor_class.prototype.initMediaModalEvent = function() {
 
 // Callback for clicking on uploaded content image in media upload window
 slideEditor_class.prototype.fInsertImage = function (imageName) {
-
     slideEditor.inputBox.attr("value", imageName);
+    slideEditor.imagePreview.attr("src", imageName);
+
     $("#MediaModal").trigger('reveal:close');
 };
 
