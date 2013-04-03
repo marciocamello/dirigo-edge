@@ -78,6 +78,17 @@
                     <div class="aceEditArea" id="JSContent">@Model.ThePage.JSContent</div>
                 </li>
             </ul>
+            
+            <div class="twelve columns">
+                <div class="textEditorControls">
+                    <form class="custom">
+                        @{
+                            string Checked = Model.UseWordWrap ? "checked=checked" : "";
+                        }
+                        <label for="WordWrap"><input type="checkbox" id="WordWrap" style="display: none;" @Checked><span class="custom checkbox"></span> WordWrap</label>    
+                    </form>
+                </div>
+            </div>
 
         </div>
 
@@ -92,7 +103,7 @@
             <a id="SaveContentButton" class="button mobileMarginBottom">Save</a>
             <a id="PreviewContentButton" class="secondary button mobileMarginBottom">Preview</a>
             <div id="SaveSpinner" class="standaloneSpinner"></div>
-        </div>
+        </div>        
     </div>
 
 </div>
