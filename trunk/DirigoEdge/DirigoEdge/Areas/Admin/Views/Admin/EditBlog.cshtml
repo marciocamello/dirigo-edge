@@ -20,7 +20,7 @@
                     <div class="blogTitle">
                         <input id="BlogTitle" class="required" type="text" value="@Model.ThisBlog.Title" autocomplete=off />
                         <span class="permHint">Permalink: </span>
-                        <span>http://edge1.dirigodev.com/blog/</span><span id="PermaLinkEnd" data-modified="@permaLinkModded">@ContentUtils.GetFormattedUrl(Model.ThisBlog.PermaLink)</span><input id="PermaLinkEditPane" type="text" class="hide" /><span>/</span><a id="EditPermaLink" href="javascript:void(0);">edit</a>
+                        <span>@Model.SiteUrl</span><span id="PermaLinkEnd" data-modified="@permaLinkModded">@ContentUtils.GetFormattedUrl(Model.ThisBlog.PermaLink)</span><input id="PermaLinkEditPane" type="text" class="hide" /><span>/</span><a id="EditPermaLink" href="javascript:void(0);">edit</a>
                     </div>
                 </div>
             </div>

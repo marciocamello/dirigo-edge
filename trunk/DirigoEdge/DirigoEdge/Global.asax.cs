@@ -24,5 +24,11 @@ namespace DirigoEdge
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 			AuthConfig.RegisterAuth();
 		}
+
+		// May need to store host in distributed applications
+		protected void Application_BeginRequest()
+		{
+			//string host = Request.Url.Host;
+		}
 	}
 }
