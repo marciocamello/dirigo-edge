@@ -17,6 +17,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 		public List<BlogAdminModule> AdminModulesColumn1;
 		public List<BlogAdminModule> AdminModulesColumn2;
 		public int BlogId;
+		public string SiteUrl;
 
 		
 		private User _thisUser;
@@ -25,9 +26,9 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 		public EditBlogViewModel(string blogId)
 		{
 			BlogId = Int32.Parse(blogId);
-			_memUser = Membership.GetUser(HttpContext.Current.User.Identity.Name);
-			
-
+	 		_memUser = Membership.GetUser(HttpContext.Current.User.Identity.Name);
+			SiteUrl = HTTPUtils.GetFullyQualifiedApplicationPath() + "blog/";
+				
 			using (var context = new DataContext())
 			{
 				ThisBlog = context.Blogs.FirstOrDefault(x => x.BlogId == BlogId);
