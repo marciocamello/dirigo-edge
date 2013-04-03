@@ -767,6 +767,11 @@
     <Content Include="Scripts\jquery\plugins\jquery.noty.layout.js" />
     <Content Include="Scripts\jquery\plugins\jquery.noty.theme.js" />
     <Content Include="Scripts\jquery\plugins\jquery.validate.js" />
+    <Content Include="Scripts\jquery\plugins\qaptcha\images\bg_draggable_qaptcha.jpg" />
+    <Content Include="Scripts\jquery\plugins\qaptcha\jquery.ui.touch.js" />
+    <Content Include="Scripts\jquery\plugins\qaptcha\QapTcha.jquery.css" />
+    <Content Include="Scripts\jquery\plugins\qaptcha\QapTcha.jquery.js" />
+    <Content Include="Scripts\jquery\plugins\qaptcha\QapTcha.jquery.min.js" />
     <Content Include="Scripts\kendo\kendo.core.min.js" />
     <Content Include="Scripts\kendo\kendo.upload.min.js" />
     <Content Include="Scripts\mcp.js" />
@@ -895,6 +900,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\uploaded\BlogImages\ph" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partials\ContactSuccessModal.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
