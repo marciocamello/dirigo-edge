@@ -20,7 +20,7 @@
                         <label class="inline">Your Name</label>
                     </div>
                     <div class="ten columns">
-                        <input type="text" id="yourName" placeholder="Jane Smith" />
+                        <input name="name" type="text" id="yourName" placeholder="Jane Smith" />
                     </div>
 
                     <div class="row collapse">
@@ -28,11 +28,21 @@
                             <label class="inline">Your Email</label>
                         </div>
                         <div class="ten columns">
-                            <input type="text" id="yourEmail" placeholder="jane@smithco.com" />
+                            <input name="contactEmail" type="text" id="yourEmail" placeholder="jane@smithco.com" />
+                        </div>
+
+                        <div class="two columns">
+                            <label class="inline">Subject</label>
+                        </div>
+                        <div class="ten columns">
+                            <input name="subject" type="text" id="Subject" class="required" />
                         </div>
 
                         <label>Message</label>
-                        <textarea rows="4"></textarea>
+                        <textarea name="message" rows="4"></textarea>
+                        
+                        <div class="QapTcha"></div>
+
                         <button type="submit" class="radius button">Submit</button>
                     </div>
                 </div>
@@ -59,3 +69,25 @@
     </div>
     <!-- End Sidebar -->
 </div>
+
+@section modals {
+    @Html.Partial("Partials/ContactSuccessModal")
+}
+@section Scripts {
+    <script src="/Scripts/jqueryui/js/jquery-ui-1.9.2.custom.js"></script>
+    <script src="/Scripts/jquery/plugins/qaptcha/QapTcha.jquery.js"></script>
+    <script src="/Scripts/jquery/plugins/qaptcha/jquery.ui.touch.js"></script>
+    <link href="/Scripts/jquery/plugins/qaptcha/QapTcha.jquery.css" type="text/css" rel="stylesheet">
+
+    <script>
+        $(document).ready(function() {
+            $('.QapTcha').QapTcha({
+                autoSubmit: true,
+                autoRevert: true,
+                PHPfile: '/home/contactverify'
+            });
+
+        });
+
+    </script>
+}
