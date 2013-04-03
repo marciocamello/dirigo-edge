@@ -19,6 +19,7 @@ I. Setting up your website
 	4. You may need to set permissions on the folders 'CSS' and 'Scripts' so that the 'IISUSR' has full permission
 		- Edge will automatically combine and minify your CSS and Javascript files in this directory when you publish your solution or run in Release mode
 		- More informatino on SquishIt can be found at https://github.com/jetheredge/SquishIt
+		- Additionally, add permissions to Content/StockFeaturedImages and Content/uploaded on your production box. Otherwise Image uploading may not work.
 
 
 II. Using Automatic Migrations

@@ -19,11 +19,17 @@ namespace DirigoEdge.Utils
 			{
 				// Add blogs
 				var activeBlogs = context.Blogs.Where(x => x.IsActive);
-				theList.AddRange(activeBlogs.Select(blog => new SitemapItem(host + "blog/" + blog.PermaLink + "/")));
+				foreach (var blog in activeBlogs)
+				{
+					theList.Add(new SitemapItem(host + "blog/" + blog.PermaLink + "/"));
+				}
 
 				// Add content pages
 				var pages = context.ContentPages;
-				theList.AddRange(pages.Select(page => new SitemapItem(host + "content/" + page.DisplayName + "/")));
+				foreach (var page in pages)
+				{
+					theList.Add(new SitemapItem(host + "content/" + page.DisplayName + "/"));
+				}
 			}
 
 			return theList;
@@ -78,13 +84,19 @@ namespace DirigoEdge.Utils
 			var itemElement = new XElement("url", new XElement("loc", item.Url.ToLower()));
 
 			if (item.LastModified.HasValue)
+			{
 				itemElement.Add(new XElement("lastmod", item.LastModified.Value.ToString("yyyy-MM-dd")));
+			}
 
 			if (item.ChangeFrequency.HasValue)
+			{
 				itemElement.Add(new XElement("changefreq", item.ChangeFrequency.Value.ToString().ToLower()));
+			}
 
 			if (item.Priority.HasValue)
-				itemElement.Add(new XElement("priority", item.Priority.Value.ToString(CultureInfo.InvariantCulture)));
+			{
+				itemElement.Add(new XElement("priority", item.Priority.Value.ToString(CultureInfo.InvariantCulture)));		
+			}
 
 			return itemElement;
 		}
