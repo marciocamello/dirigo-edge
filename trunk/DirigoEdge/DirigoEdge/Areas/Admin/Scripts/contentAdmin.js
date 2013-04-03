@@ -2,16 +2,17 @@
 /// This currently serves as both the blog admin, user admin, and content admin Javascript area
 /// ===========================================================================================
 
-content_class = function () {
-    
-}
+content_class = function() {
 
-content_class.prototype.initPageEvents = function () {
+};
+
+content_class.prototype.initPageEvents = function() {
 
     this.manageContentAdminEvents();
 
     if ($("div.editContent").length > 0 && typeof(ace) != "undefined") {
         this.initCodeEditorEvents();
+        this.initWordWrapEvents();
     }
 
     if ($("div.manageContent").length > 0) {
@@ -21,7 +22,28 @@ content_class.prototype.initPageEvents = function () {
     if ($("div.manageModule").length > 0) {
         this.initDeleteModuleEvent();
     }
-}
+};
+
+
+content_class.prototype.initWordWrapEvents = function () {
+    var self = this;
+
+    $("#WordWrap").change(function () {
+        var wrapWords = $(this).is(":checked");
+        
+        self.htmlEditor.getSession().setUseWrapMode(wrapWords);
+        
+        // Let's help out our fellow coders and save their settings so they don't check/uncheck every time
+        $.ajax({
+            url: "/contentadmin/setwordwrap",
+            type: "POST",
+            data: {
+                wordWrap: wrapWords
+            }
+        });
+    });
+};
+
 
 content_class.prototype.initDeleteModuleEvent = function () {
     var self = this;
@@ -100,7 +122,9 @@ content_class.prototype.initCodeEditorEvents = function () {
     self.htmlEditor.setTheme(theme);
     self.htmlEditor.getSession().setMode("ace/mode/html");
     self.htmlEditor.getSession().setUseSoftTabs(true);
+    self.htmlEditor.getSession().setUseWrapMode(true);
     self.htmlEditor.setShowInvisibles(true);
+    
     // Switch to CSS
     self.htmlEditor.commands.addCommand({
         name: 'switchTab',
