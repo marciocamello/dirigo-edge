@@ -14,7 +14,7 @@ html, body {
 }
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Open Sans', sans-serif;
-	font-weight:400;
+	font-weight:300;
 }
 body {
 	background:url(./Images/cream_dust.png) #EEE;
@@ -375,6 +375,9 @@ table.manageTable thead tr .hide-for-small {
 
 div.editArea {
 	margin-bottom: 20px  !important;
+}
+#CategoriesModule span.catName {
+	margin-left: 4px;
 }
 /* Give extra space to drop elements below*/
 #Sortable1 { padding-bottom: 150px; }

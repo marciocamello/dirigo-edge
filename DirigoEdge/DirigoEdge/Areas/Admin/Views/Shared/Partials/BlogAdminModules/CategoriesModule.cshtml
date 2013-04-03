@@ -21,7 +21,7 @@
                         string catChecked = isChecked ? "checked" : "";
                         string catCheckInput = isChecked ? "checked=checked" : "";
 								
-                        <label for="@inputId"><input name="catGroup" type="radio" id="@inputId" @catCheckInput style="display: none;" autocomplete=off><span class="custom radio @catChecked"></span> @cat.CategoryName</label>
+                        <label for="@inputId"><input name="catGroup" type="radio" id="@inputId" @catCheckInput style="display: none;" autocomplete=off><span class="custom radio @catChecked"></span><span class="catName">@cat.CategoryName</span></label>
                     }
                 }
             </form>
