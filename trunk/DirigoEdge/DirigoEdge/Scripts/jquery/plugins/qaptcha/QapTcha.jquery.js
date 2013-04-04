@@ -70,7 +70,12 @@ jQuery.QapTcha = {
 								inputQapTcha.val('');
 								TxtStatus.text(opts.txtUnlock).addClass('dropSuccess').removeClass('dropError');
 								form.find('input[type=\'submit\']').removeAttr('disabled');
-								if(opts.autoSubmit) form.find('input[type=\'submit\']').trigger('click');
+								if (opts.autoSubmit) form.find('input[type=\'submit\']').trigger('click');
+
+							    setTimeout(function() {
+							        $("div.QapTcha div.bgSlider").fadeOut("slow");
+							    }, 600);
+
 							}
 						},'json');
 					}
