@@ -156,6 +156,10 @@
         @{ 
 			    string scripts = SquishIt.Framework.Bundle.JavaScript()
                     .Add("~/scripts/common.js")
+
+                    // Used in validating Contact Form
+                    .Add("~/scripts/jquery/plugins/jquery.validate.js")
+                    .Add("~/scripts/jquery/plugins/jquery.form.js")
                 
                     // Foundation Resources. Use only what you need
                     .Add("~/scripts/foundation/jquery.foundation.alerts.js")

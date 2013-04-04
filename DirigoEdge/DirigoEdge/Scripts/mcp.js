@@ -7,6 +7,35 @@
 mcp_class.prototype.initPageEvents = function() {
     // Lazy Load background images
     $("div.lazyLoad").removeClass("lazyLoad");
+    
+    if ($("#ContactForm").length > 0) {
+        this.initContactPageEvents();
+    }
+    
+};
+
+mcp_class.prototype.initContactPageEvents = function () {
+    // Contact Form Submit
+    this.initValidateForm($("#ContactForm"), $('#ContactSuccessModal'));
+};
+
+// Generic Form Validation Handler
+// Will validate form and do ajax get if successful
+mcp_class.prototype.initValidateForm = function ($form, $modal) {
+    $form.validate({
+        submitHandler: function (form) {
+            var $el = $form;
+            common.showAjaxLoader($el);
+            $(form).ajaxSubmit({
+                success: function () {
+                    $modal.reveal();
+                    common.hideAjaxLoader($el);
+                }
+            });
+
+            return false;
+        }
+    });
 };
 
 // Keep at the bottom
