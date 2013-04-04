@@ -8,6 +8,7 @@
 	height:37px;
 	float:left;
 	border:1px solid #CCC;
+	border-radius: 2px;
 	background-color:#FFF;
 	box-shadow: 0 0 4px #CCC inset;
 	-moz-box-shadow: 0 0 4px #CCC inset;
@@ -21,6 +22,7 @@
 	box-shadow: 0 0 4px #2BA6CB;
 	-moz-box-shadow: 0 0 4px #2BA6CB;
 	-webkit-box-shadow: 0 0 4px #2BA6CB;
+	background-image: url('./images/bg_draggable_qaptcha_hover.jpg');
 }
 .QapTcha .TxtStatus {width:auto;margin-top:7px;margin-bottom: 8px;text-align:left;color:#bb2828;font-family:Verdana;font-size:10px;clear:both}
 .QapTcha .dropSuccess {color:#4e8b37}

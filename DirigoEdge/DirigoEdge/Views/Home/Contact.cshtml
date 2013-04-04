@@ -16,35 +16,38 @@
         <ul class="tabs-content contained">
             <li id="contactFormTab" class="active">
                 <div class="row collapse">
-                    <div class="two columns">
-                        <label class="inline">Your Name</label>
-                    </div>
-                    <div class="ten columns">
-                        <input name="name" type="text" id="yourName" placeholder="Jane Smith" />
-                    </div>
-
-                    <div class="row collapse">
+                    <form id="ContactForm" action="/home/contactformpost">
                         <div class="two columns">
-                            <label class="inline">Your Email</label>
-                        </div>
-                        <div class="ten columns">
-                            <input name="contactEmail" type="text" id="yourEmail" placeholder="jane@smithco.com" />
+                            <label class="inline">Your Name</label>
                         </div>
 
-                        <div class="two columns">
-                            <label class="inline">Subject</label>
-                        </div>
                         <div class="ten columns">
-                            <input name="subject" type="text" id="Subject" class="required" />
+                            <input name="name" type="text" id="yourName" placeholder="Jane Smith" />
                         </div>
 
-                        <label>Message</label>
-                        <textarea name="message" rows="4"></textarea>
+                        <div class="row collapse">
+                            <div class="two columns">
+                                <label class="inline">Your Email</label>
+                            </div>
+                            <div class="ten columns">
+                                <input name="contactEmail" type="text" id="yourEmail" placeholder="jane@smithco.com" />
+                            </div>
+
+                            <div class="two columns">
+                                <label class="inline">Subject</label>
+                            </div>
+                            <div class="ten columns">
+                                <input name="subject" type="text" id="Subject" class="required" />
+                            </div>
+
+                            <label>Message</label>
+                            <textarea name="message" rows="4"></textarea>
                         
-                        <div class="QapTcha"></div>
+                            <div class="QapTcha"></div>
 
-                        <button type="submit" class="radius button">Submit</button>
-                    </div>
+                            <input type="submit" class="radius button" value="Submit" />
+                        </div>
+                    </form>
                 </div>
             </li>
 
