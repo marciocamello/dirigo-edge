@@ -31,20 +31,23 @@
         @{
             if (Model.Categories.Count < 1)
             {
-                <p>There are currently no categories to display.</p>
+            <p>There are currently no categories to display.</p>
             }
             else
             {
-                <ul class="side-nav">
-                    @{
+            <ul class="side-nav">
+                @{
+                        
                         foreach (var cat in Model.Categories)
                         {
-                            <li>
-                                <a href="/Blog/Categories/@ContentUtils.GetFormattedUrl(cat.CategoryName)">@cat.CategoryName</a>
-                            </li>
+                            string catName = cat.TheCategory.CategoryName;
+                            
+                    <li>
+                        <a href="/Blog/Categories/@ContentUtils.GetFormattedUrl(catName)">@catName (@cat.BlogCount)</a>
+                    </li>
                         }
-                    }
-                </ul>
+                }
+            </ul>
             }
         }
         
