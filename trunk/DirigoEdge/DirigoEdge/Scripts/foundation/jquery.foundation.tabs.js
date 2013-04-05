@@ -24,10 +24,15 @@
         },
 
         set_tab : function ($tab, e) {
-          var $activeTab = $tab.closest('dl, ul').find('.active'),
-              target = $tab.children('a').attr("href"),
-              hasHash = /^#/.test(target),
-              $content = $(target + 'Tab');
+            var $activeTab = $tab.closest('dl, ul').find('.active');
+            var target = $tab.children('a').attr("href");
+            var hasHash = /^#/.test(target);
+
+            // Don't pay attention to tabs if we're looking at a direct link
+            if (target.length < 1 || target[0] == "/") {
+                return false;
+            }
+            var $content = $(target + 'Tab');
 
           if (hasHash && $content.length > 0) {
             // Show tab content
