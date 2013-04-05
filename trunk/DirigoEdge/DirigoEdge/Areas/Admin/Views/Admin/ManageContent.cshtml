@@ -16,7 +16,6 @@
                     <tr>
                         <th>Name</th>
                         <th class="hide-for-small">Created</th>
-                        <th class="hide-for-small">Is Public</th>
                         <th class="actions">Actions</th>
                     </tr>
                 </thead>
@@ -24,22 +23,20 @@
                     @{
 					    foreach(var page in Model.Pages)
 					    {
-                            string active = (bool)page.IsActive ? "True" : "False";
-                        <tr>
-                            <td class="title"><a href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">@page.DisplayName</a></td>
-                            <td class="hide-for-small">@Convert.ToDateTime(page.CreateDate).ToString("MM/dd/yyyy")</td>
-                            <td class="hide-for-small">@active</td>
-                            <td>
-                                <a class="delete button secondary small tabletMarginBottom" href="javascript:void(0);" data-id="@page.ContentPageId">Delete</a>
-                                @{
-                                        string url = "/Content/" + DirigoEdge.Utils.ContentUtils.GetFormattedUrl(page.DisplayName);
-                                }
-                                <a class="button secondary small tabletMarginBottom" href="@url" target=_blank>Preview</a>
+                            <tr>
+                                <td class="title"><a href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">@page.DisplayName</a></td>
+                                <td class="hide-for-small">@Convert.ToDateTime(page.CreateDate).ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    <a class="delete button secondary small tabletMarginBottom" href="javascript:void(0);" data-id="@page.ContentPageId">Delete</a>
+                                    @{
+                                            string url = "/Content/" + DirigoEdge.Utils.ContentUtils.GetFormattedUrl(page.DisplayName);
+                                    }
+                                    <a class="button secondary small tabletMarginBottom" href="@url" target=_blank>Preview</a>
 
-                                <a class="button small tabletMarginBottom" href="@Url.Action("EditContentBasic", "Admin", new { id = @page.ContentPageId })">WYSIWYG Edit</a>
-                                <a class="button small" href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">Code Edit { }</a>
-                            </td>
-                        </tr>
+                                    <a class="button small tabletMarginBottom" href="@Url.Action("EditContentBasic", "Admin", new { id = @page.ContentPageId })">WYSIWYG Edit</a>
+                                    <a class="button small" href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">Code Edit { }</a>
+                                </td>
+                            </tr>
 					    }
                     }
                 </tbody>

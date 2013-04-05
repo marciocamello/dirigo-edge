@@ -1,8 +1,9 @@
 ﻿@using DirigoEdge.Utils
+@model DirigoEdge.Models.ViewModels.BlogSingleHomeViewModel
 @{
     ViewBag.Title = Model.TheBlog.Title;
+    ViewBag.MetaDesc = Model.TheBlog.MetaDescription;
 }
-@model DirigoEdge.Models.ViewModels.BlogSingleHomeViewModel
 
 <div class="singleBlogModule module">
 
@@ -84,6 +85,11 @@
     </div>
 </div>
 
-@section meta {
-    <meta name="description" content="@Model.TheBlog.MetaDescription">
+@section Meta {
+    @{
+        if (!String.IsNullOrEmpty(Model.TheBlog.Canonical))
+        {
+            <link rel="canonical" href="Model.TheBlog.Canonical" />        
+        }
+    }
 }
