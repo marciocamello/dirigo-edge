@@ -22,7 +22,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			{
 				using (var context = new DataContext())
 				{
-					Blog editedBlog = context.Blogs.Where(x => x.BlogId == entity.BlogId).FirstOrDefault();
+					Blog editedBlog = context.Blogs.FirstOrDefault(x => x.BlogId == entity.BlogId);
 					if (editedBlog != null)
 					{
 						editedBlog.Author = scrubInput(entity.Author);
@@ -196,6 +196,10 @@ namespace DirigoEdge.Areas.Admin.Controllers
 						foreach (var module in entity.AdminModulesColumn1)
 						{
 							var thisUser = context.Users.FirstOrDefault(x => x.Username == userName);
+
+							// Make sure modules exist
+							checkNullUserModules(thisUser);
+
 							thisUser.BlogAdminModules.Add(module);
 						}
 					}
@@ -205,6 +209,10 @@ namespace DirigoEdge.Areas.Admin.Controllers
 						foreach (var module in entity.AdminModulesColumn2)
 						{
 							var thisUser = context.Users.FirstOrDefault(x => x.Username == userName);
+
+							// Make sure modules exist
+							checkNullUserModules(thisUser);
+
 							thisUser.BlogAdminModules.Add(module);
 						}
 					}
@@ -309,7 +317,17 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			return Content(sb.ToString());
 		}
 
-		#region Help Methods
+		#region Helper Methods
+
+		private void checkNullUserModules(User thisUser)
+		{
+			if (thisUser.BlogAdminModules == null)
+			{
+				thisUser.BlogAdminModules = new List<BlogAdminModule>();
+			}
+		}
+
+
 		private string scrubInput(string input)
 		{
 			if (String.IsNullOrEmpty(input))
