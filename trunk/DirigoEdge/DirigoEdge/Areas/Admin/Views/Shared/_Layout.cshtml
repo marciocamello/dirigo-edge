@@ -113,6 +113,7 @@
                                         <label>Actions</label></li>
                                     <li><a class="" href="@Url.Action("AddBlog", "Admin")">New Blog +</a></li>
                                     <li><a href="@Url.Action("NewContentPage", "Admin")">New Content Page +</a></li>
+                                    <li><a href="@Url.Action("NewContentModule", "Admin")">New Content Module +</a></li>
                                 </ul>
                             </li>
 
@@ -160,6 +161,12 @@
                         <a href="@Url.Action("Index", "Admin")">
                             <img src="/Areas/Admin/Content/themes/base/Images/icons/home.png" class="adminIcon" />
                             <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ManageMedia", "Admin")">
+                            <img src="/Areas/Admin/Content/themes/base/Images/icons/folder.png" class="adminIcon" />
+                            <span>Media</span>
                         </a>
                     </li>
                     <li class="has-dropdown">

@@ -26,8 +26,28 @@ blog_class.prototype.initPageEvents = function() {
     // Sidebar menu
     $("#sidebar ul > li.has-dropdown > a").click(function(e) {
         e.preventDefault();
-        $(this).parent().toggleClass("active");
-        $(this).parent().find("ul.dropdown").slideToggle("fast");
+        var $li = $(this).parent();
+        // SlideUp
+        if ($li.hasClass("active")) {
+            $li.removeClass("active");
+
+            setTimeout(function() {
+                $("#sidebar ul.tabs li.active").removeClass("active");
+            }, 200);
+            
+
+            $li.find("ul.dropdown").slideUp("fast");
+        }
+        // Slide down
+        else {
+            $li.addClass("active");
+            $li.find("ul.dropdown").slideDown("fast");
+        }
+
+        
+       
+        
+       
     });
 
     // Ckeditor instances
@@ -276,7 +296,7 @@ blog_class.prototype.addBlogEvents = function() {
 
     // Save Blog from edit / add blog page
     $("#SaveBlog").click(function() {
-        var mainCategory = $("div.panel.categories ul li.catListing span.radio.checked").first().parent().text();
+        var mainCategory = $("#CategoriesModule ul li.catListing span.radio.checked").first().parent().text();
         var content = CKEDITOR.instances.CKEDITBLOG.getData();
         var featText = CKEDITOR.instances.ShortDescription.getData();
         var data = {
