@@ -1,0 +1,6 @@
+#summary Adding Page Templates
+
+
+Use the file "\Views\Content\Templates\BlankTemplate.cshtml" as a starting point.
+
+Make sure the template contains "Template" in the filename.
