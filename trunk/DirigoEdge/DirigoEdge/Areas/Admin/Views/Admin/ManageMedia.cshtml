@@ -1,0 +1,73 @@
+﻿@{
+	ViewBag.Title = "Manage Media";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model DirigoEdge.Areas.Admin.Models.ViewModels.ManageMediaViewModel
+
+<div class="row manageContent">
+    <div class="twelve columns">
+        <h3>Manage Media</h3>    
+    </div>
+    
+    <div class="five columns">
+        <form action="/admin/fileUpload" class="dropzone" id="my-awesome-dropzone"></form>    
+    </div>
+
+    <div class="seven columns">
+        <h5>Uploaded Images : </h5>
+        <ul class="imageList">
+        @{
+            foreach (var path in Model.BlogImages)
+            {
+                <li>
+                    <span class="container">
+
+                        <img src="@path" alt="uploaded image"/>
+                        <span>
+                            <a href="#" class="delete">Delete</a>
+                            <a href="#" class="info">Info</a>
+                        </span>
+                    </span>
+                    
+                </li>
+            }
+        }
+        </ul>
+    </div>
+                
+</div>
+
+
+@section Scripts {
+    <script src="/Scripts/jquery/plugins/isotope/jquery.isotope.min.js"></script>
+    <script src="/Scripts/jquery/plugins/dropzone/dropzone.js"></script>
+    
+    <script>
+        Dropzone.options.myAwesomeDropzone = {
+            url: "/admin/fileUpload/",
+            init: function () {
+                this.on("success", function (file, data) {
+                    
+                    var $els = $(data.html);
+
+                    // Prepend the image to the container
+                    $("ul.imageList").prepend($els).isotope('reloadItems').isotope({ sortBy: 'original-order' });
+
+                    // Double check on height
+                    setTimeout(function() {
+                        $("ul.imageList").isotope('reLayout');
+                    }, 300);
+                });
+            }
+        };
+
+        $(document).ready(function () {
+            // Order Uploaded Images Neatly
+            $("ul.imageList").isotope();
+        });
+    </script>
+    
+    <link href="/Scripts/jquery/plugins/dropzone/css/dropzone.css" type="text/css" rel="stylesheet">
+    <link href="/Scripts/jquery/plugins/dropzone/css/basic.css" type="text/css" rel="stylesheet">
+}

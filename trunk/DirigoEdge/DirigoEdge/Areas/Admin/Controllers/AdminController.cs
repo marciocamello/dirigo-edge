@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using DirigoEdge.Areas.Admin.Models.ViewModels;
@@ -16,6 +18,15 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
             return View(model);
         }
+
+		[Authorize(Roles = "Administrators")]
+		public ActionResult ManageMedia()
+		{
+			string dir = Server.MapPath("~/content/uploaded/blogimages/");
+			var model = new ManageMediaViewModel(dir);
+			
+			return View(model);
+		}
 
 		[Authorize(Roles = "Administrators")]
 		public ActionResult ManageBlogs()
@@ -280,6 +291,33 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
 			return result;
 		}
+
+		public JsonResult fileUpload(HttpPostedFileBase file)
+		{
+			if (file != null)
+			{
+				var fileName = Path.GetFileName(file.FileName);
+				var physicalPath = Path.Combine(Server.MapPath("~/Content/uploaded/BlogImages/"), fileName);
+
+				file.SaveAs(physicalPath);
+			}
+
+			StringBuilder sb = new StringBuilder();
+			sb.Append("<li>");
+
+			sb.Append("<span class='container'>");
+			
+			sb.Append(String.Format("<img src='/content/uploaded/blogimages/{0}' />", file.FileName));
+
+			sb.Append("<span><a class='delete' href='#'>Delete</a><a class='info' href='#' data-size=''>Info</a></span>");
+
+			sb.Append("</span>");
+			sb.Append("</li>");
+
+			
+
+			return new JsonResult(){ Data = new { html = sb.ToString()  }};
+		}
 		
 		#endregion
 
@@ -311,5 +349,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		}
 
 		#endregion
-	}
+
+	    
+    }
 }
