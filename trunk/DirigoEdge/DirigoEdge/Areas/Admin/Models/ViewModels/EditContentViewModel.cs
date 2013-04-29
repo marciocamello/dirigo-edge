@@ -14,7 +14,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 
 		public EditContentViewModel(int id)
 		{
-			using (DataContext context = new DataContext())
+			using (var context = new DataContext())
 			{
 				ThePage = context.ContentPages.Where(x => x.ContentPageId == id).Take(1).FirstOrDefault();
 				var userName = Membership.GetUser().UserName;
