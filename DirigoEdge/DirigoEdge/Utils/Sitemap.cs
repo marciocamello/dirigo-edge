@@ -21,14 +21,14 @@ namespace DirigoEdge.Utils
 				var activeBlogs = context.Blogs.Where(x => x.IsActive);
 				foreach (var blog in activeBlogs)
 				{
-					theList.Add(new SitemapItem(host + "blog/" + blog.PermaLink + "/"));
+					theList.Add(new SitemapItem(host + "blog/" + blog.PermaLink.Replace(" ", ContentGlobals.BLOGDELIMMETER) + "/"));
 				}
 
 				// Add content pages
 				var pages = context.ContentPages;
 				foreach (var page in pages)
 				{
-					theList.Add(new SitemapItem(host + "content/" + page.DisplayName + "/"));
+					theList.Add(new SitemapItem(host + "content/" + page.DisplayName.Replace(" ", ContentGlobals.BLOGDELIMMETER) + "/"));
 				}
 			}
 
