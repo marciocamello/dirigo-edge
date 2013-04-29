@@ -313,7 +313,7 @@ blog_class.prototype.addBlogEvents = function() {
                 Tags: $("#BlogTags").attr("value"),
                 ShortDesc: featText,
                 MetaDescription: $("#MetaDescription").attr("value"),
-                OGTitle: $("#MetaDescription").attr("value"),
+                OGTitle: $("#OGTitle").attr("value"),
                 OGImage: $("#OGImage").attr("value"),
                 OGType: $("#OGType").attr("value"),
                 OGUrl: $("#OGUrl").attr("value"),
