@@ -20,7 +20,7 @@ namespace DirigoEdge.Models.ViewModels
 			{
 				// Get the amount of blogs to load on homepage
 				var blogSettings = context.BlogSettings.FirstOrDefault();
-				if (blogSettings == null)
+				if (blogSettings != null)
 				{
 					MaxBlogCount = blogSettings.MaxBlogsOnHomepageBeforeLoad;
 				}

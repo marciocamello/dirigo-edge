@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = Model.TheBlog.Title;
     ViewBag.MetaDesc = Model.TheBlog.MetaDescription;
+    ViewBag.Title = Model.TheBlog.Title;
+    ViewBag.OGType = Model.TheBlog.OGType ?? "article";
+    ViewBag.OGTitle = Model.TheBlog.OGTitle ?? Model.TheBlog.Title;
 }
 
 <div class="singleBlogModule module">
