@@ -45,9 +45,11 @@ content_class.prototype.initWordWrapEvents = function () {
 };
 
 
-content_class.prototype.initDeleteModuleEvent = function () {
+content_class.prototype.initDeleteModuleEvent = function() {
     var self = this;
-    $("div.manageModule table.manageTable td a.delete").click(function () {
+
+    // Delete Module
+    $("div.manageModule table.manageTable td a.delete").click(function() {
         self.managePageId = $(this).attr("data-id");
 
         self.$managePageRow = $(this).parent().parent();
@@ -57,7 +59,7 @@ content_class.prototype.initDeleteModuleEvent = function () {
     });
 
     // Confirm Delete Content
-    $("#ConfirmModuleDelete").click(function () {
+    $("#ConfirmModuleDelete").click(function() {
         var id = self.managePageId;
         $.ajax({
             url: "/Admin/DeleteModule",
@@ -65,19 +67,19 @@ content_class.prototype.initDeleteModuleEvent = function () {
             data: {
                 id: self.managePageId
             },
-            success: function (data) {
+            success: function(data) {
                 var noty_id = noty({ text: 'Module Successfully Deleted.', type: 'success', timeout: 2000 });
                 self.$managePageRow.remove();
                 $('#DeleteModal').trigger('reveal:close');
             },
-            error: function (data) {
+            error: function(data) {
                 $('#DeleteModal').trigger('reveal:close');
                 var noty_id = noty({ text: 'There was an error processing your request.', type: 'error' });
             }
         });
     });
 
-}
+};
 
 content_class.prototype.initDeleteContentEvent = function () {
     var self = this;
@@ -273,7 +275,8 @@ content_class.prototype.manageContentAdminEvents = function() {
                 $("#SaveSpinner").hide();
             }
         });
-    });    
+    });
+    
 };
 
 // Keep at the bottom

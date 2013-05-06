@@ -302,21 +302,21 @@ namespace DirigoEdge.Areas.Admin.Controllers
 				file.SaveAs(physicalPath);
 			}
 
-			StringBuilder sb = new StringBuilder();
+			string imgPath = "/content/uploaded/blogimages/" + file.FileName;
+
+			var sb = new StringBuilder();
 			sb.Append("<li>");
 
 			sb.Append("<span class='container'>");
-			
-			sb.Append(String.Format("<img src='/content/uploaded/blogimages/{0}' />", file.FileName));
+
+			sb.Append(String.Format("<img src='{0}' />", imgPath));
 
 			sb.Append("<span><a class='delete' href='#'>Delete</a><a class='info' href='#' data-size=''>Info</a></span>");
 
 			sb.Append("</span>");
 			sb.Append("</li>");
 
-			
-
-			return new JsonResult(){ Data = new { html = sb.ToString()  }};
+			return new JsonResult() { Data = new { html = sb.ToString(), path = imgPath } };
 		}
 		
 		#endregion
