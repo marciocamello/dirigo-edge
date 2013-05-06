@@ -138,6 +138,7 @@ div.panel.categories ul li.catListing form.custom {
 #SaveContent.button {
     margin:12px 0;
 }
+
 input#PageName {
     margin-bottom:4px;
 }
@@ -147,6 +148,12 @@ div.urlTip {
     font-size:12px;
     color:#444;
 }
+#InsertModuleImage {
+	position: absolute;
+	right: 15px;
+	top: 10px;
+}
+#InsertModuleImage:hover { text-decoration: underline; }
 /** Blog Admin **/
 div.addBlog.module div.blogTitle , div.editBlog.module div.blogTitle {
 	margin-bottom:10px;   
