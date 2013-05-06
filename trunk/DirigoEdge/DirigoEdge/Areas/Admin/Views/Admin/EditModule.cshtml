@@ -22,7 +22,7 @@
                 <dd><a href="#JS">Javascript</a></dd>
             </dl>
             
-            <a id="InsertModuleImage" href="#" data-reveal-id="InsertImageModal">Insert Image</a>
+            <a id="InsertContentImage" href="#" data-reveal-id="InsertImageModal">Insert Image</a>
             
             @*Seems superfluos.. keeping in code comment for now in case someone wants to use this*@
             @*<div id="EditorThemeContainer" class="hide-for-medium-down">
@@ -108,38 +108,12 @@
 </div>
 
 @section Modals {
-    <div id="InsertImageModal" class="reveal-modal">
-        <h2>Insert Image.</h2>
-
-        <form action="/admin/fileUpload" class="dropzone" id="my-awesome-dropzone"></form>
-
-        <a class="close-reveal-modal">&#215;</a>
-    </div>
+    @Html.Partial("Partials/InsertImageModalPartial")
 }
 
 @section scripts {
     <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/jquery/plugins/dropzone/dropzone.js"></script>
-
-    <script>
-        Dropzone.options.myAwesomeDropzone = {
-            url: "/admin/fileUpload/",
-            init: function () {
-                this.on("success", function (file, data) {
-
-                    var $els = $(data.html);
-                    
-                    content.htmlEditor.insert("<img src='" + data.path + "' alt='' />");
-
-                    // Close the dialog box
-                    setTimeout(function () {
-                        $("#InsertImageModal").trigger('reveal:close');
-                    }, 400);
-                });
-            }
-        };
-
-    </script>
 
     <link href="/Scripts/jquery/plugins/dropzone/css/dropzone.css" type="text/css" rel="stylesheet">
     <link href="/Scripts/jquery/plugins/dropzone/css/basic.css" type="text/css" rel="stylesheet">

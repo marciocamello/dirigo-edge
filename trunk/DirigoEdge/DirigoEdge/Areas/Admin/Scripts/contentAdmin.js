@@ -22,6 +22,11 @@ content_class.prototype.initPageEvents = function() {
     if ($("div.manageModule").length > 0) {
         this.initDeleteModuleEvent();
     }
+    
+    // Insert Image Functionality on Modules and Pages
+    if ($("#InsertImageModal").length > 0) {
+        this.initContentImageUploadEvents();
+    }
 };
 
 
@@ -115,7 +120,7 @@ content_class.prototype.initDeleteContentEvent = function () {
 
 }
 
-content_class.prototype.initCodeEditorEvents = function () {
+content_class.prototype.initCodeEditorEvents = function() {
     var self = this;
 
     // Init Code Editor
@@ -126,12 +131,12 @@ content_class.prototype.initCodeEditorEvents = function () {
     self.htmlEditor.getSession().setUseSoftTabs(true);
     self.htmlEditor.getSession().setUseWrapMode(true);
     self.htmlEditor.setShowInvisibles(true);
-    
+
     // Switch to CSS
     self.htmlEditor.commands.addCommand({
         name: 'switchTab',
         bindKey: { win: 'Ctrl-2', mac: 'Command-2' },
-        exec: function (editor) {
+        exec: function(editor) {
             $("a[href=#CSS]").trigger("click");
             $("#CSSContent textarea").focus();
         }
@@ -140,7 +145,7 @@ content_class.prototype.initCodeEditorEvents = function () {
     self.htmlEditor.commands.addCommand({
         name: 'switchTab',
         bindKey: { win: 'Ctrl-3', mac: 'Command-3' },
-        exec: function (editor) {
+        exec: function(editor) {
             $("a[href=#JS]").trigger("click");
             $("#JSContent textarea").focus();
         }
@@ -149,7 +154,7 @@ content_class.prototype.initCodeEditorEvents = function () {
     self.htmlEditor.commands.addCommand({
         name: 'Save',
         bindKey: { win: 'Ctrl-S', mac: 'Command-S' },
-        exec: function (editor) {
+        exec: function(editor) {
             $("#SaveContentButton").trigger("click");
         }
     });
@@ -170,7 +175,7 @@ content_class.prototype.initCodeEditorEvents = function () {
     self.cssEditor.commands.addCommand({
         name: 'switchTab1',
         bindKey: { win: 'Ctrl-1', mac: 'Command-1' },
-        exec: function (editor) {
+        exec: function(editor) {
             $("a[href=#Html]").trigger("click");
             $("#HTMLContent textarea").focus();
         },
@@ -182,13 +187,37 @@ content_class.prototype.initCodeEditorEvents = function () {
     self.jsEditor.getSession().setMode("ace/mode/javascript");
 
     // Change editor Theme
-    $("#EditorTheme").change(function () {
+    $("#EditorTheme").change(function() {
         var theme = $(this).attr("value");
         self.htmlEditor.setTheme(theme);
         self.cssEditor.setTheme(theme);
         self.jsEditor.setTheme(theme);
     });
-}
+};
+
+content_class.prototype.initContentImageUploadEvents = function() {
+    var self = this;
+    
+    Dropzone.options.myAwesomeDropzone = {
+        url: "/admin/fileUpload/",
+        init: function () {
+            this.on("success", function (file, data) {
+
+                var imgTag = "<img src='" + data.path + "' alt='' />";
+                // Insert an img tag into the editor
+                self.htmlEditor.insert(imgTag);
+
+                // Highlight the newly placed tag
+                self.htmlEditor.find(imgTag, { backwards: true, });
+
+                // Close the dialog box
+                setTimeout(function () {
+                    $("#InsertImageModal").trigger('reveal:close');
+                }, 400);
+            });
+        }
+    };
+};
 
 content_class.prototype.manageContentAdminEvents = function() {
     var self = this;
@@ -276,7 +305,6 @@ content_class.prototype.manageContentAdminEvents = function() {
             }
         });
     });
-    
 };
 
 // Keep at the bottom
