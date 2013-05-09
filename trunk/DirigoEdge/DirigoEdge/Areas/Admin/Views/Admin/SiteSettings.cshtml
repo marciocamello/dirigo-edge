@@ -7,7 +7,19 @@
 <div class="siteSettings">
     <div class="row">
         <div class="twelve columns">
-            <h3>Site Settings</h3>                        
+            <h3>Site Settings</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="four columns mobile-two">
+            <label class="right inline">Google Analytics ID</label>
+        </div>
+        <div class="eight columns  mobile-two">
+            <form class="custom">
+                <input type="text" class="eight commentBelow saveField" data-field="GoogleAnalyticsId" autocomplete="off" value="@Model.Settings.GoogleAnalyticsId" />
+                <div class="settingsComment hide-for-small">Your Google Analytics Tracking Id. Ex : UA-XXXXX-X</div>
+            </form>
         </div>
     </div>
     
