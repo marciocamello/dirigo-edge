@@ -14,5 +14,7 @@ namespace DirigoEdge.Entities
 		// General
 		public virtual string ContactEmail { get; set; }
 		public virtual bool SearchIndex { get; set; }
+		
+		public virtual string GoogleAnalyticsId { get; set; }
 	}
 }

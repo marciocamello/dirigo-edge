@@ -74,5 +74,12 @@ namespace DirigoEdge.Utils
 				context.SaveChanges();
 			}
 		}
+		public static string GetGoogleAnalyticsId()
+		{
+			using (var context = new DataContext())
+			{
+				return context.SiteSettings.FirstOrDefault().GoogleAnalyticsId;
+			}
+		}
 	}
 }

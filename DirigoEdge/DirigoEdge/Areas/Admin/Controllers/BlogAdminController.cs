@@ -278,19 +278,19 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		[AcceptVerbs(HttpVerbs.Post)]
 		public ActionResult UploadBlogImageInline(HttpPostedFileBase upload, string CKEditorFuncNum, string CKEditor, string langCode)
 		{
-			//=========================================
+			//===================================================================================
 			// Takes an image uploaded from the blog editor and saves it to the content directory
-			//=========================================
+			//===================================================================================
 			string output = "<h1>Failure</h1>"; // Default to fail
 			if (upload != null)
 			{
 				var fileName = Path.GetFileName(upload.FileName);
-				var physicalPath = Path.Combine(Server.MapPath("~/Content/uploaded/BlogImages/"), fileName);
+				var physicalPath = Path.Combine(Server.MapPath("~" + Utils.ContentGlobals.BLOGIMAGEUPLOADDIRECTORY), fileName);
 
 				upload.SaveAs(physicalPath);
 
 				// Alert the user image was successfully uploaded
-				string finalUrl = "/Content/uploaded/BlogImages/" + fileName;
+				string finalUrl = Utils.ContentGlobals.BLOGIMAGEUPLOADDIRECTORY + fileName;
 				string message = "Image successfully uploaded";
 
 				output = @"<html><body><script>window.parent.CKEDITOR.tools.callFunction(" + CKEditorFuncNum + ", \"" + finalUrl + "\", \"" + message + "\");</script></body></html>";
@@ -304,11 +304,11 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		{
 			StringBuilder sb = new StringBuilder();
 
-			string directory = Server.MapPath("~/Content/StockFeaturedImages/");
+			string directory = Server.MapPath("~" + Utils.ContentGlobals.STOCKBLOGIMAGESDIRECTORY);
 			string[] images = Directory.GetFiles(directory, "*.jpg");
 			foreach (string image in images)
 			{
-				string imgSrc = String.Format("/Content/StockFeaturedImages/{0}", Path.GetFileName(image));
+				string imgSrc = Utils.ContentGlobals.STOCKBLOGIMAGESDIRECTORY + Path.GetFileName(image);
 				sb.Append(String.Format("<a href='javascript:void(0);' class='stockImage has-tip tip-top' title=\"<img src='{0}' />\" >", imgSrc));
 				sb.Append(String.Format("<img src='{0}' alt='Stock Image' />", imgSrc));
 				sb.Append("</a>");
@@ -326,7 +326,6 @@ namespace DirigoEdge.Areas.Admin.Controllers
 				thisUser.BlogAdminModules = new List<BlogAdminModule>();
 			}
 		}
-
 
 		private string scrubInput(string input)
 		{

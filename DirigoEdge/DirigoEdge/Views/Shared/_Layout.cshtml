@@ -22,7 +22,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         @* ** Basic Meta Information ** *@
-        @*<meta name="description" content="Dirigo Design and Development">*@
+        @{
+            string metaDescription = ViewBag.MetaDesc ?? "";
+        }
+        <meta name="description" content="">
         <meta name="distribution" content="global" />
         <meta name="robots" content="all" />
 
@@ -37,7 +40,7 @@
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114-precomposed.png" />
 
         @* ** Facebook OG tags ** *@
-        <meta property="og:title" content="" />
+        @*<meta property="og:title" content="" />*@
         <meta property="og:type" content="website" />
         <meta property="og:image" content="https://www.yourcompany.com/logo.png" />
         <meta property="og:description" content="Site Description" />
@@ -71,15 +74,9 @@
         @* Modernizr stays in <head> *@
         <script src="@Url.Content("~/Scripts/modernizr-2.6.2.min.js")" type="text/javascript"></script>
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
-            (function (d, t) {
-                var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-                g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
-                s.parentNode.insertBefore(g, s);
-            }(document, 'script'));
-        </script>
+        <!-- Google Analytics: change UA-XXXXX-X in site admin to be your site's ID. -->
+        @Html.Partial("Partials/GoogleAnalyticsPartial")
+        
 
     </head>
     <body>

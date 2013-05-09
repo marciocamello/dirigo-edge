@@ -182,6 +182,7 @@
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_desc_disabled.png" />
     <Content Include="Areas\Admin\Scripts\adminSave.js" />
     <Content Include="Areas\Admin\Scripts\mediaUploadWidget.js" />
+    <Content Include="Content\logo.png" />
     <Content Include="Content\uploaded\Media\ph.txt" />
     <Compile Include="Areas\Admin\Models\ViewModels\SiteSettingsViewModel.cs" />
     <Compile Include="Context\DataContext.cs" />
@@ -914,6 +915,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Content\themes\base\Images\collapseExpand.psd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\InsertImageModalPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Partials\GoogleAnalyticsPartial.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -22,7 +22,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		[Authorize(Roles = "Administrators")]
 		public ActionResult ManageMedia()
 		{
-			string dir = Server.MapPath("~/content/uploaded/blogimages/");
+			string dir = Server.MapPath("~" + Utils.ContentGlobals.IMAGEUPLOADDIRECTORY);
 			var model = new ManageMediaViewModel(dir);
 			
 			return View(model);
@@ -74,7 +74,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		public ActionResult NewContentPage()
 		{
 			// Create a new Content Page to be passed to the edit content action
-			using (DataContext context = new DataContext())
+			using (var context = new DataContext())
 			{
 				ContentPage page = getDefaultContentPage();
 				context.ContentPages.Add(page);
@@ -213,7 +213,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			{
 				using (var context = new DataContext())
 				{
-					var UserToDelete = context.BlogUsers.Where(x => x.UserId == user.UserId).FirstOrDefault();
+					var UserToDelete = context.BlogUsers.FirstOrDefault(x => x.UserId == user.UserId);
 
 					context.BlogUsers.Remove(UserToDelete);
 					context.SaveChanges();
@@ -297,12 +297,12 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			if (file != null)
 			{
 				var fileName = Path.GetFileName(file.FileName);
-				var physicalPath = Path.Combine(Server.MapPath("~/Content/uploaded/BlogImages/"), fileName);
+				var physicalPath = Path.Combine(Server.MapPath("~" + Utils.ContentGlobals.IMAGEUPLOADDIRECTORY), fileName);
 
 				file.SaveAs(physicalPath);
 			}
 
-			string imgPath = "/content/uploaded/blogimages/" + file.FileName;
+			string imgPath = Utils.ContentGlobals.IMAGEUPLOADDIRECTORY + file.FileName;
 
 			var sb = new StringBuilder();
 			sb.Append("<li>");
