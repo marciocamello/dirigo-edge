@@ -50,7 +50,16 @@ namespace MvcHtmlHelpers
 					// Give logged in admins a way to quickly edit the module
 					if (UserUtils.UserIsAdmin())
 					{
-						value = String.Format("<a class='adminEdit onScreen' href='/admin/editmodule/{0}' target='_blank' data-id='{1}' style='top:{3}px;right:{4}px'  data-html='{2}'>Edit</a>{2}", tempMod.ContentModuleId, tempMod.ContentModuleId, tempMod.HTMLContent, offSetTop, offsetRight);
+                        value = String.Format(
+                            "<div class='adminButtons' style='top:{3}; right:{4}px; z-index: 1;'>" +
+                            "<a class='adminEdit onScreen' href='/admin/editmodule/{0}' target='_blank' " +
+                            "data-id='{1}' style='position: static;'>Edit</a>" +
+                            "<a class='adminRawEdit onScreen' href='/admin/editmodule/{0}' target='_blank' " +
+                            "data-id='{1}' style='position: static;'>" +
+                            "<img src='/Areas/Admin/Content/themes/base/Images/icons/edit_white.png' class='adminIcon'></a>" +
+                            "</div>{2}",
+                            tempMod.ContentModuleId, tempMod.ContentModuleId, tempMod.HTMLContent, offSetTop, offsetRight
+                        );
 					}
 					else
 					{

@@ -292,6 +292,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			return result;
 		}
 
+        
 		public JsonResult fileUpload(HttpPostedFileBase file)
 		{
 			if (file != null)
@@ -316,8 +317,33 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			sb.Append("</span>");
 			sb.Append("</li>");
 
-			return new JsonResult() { Data = new { html = sb.ToString(), path = imgPath } };
+			return new JsonResult() { Data = new { html = sb.ToString(), path = imgPath }};
 		}
+
+        /*
+         * Method to return html to view for on screen editor
+         */
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult getModuleData(string id)
+        {
+            var result = new JsonResult();
+
+			int moduleId = Int32.Parse(id);
+
+            using (var context = new DataContext())
+            {
+                var editorData = context.ContentModules.FirstOrDefault(x => x.ContentModuleId == moduleId);
+                result.Data = new
+                    {
+                        html = editorData.HTMLContent, 
+                        js = editorData.JSContent, 
+                        css = editorData.CSSContent,
+                        title = editorData.ModuleName
+                    };
+            }
+
+            return result;
+        }
 		
 		#endregion
 

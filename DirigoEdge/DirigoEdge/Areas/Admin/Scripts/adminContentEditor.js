@@ -46,25 +46,73 @@ adminEditor_class.prototype.initEditModulePopupEvent = function () {
         // Otherwise, open in new tab
         if (winWidth > 1100) {
             e.preventDefault();
-            var $html = $(this).attr('data-html');
 
-            // Destroy the editor if it exists so we can create a new one
-            if (CKEDITOR.instances.ModuleContentEditContainer != null) {
-                CKEDITOR.instances.ModuleContentEditContainer.destroy();
-            }
-            
-            // Create the new editor
-            $("#ModuleContentEditContainer").html($html);
-            CKEDITOR.config.contentsCss = '/Content/Themes/Base/Site.css';
-            self.editContentEditor = CKEDITOR.replace('ModuleContentEditContainer');
+            $.post('/admin/getModuleData', { id: $(this).attr("data-id") }, "json")
+                .done(function (result) {
+                    $html = result.html;
+                    
+                    // Destroy the editor if it exists so we can create a new one
+                    if (CKEDITOR.instances.ModuleContentEditContainer != null) {
+                        CKEDITOR.instances.ModuleContentEditContainer.destroy();
+                    }
+                    // Create the new editor
+                    $("#ModuleContentEditContainer").html($html);
+                    CKEDITOR.config.contentsCss = '/Content/Themes/Base/Site.css';
+                    self.editContentEditor = CKEDITOR.replace('ModuleContentEditContainer');
+            });
             
             // Set the link to "open in admin interface" in case user does not want to edit inline
             $("#OpenInAdminLink").attr("href", thisHref);
 
-
+            $('#contentEditorLink, #wysiwygEditorLink').attr({ 'data-id': self.dataEditingId, 'href': thisHref }).show();
             $("#AdminEditContentModal").reveal();
         }
     });
+    
+    // Pop up module / content editor on screen if screen is wide enough
+    $(document).on("click", "a.adminRawEdit.onScreen", function (e) {
+        if ($(this).attr('id') != 'contentEditorLink') {
+            // The user did not come from the WYSIWYG
+            $('#wysiwygEditorLink').hide();
+        }
+        var winWidth = $(document).width();
+        self.dataEditingId = $(this).attr("data-id");
+        var thisHref = $(this).attr("href");
+
+        // If window is large enough, let's use edit in place
+        // Otherwise, open in new tab
+        if (winWidth > 1100) {
+            e.preventDefault();
+
+            $.post('/admin/getModuleData', { id: $(this).attr("data-id") }, "json")
+                .done(function (result) {
+                    $html = result.html;
+                    $js = result.js;
+                    $css = result.css;
+                    
+                    $('.editContent').attr('data-id', self.dataEditingId);
+                    $("#SaveContentButton").attr('data-name', result.title);
+
+                    if (typeof(self.content) == 'undefined') {
+                        self.content = new content_modal_class();
+                        self.content.manageContentAdminEvents();
+                        self.content.initCodeEditorEvents($html, $css, $js);
+                        self.content.initWordWrapEvents();
+                        self.content.initContentImageUploadEvents();
+                    } else {
+                        self.content.initUpdateEditor($html, $css, $js);
+                    }
+                });
+
+            // Set the link to "open in admin interface" in case user does not want to edit inline
+            $("#OpenInAdminLink").attr("href", thisHref);
+
+            $("#AdminEditRawContentModal").reveal({ "opened": function() {
+                
+            } }).css({ 'width' : '80%', 'margin-left' : '-40%' });
+        }
+    });
+
 };
 
 
@@ -95,6 +143,7 @@ adminEditor_class.prototype.initSaveModuleEvent = function() {
                     $(this).prepend($anchorCopy);
                 });
                 common.hideAjaxLoader($editContainer);
+                //$('#wysiwygEditorLink').hide();
                 $("#AdminEditContentModal").trigger('reveal:close');
             },
             error: function (data) {
@@ -109,4 +158,5 @@ adminEditor_class.prototype.initSaveModuleEvent = function() {
 $(document).ready(function () {
     adminEdit = new adminEditor_class();
     adminEdit.initPageEvents();
+    self.content = new content_modal_class();
 });

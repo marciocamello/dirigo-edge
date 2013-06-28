@@ -8,11 +8,81 @@
     
     
     <div class="confirmCancelContainer">
-        <a id="OpenInAdminLink" class="openMidLink" class="left" href="#" target="_blank">Edit in Admin Interface</a>
+        <a id="OpenInAdminLink" class="openMidLink left" href="#" target="_blank">Edit in Admin Interface</a>
+        <a id="contentEditorLink" class="adminRawEdit onScreen left" target="_blank">Code Editor</a>
         <a id="ConfirmAdminContentUpdate" class="right button confirmButton">Save & Update</a>
-        <a class="right button secondary" onclick="$('#AdminEditContentModal').trigger('reveal:close');">Cancel</a>    
+        <a class="right button secondary" onclick="$('#AdminEditContentModal').trigger('reveal:close');">Cancel</a>   
+        <span class="unsavedChanges left">You will lose any unsaved changes.</span> 
     </div>
     
+
+    <a class="close-reveal-modal">&#215;</a>
+</div>
+
+@* Raw editor in modal *@    
+<div id="AdminEditRawContentModal" class="reveal-modal medium">
+    <h3>Edit Module</h3>
+
+    <div id="ModuleRawContentEditContainer"></div>
+    <div class="editContent" data-id="">
+
+        <div class="row" id="ContentRowContainer">
+            <div id="ContentRow" class="twelve columns">
+
+                <dl class="tabs">
+                    <dd class="active"><a href="#Html">HTML</a></dd>
+                    <dd><a href="#CSS">CSS</a></dd>
+                    <dd><a href="#JS">Javascript</a></dd>
+                </dl>
+                
+                <a id="InsertContentImage" href="#" data-reveal-id="InsertImageModal">Insert Image</a>
+
+                <ul class="tabs-content">
+                    @*HTML*@
+                    <li class="active relative editTabArea" id="HtmlTab">
+                        <div class="aceEditArea" id="HTMLContent"></div>
+                    </li>
+
+                    @*CSS*@
+                    <li class="relative editTabArea" id="CSSTab">
+                        <div class="aceEditArea" id="CSSContent"></div>
+                    </li>
+
+                    @*Javascript*@
+                    <li class="relative editTabArea" id="JSTab">
+                        <div class="aceEditArea" id="JSContent"></div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+        
+        <div class="row hide-for-touch">
+            <div class="twelve columns tipContainer">
+                Tip: You can press <kbd>Ctrl - S </kbd> to save within the editor.
+            </div>
+        </div>
+
+    </div>
+
+    <div class="confirmCancelContainer">
+        <a id="wysiwygEditorLink" class="adminEdit onScreen left marginLeft16 " target="_blank">WYSIWIG Editor</a>
+        <span class="unsavedChanges left marginLeft16">You will lose any unsaved changes.</span>
+        <a id="SaveContentButton" class="right button confirmButton" data-url="ModifyModule" data-name="">Save & Update</a>
+        <div id="SaveSpinner" class="standaloneSpinner"></div>
+        <a class="right button secondary" id="cancelModal">Cancel</a>    
+    </div>
+    
+
+    <a class="close-reveal-modal">&#215;</a>
+</div>
+
+@* add modal for image uploading *@
+<div id="InsertImageModal" class="reveal-modal">
+    <h2>Insert Image.</h2>
+
+    <form action="/admin/fileUpload" class="" id="modal-dropzone"></form>
 
     <a class="close-reveal-modal">&#215;</a>
 </div>

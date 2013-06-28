@@ -180,6 +180,7 @@
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_both.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_desc.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_desc_disabled.png" />
+    <Content Include="Areas\Admin\Content\themes\base\adminEdit.css" />
     <Content Include="Areas\Admin\Scripts\adminSave.js" />
     <Content Include="Areas\Admin\Scripts\mediaUploadWidget.js" />
     <Content Include="Content\logo.png" />
