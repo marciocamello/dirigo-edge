@@ -196,16 +196,14 @@ div.smartPanel {
 }
 
 /** Site Admin Styles **/
-a.adminEdit {
+a.adminEdit:not(#wysiwygEditorLink) {
 	background: none repeat scroll 0 0 rgba(1, 167, 186, 0.6);
 	border: 1px solid #DDDDDD;
 	box-shadow: 0 0 4px #CCCCCC;
 	color: #FFFFFF;
 	font-family: 'Open Sans', sans-serif;
-	padding: 2px 5px;
-	position: absolute;
-	right: 0;
-	top: -25px;
+	padding: 0 5px;
+    position: static;
 	opacity: 0.6;
 	transition: opacity .25s ease-in-out;
 	-moz-transition: opacity .25s ease-in-out;
