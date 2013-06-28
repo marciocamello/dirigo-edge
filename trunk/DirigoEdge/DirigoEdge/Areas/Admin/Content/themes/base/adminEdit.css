@@ -8,56 +8,43 @@
 
 li.editTabArea { min-height:300px; }
 
-
-div.adminButtons {
-    position: absolute;
-    right: 40px;
-    top: -25px;
-}
-a.adminRawEdit:not(#contentEditorLink) {
-    background: none repeat scroll 0 0 rgba(1, 167, 186, 0.6);
-    border: 1px solid #DDDDDD;
-    box-shadow: 0 0 4px #CCCCCC;
-    color: #FFFFFF;
-    font-family: 'Open Sans', sans-serif;
-    padding: 0 5px;
-    position: static;
-    opacity: 0.6;
-    transition: opacity .25s ease-in-out;
-    -moz-transition: opacity .25s ease-in-out;
-    -webkit-transition: opacity .25s ease-in-out;
-    z-index: 3;
-    font-size: 14px;
-}
-a.adminRawEdit img.adminIcon {
-    width: 15px;
-}
-
 #InsertContentImage {
     position: absolute;
     right: 15px;
     top: 10px;
 }
 
-a#contentEditorLink {
+#ContentEditorLink {
     clear: left;
-    position: relative;
-    top: 20px;
+	margin: 10px 0 0;
 }
 
 a#wysiwygEditorLink {
-    clear: left;
-    position: relative;
-    top: 20px;
+	background: none repeat scroll 0 0 transparent;
+	border: medium none;
+	box-shadow: none;
+	clear: left;
+	color: #2BA6CB;
+	opacity: 1;
+	padding: 0;
+	position: relative;
+	right: auto;
+	text-decoration: underline;
+	top: 9px;
 }
 
 span.unsavedChanges {
-    clear: left;
-    position: relative;
-    top: 20px;
+	float: left;
+	position: relative;
+	top: 12px;
+	margin-left: 10px;
+	color: #999;
+	font-size: 10px;
 }
-
-.marginLeft16 {
-    margin-left: 16px;
+div.tipContainer {
+	margin: 20px 0;
+	color: #888;
 }
-
+div.tipContainer kbd {
+	margin-right: 4px;
+}

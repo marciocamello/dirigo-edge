@@ -1,11 +1,6 @@
-﻿/// ===========================================================================================
-/// This currently serves as both the blog admin, user admin, and content admin Javascript area
-/// ===========================================================================================
-
-content_modal_class = function () {
+﻿content_modal_class = function () {
 
 };
-
 
 content_modal_class.prototype.initWordWrapEvents = function () {
     var self = this;
@@ -26,16 +21,15 @@ content_modal_class.prototype.initWordWrapEvents = function () {
     });
 };
 
-
 content_modal_class.prototype.initUpdateEditor = function ($html, $css, $js) {
-    var self = this;
 
-    var theme = $("#EditorTheme :selected").attr("value");
-    self.htmlEditor.getSession().setValue($html);
+    this.htmlEditor.getSession().setValue($html);
     $('#HTMLContent textarea').val($html);
-    self.jsEditor.getSession().setValue($js);
+    
+    this.jsEditor.getSession().setValue($js);
     $('#JSContent textarea').val($js);
-    self.cssEditor.getSession().setValue($css);
+    
+    this.cssEditor.getSession().setValue($css);
     $('#CSSContent textarea').val($css);
 };
 
@@ -78,16 +72,6 @@ content_modal_class.prototype.initCodeEditorEvents = function ($html, $css, $js)
             $("#SaveContentButton").trigger("click");
         }
     });
-
-    //self.htmlEditor.commands.addCommand({
-    //    name: 'Fullscreen',
-    //    bindKey: { win: 'Ctrl-F', mac: 'Command-F' },
-    //    exec: function (editor) {
-    //        $("#ContentRowContainer").toggleClass("fullscreen");
-    //    },
-    //    readOnly: true // false if this command should not apply in readOnly mode
-    //});
-
 
     self.cssEditor = ace.edit("CSSContent");
     self.cssEditor.setTheme(theme);
@@ -132,7 +116,7 @@ content_modal_class.prototype.initContentImageUploadEvents = function () {
                 // Highlight the newly placed tag
                 self.htmlEditor.find(imgTag, { backwards: true, });
             }
-        }).css({ 'width': '80%', 'margin-left': '-40%' });
+        });
     };
 
     $("#modal-dropzone").addClass('dropzone').dropzone({
@@ -217,19 +201,18 @@ content_modal_class.prototype.manageContentAdminEvents = function () {
     });
 };
 
-
 content_modal_class.prototype.refreshModuleContent = function (id) {
     /**
      * Reload the div with new html keeping the edit buttons
      */
     $.post('/admin/getModuleData', { id: id }, "json")
-            .done(function (result) {
-                $html = result.html;
-                var $parent = $('.adminEdit[data-id=' + id + ']').closest('div.columns');
-                var $adminEditHtml = $parent.find("div.adminButtons");
+        .done(function (result) {
+            $html = result.html;
+            var $parent = $('.adminEdit[data-id=' + id + ']:not("#WysiwygEditorLink")').closest('div.columns');
+            var $adminEditHtml = $parent.find("div.adminButtons");
 
-                $parent.html($html).prepend($adminEditHtml);
-            });
+            $parent.html($html).prepend($adminEditHtml);
+        });
 };
 
 // Keep at the bottom

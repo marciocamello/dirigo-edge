@@ -1,27 +1,38 @@
 ﻿
 
 
-<div id="AdminEditContentModal" class="reveal-modal medium">
-    <h3>Edit Module</h3>
+<div id="AdminEditContentModal" class="reveal-modal large">
+    
+    <div class="row">
+        <div class="twelve columns">
+            <h3>Edit Module</h3>        
+        </div>
+    </div>
 
     <div id="ModuleContentEditContainer"></div>
     
-    
-    <div class="confirmCancelContainer">
-        <a id="OpenInAdminLink" class="openMidLink left" href="#" target="_blank">Edit in Admin Interface</a>
-        <a id="contentEditorLink" class="adminRawEdit onScreen left" target="_blank">Code Editor</a>
-        <a id="ConfirmAdminContentUpdate" class="right button confirmButton">Save & Update</a>
-        <a class="right button secondary" onclick="$('#AdminEditContentModal').trigger('reveal:close');">Cancel</a>   
-        <span class="unsavedChanges left">You will lose any unsaved changes.</span> 
+    <div class="row">
+        <div class="twelve columns">
+            <div class="confirmCancelContainer">
+                <a id="OpenInAdminLink" class="openMidLink left" href="#" target="_blank">Edit in Admin Interface</a>
+                <a id="ContentEditorLink" class="adminRawEdit onScreen left" target="_blank">Edit in Code Editor</a> <span class="unsavedChanges">(You will lose any unsaved changes.)</span>
+                <a id="ConfirmAdminContentUpdate" class="right button confirmButton">Save & Update</a>
+                <a class="right button secondary" onclick="$('#AdminEditContentModal').trigger('reveal:close');">Cancel</a>
+                
+            </div>        
+        </div>
     </div>
-    
 
     <a class="close-reveal-modal">&#215;</a>
 </div>
 
 @* Raw editor in modal *@    
-<div id="AdminEditRawContentModal" class="reveal-modal medium">
-    <h3>Edit Module</h3>
+<div id="AdminEditRawContentModal" class="reveal-modal large">
+    <div class="row">
+        <div class="twelve columns">
+            <h3>Edit Module</h3>
+        </div>
+    </div>
 
     <div id="ModuleRawContentEditContainer"></div>
     <div class="editContent" data-id="">
@@ -66,14 +77,16 @@
 
     </div>
 
-    <div class="confirmCancelContainer">
-        <a id="wysiwygEditorLink" class="adminEdit onScreen left marginLeft16 " target="_blank">WYSIWIG Editor</a>
-        <span class="unsavedChanges left marginLeft16">You will lose any unsaved changes.</span>
-        <a id="SaveContentButton" class="right button confirmButton" data-url="ModifyModule" data-name="">Save & Update</a>
-        <div id="SaveSpinner" class="standaloneSpinner"></div>
-        <a class="right button secondary" id="cancelModal">Cancel</a>    
+    <div class="row">
+        <div class="twelve columns">
+            <div class="confirmCancelContainer">
+                <a id="WysiwygEditorLink" class="adminEdit onScreen left" target="_blank">Edit in WYSIWYG</a>           
+                <a id="SaveContentButton" class="right button confirmButton" data-url="ModifyModule" data-name="">Save & Update</a>
+                <div id="SaveSpinner" class="standaloneSpinner"></div>
+                <a class="right button secondary" id="cancelModal">Cancel</a>
+            </div>
+        </div>
     </div>
-    
 
     <a class="close-reveal-modal">&#215;</a>
 </div>
