@@ -196,26 +196,35 @@ div.smartPanel {
 }
 
 /** Site Admin Styles **/
-a.adminEdit:not(#wysiwygEditorLink) {
+a.adminEdit {
 	background: none repeat scroll 0 0 rgba(1, 167, 186, 0.6);
 	border: 1px solid #DDDDDD;
 	box-shadow: 0 0 4px #CCCCCC;
 	color: #FFFFFF;
 	font-family: 'Open Sans', sans-serif;
 	padding: 0 5px;
-    position: static;
+	position: absolute;
+	right: 15px;
 	opacity: 0.6;
 	transition: opacity .25s ease-in-out;
 	-moz-transition: opacity .25s ease-in-out;
 	-webkit-transition: opacity .25s ease-in-out;
 	z-index:3;
 	font-size: 14px;
+	top: -25px;
 }
-a.adminEdit:hover {
+a.adminEdit:hover,
+a.adminRawEdit:hover {
 	opacity:1;
 }
+
+div.adminButtons a.adminEdit {
+	position: static;
+}
+
 a.adminEdit.slideShow {
 	right: 14px;
+	padding: 2px 4px;
 }
 div.confirmCancelContainer {
 	margin-top: 10px;
@@ -223,11 +232,52 @@ div.confirmCancelContainer {
 div.confirmCancelContainer a.confirmButton {
 	margin-left: 12px;
 }
-a.openMidLink {
-	position: relative;
-	top: 10px;
-}
 
+div.adminButtons {
+    position: absolute;
+    right: 40px;
+    top: -20px;
+}
+div.adminButtons.singleButton {
+	right: 15px;
+}
+a.adminRawEdit {
+    background: none repeat scroll 0 0 rgba(1, 167, 186, 0.6);
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 0 4px #CCCCCC;
+    color: #FFFFFF;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0 5px;
+    position: static;
+    opacity: 0.6;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+    z-index: 3;
+    font-size: 14px;
+}
+a.adminEdit img.adminIcon {
+    width: 15px;
+}
+div.confirmCancelContainer {
+	overflow: hidden;
+}
+#ContentEditorLink {
+	text-decoration: underline;
+}
+#OpenInAdminLink {
+	margin: 4px 0;
+	display: inline-block;
+}
+#OpenInAdminLink, #ContentEditorLink {
+	text-decoration: underline;
+	color: #2BA6CB;
+	background: transparent;
+	box-shadow: none;
+	border: none;
+	opacity: 1;
+	padding: 0;
+}
 /** CKEditor Fix **/
 a.cke_button, a.cke_dialog_tab_selected, a.cke_dialog_tab {
     box-sizing:content-box;
