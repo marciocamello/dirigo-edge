@@ -78,8 +78,10 @@ namespace DirigoEdge.Utils
 		{
 			using (var context = new DataContext())
 			{
-				return context.SiteSettings.FirstOrDefault().GoogleAnalyticsId;
+				var siteSettings = context.SiteSettings.FirstOrDefault();
+				return siteSettings != null ? siteSettings.GoogleAnalyticsId : "UA-XXXXX-X";
 			}
 		}
+
 	}
 }
