@@ -155,7 +155,7 @@ adminEditor_class.prototype.refreshModuleContent = function (id) {
      */
     $.post('/admin/getModuleData', { id: id }, "json").done(function (result) {
         $html = result.html;
-        var $parent = $('.adminEdit[data-id=' + id + ']:not("#WysiwygEditorLink")').closest('div.columns');
+        var $parent = $('div.adminButtons[data-id=' + id + ']').parent();
 
         var $adminEditHtml = $parent.find("div.adminButtons");
 

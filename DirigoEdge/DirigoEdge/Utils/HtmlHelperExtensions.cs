@@ -13,8 +13,6 @@ namespace MvcHtmlHelpers
 		private const int LINKOFFSETTOP = -20;	// Default Offset for adminEditLink when positioned absolutely
 		private const int LINKOFFSETRIGHT = 15;
 
-
-
 		/// <summary>
 		/// Give the user the ability edit content on screen with a Code Editor. WYSIWYG is not enabled.
 		/// </summary>
@@ -32,12 +30,10 @@ namespace MvcHtmlHelpers
 					if (UserUtils.UserIsAdmin())
 					{
 						value = String.Format(
-							"<div class='adminButtons singleButton'>" +
+							"<div class='adminButtons singleButton' data-id='{0}'>" +
 								"<a class='adminRawEdit onScreen' href='/admin/editmodule/{0}' target='_blank' data-id='{0}'>Edit {{ }}</a>" +
 							"</div>{1}",
 							tempMod.ContentModuleId, tempMod.HTMLContent);
-
-						//value = String.Format("<a class='adminEdit' href='/admin/editmodule/{0}' target='_blank' data-id='{1}' data-html='{2}'>Edit</a>{2}", tempMod.ContentModuleId, tempMod.ContentModuleId, tempMod.HTMLContent);
 					}
 					else
 					{
@@ -81,7 +77,7 @@ namespace MvcHtmlHelpers
 					if (UserUtils.UserIsAdmin())
 					{
                         value = String.Format(
-                            "<div class='adminButtons' style='top:{2}px; right:{3}px;'>" +
+							"<div class='adminButtons' data-id='{0}' style='top:{2}px; right:{3}px;'>" +
 								"<a class='adminEdit onScreen' href='/admin/editmodule/{0}' target='_blank' data-id='{0}'>Edit " + 
 									"<img src='/Areas/Admin/Content/themes/base/Images/icons/edit_white.png' class='adminIcon'>" + 
 								"</a>" +
