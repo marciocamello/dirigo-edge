@@ -20,6 +20,8 @@
         @* ** Keeps viewport scale at 1 - this disables zooming / scaling on mobile phones **
 		       ** Uncomment the line below if you are creating a responsive or mobile site **  *@
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>@ViewBag.Title</title>
 
         @* ** Basic Meta Information ** *@
         @{
@@ -49,8 +51,6 @@
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 
-        <title>@ViewBag.Title</title>
-
         @{ string style = SquishIt.Framework.Bundle.Css()
 				    .Add("~/Content/themes/base/css/normalize.css")
                     .Add("~/Content/themes/base/css/base.css")
@@ -76,8 +76,6 @@
 
         <!-- Google Analytics: change UA-XXXXX-X in site admin to be your site's ID. -->
         @Html.Partial("Partials/GoogleAnalyticsPartial")
-        
-
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -106,9 +104,7 @@
         <!-- Header and Nav -->
         <header class="row">
             <div class="three columns">
-                <h1>                    
-                    @Html.RenderUserContentModuleWithOnScreenEditor("Header Logo Image", 0, -40)                        
-                </h1>
+                @Html.RenderUserContentModuleWithOnScreenEditors("Header Logo Image", 16, 15)                        
             </div>
             <nav class="nine columns">
                 <ul class="nav-bar right">
