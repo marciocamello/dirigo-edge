@@ -183,7 +183,6 @@
     <Content Include="Areas\Admin\Scripts\adminContentEditorModal.js" />
     <Content Include="Areas\Admin\Scripts\adminSave.js" />
     <Content Include="Areas\Admin\Scripts\mediaUploadWidget.js" />
-    <Content Include="BingSiteAuth.xml" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\uploaded\dirigoLogo.jpg" />
     <Content Include="Content\uploaded\Media\ph.txt" />
