@@ -23,7 +23,7 @@ adminEditor_class.prototype.initKeyboardShortcuts = function() {
 
         // 'N' Key hide / show admin edit links
         if (e.which == 110) {
-            $("a.adminEdit").toggle();
+            $("a.adminEdit, div.adminButtons").toggle();
         }
         // 'B' Key hide / show grid overlay
         else if (e.which == 98) {
