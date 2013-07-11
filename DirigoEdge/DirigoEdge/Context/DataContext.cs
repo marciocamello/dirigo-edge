@@ -32,4 +32,7 @@ public class DataContext : DbContext
 
 		// Blog Admin Settings
 		public DbSet<BlogAdminModule> BlogAdminModules { get; set; }
+
+		// Content Page Revisions
+		public DbSet<ContentPageRevision> ContentPageRevisions { get; set; }
     }

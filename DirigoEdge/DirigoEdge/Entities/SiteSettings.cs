@@ -16,5 +16,9 @@ namespace DirigoEdge.Entities
 		public virtual bool SearchIndex { get; set; }
 		
 		public virtual string GoogleAnalyticsId { get; set; }
+
+		// Content Page Revisions
+		public virtual bool ContentPageRevisionsEnabled { get; set; }
+		public virtual int ContentPageRevisionsRetensionCount { get; set; } // Keep latest x revisions
 	}
 }

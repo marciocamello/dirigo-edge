@@ -38,3 +38,11 @@
     <h4>SEO / Meta</h4>
     <a href="javascript:void(0);" data-reveal-id="SEOMetaModal">Set Meta Information</a>
 </div>
+
+<div class="panel reviewRevisions">
+    <h4>Revisions</h4>
+    
+    <div id="RevisionsList">
+        @Html.Partial("Partials/RevisionsListInnerPartial", Model.Revisions)
+    </div>
+</div>

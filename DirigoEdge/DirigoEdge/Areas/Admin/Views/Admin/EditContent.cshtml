@@ -51,6 +51,14 @@
                         <label for="WordWrap"><input type="checkbox" id="WordWrap" style="display: none;" @Checked><span class="custom checkbox"></span> WordWrap</label>    
                     </form>
                 </div>
+
+                <div class="saveContainer">
+                    <a id="SaveContentButton" class="button mobileMarginBottom">Save</a>
+                    <a id="PreviewContentButton" class="secondary button mobileMarginBottom">Preview</a>
+                    <div id="SaveSpinner" class="standaloneSpinner"></div>
+                </div>
+
+
             </div>
 
         </div>
@@ -59,15 +67,7 @@
             @Html.Partial("~/Areas/Admin/Views/Shared/EditContentSettingsPartial.cshtml")
         </div>
 
-    </div>
-
-    <div class="row">
-        <div class="twelve columns">
-            <a id="SaveContentButton" class="button mobileMarginBottom">Save</a>
-            <a id="PreviewContentButton" class="secondary button mobileMarginBottom">Preview</a>
-            <div id="SaveSpinner" class="standaloneSpinner"></div>
-        </div>        
-    </div>
+    </div>    
 
 </div>
 
@@ -83,9 +83,11 @@
 
     @Html.Partial("Partials/InsertImageModalPartial")
 
+    @Html.Partial("Partials/RevisionDetailPartial")
+
     <div id="SEOMetaModal" class="reveal-modal medium">
         <h2>SEO / Meta</h2>
-        <p class="lead">Set your blog's meta information</p>
+        <p class="lead">Set your content's meta information</p>
 
         <label class="has-tip tip-top" title="Commonly used by search engines to display preview snippets for a given page.">Meta Description</label>
         <input id="MetaDescription" type="text" placeholder="" autocomplete=off value="@Model.ThePage.MetaDescription">

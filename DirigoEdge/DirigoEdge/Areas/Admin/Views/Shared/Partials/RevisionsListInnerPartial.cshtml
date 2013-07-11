@@ -1,0 +1,11 @@
+﻿@model List<DirigoEdge.Entities.ContentPageRevision>
+<ul>
+    @{
+        foreach (var rev in Model)
+        {
+            <li>
+                <a href="javascript:void(0);" data-id="@rev.ContentPageRevisionId">@String.Format("{0:dd MMMM, yyyy @ HH:mm}", rev.DateCreated)</a><span>by @rev.AuthorName</span>
+            </li>
+        }
+    }
+</ul>

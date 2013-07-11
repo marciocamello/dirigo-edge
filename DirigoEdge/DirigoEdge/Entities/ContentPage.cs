@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using DirigoEdge.Entities;
 
 public class ContentPage
 {
@@ -25,4 +27,7 @@ public class ContentPage
 	public virtual String OGUrl { get; set; }
 	public virtual String RobotsNoFollow { get; set; }
 	public virtual String Canonical { get; set; }
+
+	// Keep track of changes / revisions
+	public virtual ICollection<ContentPageRevision> Revisions { get; set; }
 }

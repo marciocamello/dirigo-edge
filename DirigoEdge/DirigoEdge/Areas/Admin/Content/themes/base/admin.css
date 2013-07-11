@@ -269,9 +269,6 @@ div.manageBlogs table td.actions { min-width:166px; }
 #FeaturedImageModal p.alt {
 	margin-top:12px;
 }
-#ContentRowContainer {
-	margin-bottom:12px;
-}
 /** admin sidebar**/
 #sidebar ul.tabs li {
 	position:relative;
@@ -474,5 +471,31 @@ ul.imageList li a {
 }
 
 ul.imageList li a:hover {
+	text-decoration: underline;
+}
+
+/*Site Settings*/
+div.siteSettings div.custom.dropdown {
+	display: inline-block;
+}
+/*Revisions Listing*/
+#RevisionsList {
+	max-height: 88px;
+	overflow: auto;
+}
+
+#RevisionsList ul li {
+	list-style: none;
+}
+#RevisionsList ul li a {
+	text-decoration: underline;
+	font-size: 12px;
+}
+#RevisionsList ul li span {
+	font-size: 12px;
+	color: #444;
+	margin-left: 6px;
+}
+#UseRevision {
 	text-decoration: underline;
 }
