@@ -1,5 +1,5 @@
 ﻿/// ===========================================================================================
-/// Class allows a page's settings to be saved via AJAX basec strictly on html5 data attributs
+/// Class allows a page's settings to be saved via AJAX based strictly on html5 data attributs
 /// ===========================================================================================
 
 save_class = function () {
@@ -55,8 +55,14 @@ save_class.prototype.getData = function() {
 
         data.entity[field] = value;
     });
+    
+    // Select Boxes (single value)
+    $("select.saveField").each(function () {
+        var field = $(this).attr("data-field");
+        var value = $(this).find("option:selected").val();
 
-    console.info(data);
+        data.entity[field] = value;
+    });
 
     return data;
 };

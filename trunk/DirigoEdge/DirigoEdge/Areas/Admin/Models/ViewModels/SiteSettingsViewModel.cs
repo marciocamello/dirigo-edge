@@ -9,6 +9,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 	public class SiteSettingsViewModel
 	{
 		public SiteSettings Settings;
+		public Dictionary<int, bool> SiteRetensionTimeValues; // Count / IsSelected
 
 		public SiteSettingsViewModel()
 		{
@@ -29,6 +30,14 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 					context.SaveChanges();
 				}
 			}
+
+			SiteRetensionTimeValues = new Dictionary<int, bool>
+				{
+					{ 5, Settings.ContentPageRevisionsRetensionCount == 5 },
+					{ 10, Settings.ContentPageRevisionsRetensionCount == 10 },
+					{ 25, Settings.ContentPageRevisionsRetensionCount == 25 },
+					{ 50, Settings.ContentPageRevisionsRetensionCount == 50 }
+				};
 		}
 	}
 }

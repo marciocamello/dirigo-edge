@@ -15,8 +15,6 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 		public ManageMediaViewModel(string directory)
 		{
 			BlogImages = new List<string>();
-
-			
 			
 			var images = Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories).Where(s => supportedExtensions.Contains(Path.GetExtension(s).ToLower()));
 

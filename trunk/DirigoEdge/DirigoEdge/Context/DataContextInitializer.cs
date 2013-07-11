@@ -41,7 +41,9 @@ public class DataContextInitializer : CreateDatabaseIfNotExists<DataContext>
 
 		var siteSettings = new SiteSettings()
 		{
-			SearchIndex = true
+			SearchIndex = true,
+			ContentPageRevisionsEnabled = false,
+			ContentPageRevisionsRetensionCount = 10
 		};
 		context.SiteSettings.Add(siteSettings);
 	}

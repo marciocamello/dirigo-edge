@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using DirigoEdge.Entities;
 
 namespace DirigoEdge.Areas.Admin.Controllers
 {
@@ -140,6 +141,26 @@ namespace DirigoEdge.Areas.Admin.Controllers
 						editedContent.Canonical = entity.Canonical;
 
 						context.SaveChanges();
+
+						// Save a Page Revision if enabled
+						if (Utils.UserUtils.PageRevisionsEnabled())
+						{
+							var revision = new ContentPageRevision()
+								{
+									AuthorName = Utils.UserUtils.CurrentMembershipUsername(),
+									ContentHtml = entity.HTMLContent,
+									ContentPageId = entity.ContentPageId,
+									DateCreated = DateTime.Now
+								};
+
+							context.ContentPageRevisions.Add(revision);
+							
+							context.SaveChanges();
+						}
+
+
+
+						
 					}
 				}
 			}
@@ -354,4 +375,3 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		public List<BlogAdminModule> AdminModulesColumn2 { get; set; }
 	}
 }
-

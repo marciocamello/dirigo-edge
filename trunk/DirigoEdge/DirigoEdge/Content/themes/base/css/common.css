@@ -16,10 +16,14 @@ div.container:after {
     visibility: hidden;
 }
 
+/* Useful for .row divs to show overflow*/
+div.visibleOverflow {
+	overflow: visible;
+}
+
 /*
 * Image replacement
 */
-
 .ir {
     background-color: transparent;
     border: 0;

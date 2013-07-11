@@ -17,6 +17,13 @@
     <div class="row" id="ContentRowContainer">
         <div id="ContentRow" class="nine columns">
             <textarea id="CKEDITCONTENT" cols="40" rows="20" autocomplete="off">@Model.ThePage.HTMLContent</textarea>
+            
+            <div class="saveContainer" style="margin-top:18px;">
+                <a id="SaveContentButton" class="button">Save</a>
+                <a id="PreviewContentButton" class="secondary button">Preview</a>
+                <div id="SaveSpinner" class="standaloneSpinner"></div>
+            </div>
+
         </div>
 
         <div class="three columns">
@@ -24,15 +31,7 @@
             @Html.Partial("~/Areas/Admin/Views/Shared/EditContentSettingsPartial.cshtml")
         </div>
 
-    </div>
-
-    <div class="row">
-        <div class="twelve columns">
-            <a id="SaveContentButton" class="button">Save</a>
-            <a id="PreviewContentButton" class="secondary button">Preview</a>
-            <div id="SaveSpinner" class="standaloneSpinner"></div>
-        </div>
-    </div>
+    </div>   
 
 </div>
 
@@ -41,6 +40,9 @@
 }
 
 @section Modals {
+    
+    @Html.Partial("Partials/RevisionDetailPartial")
+
     <div id="SEOMetaModal" class="reveal-modal medium">
         <h2>SEO / Meta</h2>
         <p class="lead">Set your blog's meta information</p>

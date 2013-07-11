@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
+using DirigoEdge.Entities;
 using DirigoEdge.Models.DataModels;
 
 namespace DirigoEdge.Areas.Admin.Models.ViewModels
@@ -11,6 +12,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 		public ContentPage ThePage;
 		public Dictionary<string, ContentTemplate> Templates;
 		public bool UseWordWrap;
+		public List<ContentPageRevision> Revisions;
 
 		public EditContentViewModel(int id)
 		{
@@ -28,6 +30,8 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 				}
 
 				Templates = new ContentTemplates().Templates;
+
+				Revisions = context.ContentPageRevisions.Where(x => x.ContentPageId == id).OrderByDescending(x => x.DateCreated).ToList();
 			}
 		}
 	}

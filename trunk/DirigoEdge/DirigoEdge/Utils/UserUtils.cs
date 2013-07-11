@@ -17,6 +17,13 @@ namespace DirigoEdge.Utils
 			return Roles.IsUserInRole("Administrators");
 		}
 
+		public static string CurrentMembershipUsername()
+		{
+			MembershipUser u = Membership.GetUser(HttpContext.Current.User.Identity.Name);
+
+			return u.UserName;
+		}
+
 		public static bool UseDisqusComments()
 		{
 			using (var context = new DataContext())
@@ -80,6 +87,15 @@ namespace DirigoEdge.Utils
 			{
 				var siteSettings = context.SiteSettings.FirstOrDefault();
 				return siteSettings != null ? siteSettings.GoogleAnalyticsId : "UA-XXXXX-X";
+			}
+		}
+
+		public static bool PageRevisionsEnabled()
+		{
+			using (var context = new DataContext())
+			{
+				var siteSettings = context.SiteSettings.FirstOrDefault();
+				return siteSettings != null && siteSettings.ContentPageRevisionsEnabled;
 			}
 		}
 

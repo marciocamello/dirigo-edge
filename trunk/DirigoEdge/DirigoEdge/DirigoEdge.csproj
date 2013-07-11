@@ -186,6 +186,7 @@
     <Content Include="Areas\Admin\Content\themes\base\adminEdit.css" />
     <Content Include="Areas\Admin\Scripts\adminContentEditorModal.js" />
     <Content Include="Areas\Admin\Scripts\adminSave.js" />
+    <Content Include="Areas\Admin\Scripts\siteSettings.js" />
     <Content Include="Areas\Admin\Scripts\mediaUploadWidget.js" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\uploaded\dirigoLogo.jpg" />
@@ -205,6 +206,7 @@
     <Compile Include="Entities\ContentPage.cs" />
     <Compile Include="Entities\ContentModule.cs" />
     <Compile Include="Entities\BlogAdminModules.cs" />
+    <Compile Include="Entities\ContentPageRevision.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\SiteSettings.cs" />
     <Compile Include="Entities\SlideshowModule.cs" />
@@ -935,6 +937,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Blog\BlogsByUser.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\RevisionDetailPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\RevisionsListInnerPartial.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

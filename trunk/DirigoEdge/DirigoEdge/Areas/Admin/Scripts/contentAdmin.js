@@ -27,8 +27,10 @@ content_class.prototype.initPageEvents = function() {
     if ($("#InsertImageModal").length > 0) {
         this.initContentImageUploadEvents();
     }
+    
+    // View / Act on Revisions
+    this.initRevisionEvents();
 };
-
 
 content_class.prototype.initWordWrapEvents = function () {
     var self = this;
@@ -158,15 +160,6 @@ content_class.prototype.initCodeEditorEvents = function() {
             $("#SaveContentButton").trigger("click");
         }
     });
-    //self.htmlEditor.commands.addCommand({
-    //    name: 'Fullscreen',
-    //    bindKey: { win: 'Ctrl-F', mac: 'Command-F' },
-    //    exec: function (editor) {
-    //        $("#ContentRowContainer").toggleClass("fullscreen");
-    //    },
-    //    readOnly: true // false if this command should not apply in readOnly mode
-    //});
-
 
     self.cssEditor = ace.edit("CSSContent");
     self.cssEditor.setTheme(theme);
@@ -298,12 +291,71 @@ content_class.prototype.manageContentAdminEvents = function() {
             success: function(data) {
                 var noty_id = noty({ text: 'Changes saved successfully.', type: 'success', timeout: 1200 });
                 $("#SaveSpinner").hide();
+                
+                // Refresh Revisions list
+                self.refreshRevisionListing();
             },
             error: function(data) {
                 var noty_id = noty({ text: 'There was an error processing your request.', type: 'error' });
                 $("#SaveSpinner").hide();
             }
         });
+    });
+};
+
+content_class.prototype.initRevisionEvents = function () {
+
+    var self = this;
+
+    // Show the revision modal and insert proper html into the text area
+    $("#RevisionsList ul li a").live("click", function () {
+        var revisionId = $(this).attr("data-id");
+        
+        $("#RevisionDetailModal").reveal();
+
+        self.setRevisionModalHtml(revisionId);
+    });
+    
+    // Use revision in Modal
+    $("#UseRevision").click(function() {
+        var html = $("#RevisionDetailModal textarea").text();
+        
+        // Code Editor
+        if (self.htmlEditor != null) {
+            self.htmlEditor.setValue(html);
+        }
+        // Wysiwyg
+        else {
+            CKEDITOR.instances.CKEDITCONTENT.setData(html);
+        }
+        
+        $('#RevisionDetailModal').trigger('reveal:close');
+    });
+};
+
+content_class.prototype.refreshRevisionListing = function() {
+    var $listContainer = $("#RevisionsList");
+    var pageId = $("#Main div.editContent").attr("data-id");
+
+    if ($listContainer.length < 1 || pageId < 1) { return; }
+
+    $.get('/ContentAdmin/GetRevisionList/' + pageId, function (data) {
+        $listContainer.html(data.html);
+    });
+};
+
+content_class.prototype.setRevisionModalHtml = function (revisionId) {
+
+    $.ajax({
+        url: "/ContentAdmin/GetRevisionHtml",
+        type: "POST",
+        data: { revisionId: revisionId },
+        success: function (data) {
+            $("#RevisionDetailModal textarea").text(data.html);
+        },
+        error: function (data) {
+           noty({ text: 'There was an error processing your request.', type: 'error' });
+        }
     });
 };
 

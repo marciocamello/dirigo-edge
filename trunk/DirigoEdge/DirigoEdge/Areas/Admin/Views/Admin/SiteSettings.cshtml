@@ -43,20 +43,64 @@
         <div class="eight columns  mobile-two">
             <form class="custom">
                 @{
-                    string siChecked = Model.Settings.SearchIndex ? "checked = checked" : "";
+                    string isChecked = Model.Settings.SearchIndex ? "checked = checked" : "";
                 }
-                <input class="custom saveField" data-field="SearchIndex" type="checkbox" @siChecked />
+                <input class="custom saveField" data-field="SearchIndex" type="checkbox" @isChecked />
                 <div class="settingsComment hide-for-small">Allow search engines to index this site.</div>
             </form>
             
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="four columns mobile-two">
+            <label class="right inline">Enable Content Revisions</label>
+        </div>
+        <div class="eight columns  mobile-two">
+            <form class="custom">
+                @{
+                    string iChecked = Model.Settings.ContentPageRevisionsEnabled ? "checked = checked" : "";
+                }
+                <input class="custom saveField" data-field="ContentPageRevisionsEnabled" type="checkbox" @iChecked />
+                <div class="settingsComment hide-for-small">*Disabling Revisions will delete all existing revisions!</div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="four columns mobile-two">
+            <label class="right inline">Revision Retension Policy</label>
+        </div>
+        <div class="eight columns  mobile-two">
+            <form class="custom">
+                Keep the latest
+                <select class="saveField" data-field="ContentPageRevisionsRetensionCount">
+                    
+                    @{
+                        foreach (var kvp in Model.SiteRetensionTimeValues)
+                        {
+                            string selected = kvp.Value ? "selected='selected'" : "";
+                            <option @selected>@kvp.Key</option>    
+                        }
+                    }
+                </select>
+                revisions
+            </form>
+        </div>
+    </div>
         
     <div class="row">
         <div class="twelve columns">
-            <a class="button mobileMarginBottom savePageButton" data-url="/settings/sitesettings/">Save</a>
-            <div id="SaveIndicator"></div>
+            <div class="contain left">
+                <a class="button mobileMarginBottom savePageButton" data-url="/settings/sitesettings/">Save</a>
+                <div id="SaveIndicator"></div>
+            </div>
         </div>
     </div>
     
 </div>
+
+@section Scripts {
+    <script src="/Areas/Admin/Scripts/siteSettings.js"></script>
+}
