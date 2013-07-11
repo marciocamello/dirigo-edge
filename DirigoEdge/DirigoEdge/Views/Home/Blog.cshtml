@@ -38,14 +38,14 @@
             <ul class="side-nav">
                 @{
                         
-                        foreach (var cat in Model.Categories)
-                        {
-                            string catName = cat.TheCategory.CategoryName;
+                    foreach (var cat in Model.Categories)
+                    {
+                        string catName = cat.TheCategory.CategoryName;
                             
-                    <li>
-                        <a href="/Blog/Categories/@ContentUtils.GetFormattedUrl(catName)">@catName (@cat.BlogCount)</a>
-                    </li>
-                        }
+                        <li>
+                            <a href="/Blog/Categories/@ContentUtils.GetFormattedUrl(catName)">@catName (@cat.BlogCount)</a>
+                        </li>
+                    }
                 }
             </ul>
             }

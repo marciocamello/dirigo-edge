@@ -31,7 +31,14 @@ namespace DirigoEdge.Controllers
 			}
         }
 
-		public ActionResult Categories(string category)
+	    public ActionResult User(string username)
+	    {
+		    var model = new BlogsByUserViewModel(username);
+
+		    return View("~/Views/Blog/BlogsByUser.cshtml", model);
+	    }
+
+	    public ActionResult Categories(string category)
 		{
 			// Blog Listing Homepage
 			if (String.IsNullOrEmpty(category))
