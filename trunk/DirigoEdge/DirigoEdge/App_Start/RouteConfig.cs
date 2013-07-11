@@ -34,6 +34,14 @@ namespace DirigoEdge
 				new { controller = "Blog", action = "Categories", category = UrlParameter.Optional } // Parameter defaults
 			);
 
+			// Blog By Users View
+			// Ex: dirigodev.com/blog/user/jberry/
+			routes.MapRoute(
+				"Blog By User View", // Route name
+				"blog/user/{username}", // URL with parameters
+				new { controller = "Blog", action = "User", username = UrlParameter.Optional } // Parameter defaults
+			);
+
 			// Blog RSS Feed
 			routes.MapRoute(
 				"Blog RSS New Feeds", // Route name

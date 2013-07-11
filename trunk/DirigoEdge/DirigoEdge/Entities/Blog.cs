@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using DirigoEdge.Utils;
 
 public class Blog
 {
@@ -29,4 +30,8 @@ public class Blog
     public virtual Boolean IsFeatured { get; set; }
     public virtual String PermaLink { get; set; }
     public virtual String MainCategory { get; set; }
+
+	public String BlogAuthorUrl {
+		get { return "/blog/user/" + ContentUtils.GetFormattedUrl(Author); }
+	}
 }
