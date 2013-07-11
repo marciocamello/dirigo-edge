@@ -339,15 +339,18 @@ content_class.prototype.refreshRevisionListing = function() {
 
     if ($listContainer.length < 1 || pageId < 1) { return; }
 
-    $.get('/ContentAdmin/GetRevisionList/' + pageId, function (data) {
+    common.showAjaxLoader($listContainer);
+
+    $.get('/contentadmin/getrevisionlist/' + pageId, function (data) {
         $listContainer.html(data.html);
+        common.hideAjaxLoader($listContainer);
     });
 };
 
 content_class.prototype.setRevisionModalHtml = function (revisionId) {
 
     $.ajax({
-        url: "/ContentAdmin/GetRevisionHtml",
+        url: "/contentadmin/getrevisionhtml",
         type: "POST",
         data: { revisionId: revisionId },
         success: function (data) {
