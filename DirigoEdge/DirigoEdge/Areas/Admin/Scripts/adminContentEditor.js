@@ -167,5 +167,4 @@ adminEditor_class.prototype.refreshModuleContent = function (id) {
 $(document).ready(function () {
     adminEdit = new adminEditor_class();
     adminEdit.initPageEvents();
-    self.content = new content_modal_class();
 });
