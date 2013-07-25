@@ -21,19 +21,13 @@ content_modal_class.prototype.initWordWrapEvents = function () {
     });
 };
 
-content_modal_class.prototype.initUpdateEditor = function ($html, $css, $js) {
+content_modal_class.prototype.initUpdateEditor = function ($html) {
 
     this.htmlEditor.getSession().setValue($html);
     $('#HTMLContent textarea').val($html);
-    
-    this.jsEditor.getSession().setValue($js);
-    $('#JSContent textarea').val($js);
-    
-    this.cssEditor.getSession().setValue($css);
-    $('#CSSContent textarea').val($css);
 };
 
-content_modal_class.prototype.initCodeEditorEvents = function ($html, $css, $js) {
+content_modal_class.prototype.initCodeEditorEvents = function ($html) {
     var self = this;
 
     // Init Code Editor
@@ -46,24 +40,6 @@ content_modal_class.prototype.initCodeEditorEvents = function ($html, $css, $js)
     self.htmlEditor.setShowInvisibles(true);
     self.htmlEditor.getSession().setValue($html);
 
-    // Switch to CSS
-    self.htmlEditor.commands.addCommand({
-        name: 'switchTab',
-        bindKey: { win: 'Ctrl-2', mac: 'Command-2' },
-        exec: function (editor) {
-            $("a[href=#CSS]").trigger("click");
-            $("#CSSContent textarea").focus();
-        }
-    });
-    // Switch to JS
-    self.htmlEditor.commands.addCommand({
-        name: 'switchTab',
-        bindKey: { win: 'Ctrl-3', mac: 'Command-3' },
-        exec: function (editor) {
-            $("a[href=#JS]").trigger("click");
-            $("#JSContent textarea").focus();
-        }
-    });
     // Save
     self.htmlEditor.commands.addCommand({
         name: 'Save',
@@ -73,33 +49,10 @@ content_modal_class.prototype.initCodeEditorEvents = function ($html, $css, $js)
         }
     });
 
-    self.cssEditor = ace.edit("CSSContent");
-    self.cssEditor.setTheme(theme);
-    self.cssEditor.getSession().setMode("ace/mode/css");
-    self.cssEditor.getSession().setValue($css);
-
-    // Temp test
-    self.cssEditor.commands.addCommand({
-        name: 'switchTab1',
-        bindKey: { win: 'Ctrl-1', mac: 'Command-1' },
-        exec: function (editor) {
-            $("a[href=#Html]").trigger("click");
-            $("#HTMLContent textarea").focus();
-        },
-        readOnly: true // false if this command should not apply in readOnly mode
-    });
-
-    self.jsEditor = ace.edit("JSContent");
-    self.jsEditor.setTheme(theme);
-    self.jsEditor.getSession().setMode("ace/mode/javascript");
-    self.jsEditor.getSession().setValue($js);
-
     // Change editor Theme
     $("#EditorTheme").change(function () {
         var theme = $(this).attr("value");
         self.htmlEditor.setTheme(theme);
-        self.cssEditor.setTheme(theme);
-        self.jsEditor.setTheme(theme);
     });
 };
 
@@ -138,8 +91,6 @@ content_modal_class.prototype.manageContentAdminEvents = function () {
     // Save Content Button
     $("#SaveContentButton").click(function () {
         var htmlContent;
-        var cssContent;
-        var jsContent;
         var template = $("#ContentTemplateSelect option:selected").attr("value");
         var isBasic;
         var id = $("div.editContent").attr("data-id");
@@ -147,8 +98,6 @@ content_modal_class.prototype.manageContentAdminEvents = function () {
 
         // advanced editor
         htmlContent = self.htmlEditor.getValue();
-        cssContent = self.cssEditor.getValue();
-        jsContent = self.jsEditor.getValue();
         isBasic = false;
       
         var data = {
@@ -158,8 +107,6 @@ content_modal_class.prototype.manageContentAdminEvents = function () {
                 DisplayName: contentName,
                 ModuleName: contentName,
                 HTMLContent: htmlContent,
-                JSContent: jsContent,
-                CSSContent: cssContent,
                 Template: template,
                 PublishDate: $("#PublishDate").attr("value"),
                 Title: $("#PageTitle").attr("value"),
@@ -177,7 +124,7 @@ content_modal_class.prototype.manageContentAdminEvents = function () {
 
         var url = $(this).attr("data-url") || 'ModifyContent';
         $.ajax({
-            url: "/BlogAdmin/" + url,
+            url: "/blogadmin/" + url,
             type: "POST",
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
