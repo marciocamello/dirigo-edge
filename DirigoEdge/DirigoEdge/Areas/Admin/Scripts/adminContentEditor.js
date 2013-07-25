@@ -87,8 +87,6 @@ adminEditor_class.prototype.initEditModulePopupEvent = function () {
             $.post('/admin/getModuleData', { id: $(this).attr("data-id") }, "json")
                 .done(function (result) {
                     $html = result.html;
-                    $js = result.js;
-                    $css = result.css;
                     
                     $('.editContent').attr('data-id', self.dataEditingId);
                     $("#SaveContentButton").attr('data-name', result.title);
@@ -96,11 +94,11 @@ adminEditor_class.prototype.initEditModulePopupEvent = function () {
                     if (typeof(self.content) == 'undefined') {
                         self.content = new content_modal_class();
                         self.content.manageContentAdminEvents();
-                        self.content.initCodeEditorEvents($html, $css, $js);
+                        self.content.initCodeEditorEvents($html);
                         self.content.initWordWrapEvents();
                         self.content.initContentImageUploadEvents();
                     } else {
-                        self.content.initUpdateEditor($html, $css, $js);
+                        self.content.initUpdateEditor($html);
                     }
                 });
 
