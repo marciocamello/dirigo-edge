@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace DirigoEdge.Utils
@@ -17,7 +18,7 @@ namespace DirigoEdge.Utils
 		{
 			string output = String.Empty;
 
-			using (DataContext context = new DataContext())
+			using (var context = new DataContext())
 			{
 				var tempList = context.ContentModules.Where(x => x.ModuleName == name).ToList();
 
@@ -26,7 +27,7 @@ namespace DirigoEdge.Utils
 					output = tempList.FirstOrDefault().HTMLContent;
 
 					// Give admins a shortcut to edit content
-					if (Utils.UserUtils.UserIsAdmin())
+					if (UserUtils.UserIsAdmin())
 					{
 						output = String.Format("<a class='adminEdit' href='/admin/editmodule/{0}' target='_blank'>Edit</a>", tempList.FirstOrDefault().ContentModuleId) + output;
 					}
@@ -34,6 +35,39 @@ namespace DirigoEdge.Utils
 			}
 
 			return output;
+		}
+
+		/// <summary>
+		/// Return the html with any included modules inserted into the html
+		/// </summary>
+		/// <param name="pageContent"></param>
+		/// <returns></returns>
+		public static string GetFormattedPageContent(string pageContent)
+		{
+			if (String.IsNullOrEmpty(pageContent))
+			{
+				return pageContent;
+			}
+
+			// pull everything in-between brackets. Ex : [text] will extract "text".
+			const string pattern = @"\[(.*?)\]";
+			var matches = Regex.Matches(pageContent, pattern);
+
+			using (var context = new DataContext())
+			{
+				// Run through each matched tag and replace with module html if found. Otherwise leave the tag alone
+				foreach (Match m in matches)
+				{
+					var tag = m.Groups[1].ToString();
+					var module = context.ContentModules.Where(x => x.ModuleName == tag).FirstOrDefault();
+					if (module != null)
+					{
+						pageContent = pageContent.Replace("[" + tag + "]", module.HTMLContent);
+					}
+				}
+			}
+
+			return pageContent;
 		}
 
 		/// <summary>
@@ -47,10 +81,8 @@ namespace DirigoEdge.Utils
 			{
 				return String.Empty;
 			}
-			else
-			{
-				return blogTitle.ToLower().Replace(" ", ContentGlobals.BLOGDELIMMETER);
-			}
+			
+			return blogTitle.ToLower().Replace(" ", ContentGlobals.BLOGDELIMMETER);
 		}
 	}
 }
