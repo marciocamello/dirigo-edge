@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using DirigoEdge.Entities;
+using DirigoEdge.Utils;
 
 public class ContentPage
 {
@@ -12,6 +13,18 @@ public class ContentPage
 	public virtual String Permalink { get; set; }
 
 	public virtual String HTMLContent { get; set; }
+
+	/// <summary>
+	/// Returns Html Content with included module html, if any. Use this when outputting to a page
+	/// </summary>
+	public String HTMLContentFormatted
+	{
+		get
+		{
+			return ContentUtils.GetFormattedPageContent(HTMLContent);
+		}
+	}
+
 	public virtual String CSSContent { get; set; }
 	public virtual String JSContent { get; set; }
 	public virtual DateTime? CreateDate { get; set; }

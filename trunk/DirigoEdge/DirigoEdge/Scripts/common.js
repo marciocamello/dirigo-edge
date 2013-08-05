@@ -4,6 +4,12 @@
 
 common_class.prototype.initPageEvents = function() {
 
+    // Setup console.log if it does not exist
+    if (typeof console == "undefined") {
+        window.console = {
+            log: function () { }
+        };
+    }
 
 };
 
