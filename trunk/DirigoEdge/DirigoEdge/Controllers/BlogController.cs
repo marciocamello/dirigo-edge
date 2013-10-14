@@ -63,7 +63,7 @@ namespace DirigoEdge.Controllers
 				var blog = context.Blogs.FirstOrDefault(x => x.IsActive == true);
 				string blogUrl = "http://" + HttpContext.Request.Url.Host + "/blog/";
 
-				var postItems = context.Blogs.Where(p => p.IsActive == true).OrderBy(p => p.Date).Take(25).ToList()
+				var postItems = context.Blogs.Where(p => p.IsActive == true).OrderByDescending(p => p.Date).Take(25).ToList()
 					.Select(p => new SyndicationItem(p.Title, p.HtmlContent, new Uri(blogUrl + p.Title)));
 
 
