@@ -82,7 +82,7 @@ blog_class.prototype.initBlogAdminModuleEvents = function () {
     });
 
     // Collapse widgets
-    $("div.connectedSortable div.panel h4").click(function() {
+    $("div.editBlog div.connectedSortable div.panel h4").click(function() {
         $(this).parent().toggleClass("collapsed");
 
         // fire off save event

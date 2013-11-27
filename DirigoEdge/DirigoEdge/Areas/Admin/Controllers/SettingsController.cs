@@ -57,5 +57,27 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
 			return result;
 		}
+
+		[Authorize(Roles = "Administrators")]
+		public JsonResult FeatureSettings(FeatureSettings entity)
+		{
+			var result = new JsonResult();
+
+			using (var context = new DataContext())
+			{
+				var featureSettings = context.FeatureSettings.FirstOrDefault();
+				if (featureSettings != null)
+				{
+					featureSettings.EventsEnabled = entity.EventsEnabled;
+
+					context.SaveChanges();
+
+					// Bust the site settings cache for events since we modified it's value
+					Utils.SiteSettingsUtils.EventsEnabled(true);
+				}
+			}
+
+			return result;
+		}
     }
 }

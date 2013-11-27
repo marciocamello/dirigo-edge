@@ -37,16 +37,82 @@ namespace DirigoEdge.Utils
 			return output;
 		}
 
+        /// <summary>
+        /// Return the html with any included static or dynamic modules inserted into the html.
+        /// </summary>
+        /// <param name="pageContent"></param>
+        /// <returns>Html with module html and scripts in place</returns>
+        public static string GetFormattedPageContent(string pageContent)
+        {
+            if (String.IsNullOrEmpty(pageContent))
+            {
+                return pageContent;
+            }
+
+            // pull everything in-between brackets. Ex : [text] will extract "text".
+            const string pattern = @"\[(.*?)\]";
+            var matches = Regex.Matches(pageContent, pattern);
+
+            using (var context = new DataContext())
+            {
+                // Run through each matched tag and replace with module html if found. Otherwise leave the tag alone
+                foreach (Match m in matches)
+                {
+                    var tag = m.Groups[1].ToString();
+
+                    var module = context.ContentModules.Where(x => x.ModuleName == tag).FirstOrDefault();
+
+                    if (module != null)
+                    {
+                        string htmlContent = String.Format("<div class='shortCodeInsert' data-name='{0}'>{1}</div>", module.ModuleName,
+                                                           module.HTMLContent);
+
+                        // May want to append edit button here if admin
+                        htmlContent += "<script class='moduleScript'>" + module.JSContent + "</script>";
+
+                        pageContent = pageContent.Replace("[" + tag + "]", htmlContent);
+                    }
+                    // Otherwise check dynamic modules
+                    else
+                    {
+                        DynamicModules dm = DynamicModules.Instance;
+
+                        if (dm.GetDynamicModuleList().ContainsKey(tag))
+                        {
+                            var list = dm.GetDynamicModuleList();
+                            if (list.ContainsKey(tag))
+                            {
+                                string htmlContent = String.Format("<div class='dynamicCodeInsert editor-removable {2}' data-name='{0}'>{1}</div>", list[tag].GetModuleName(),
+                                                           list[tag].GetHtml(), list[tag].GetCSSClass());
+
+                                pageContent = pageContent.Replace("[" + tag + "]", htmlContent);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return pageContent;
+        }
+
 		/// <summary>
-		/// Return the html with any included modules inserted into the html
+		/// Return the html with any included modules inserted into the html. Script data is not included in html.
 		/// </summary>
 		/// <param name="pageContent"></param>
-		/// <returns></returns>
-		public static string GetFormattedPageContent(string pageContent)
+		/// <returns>Formatted Html Content with Module Contents and a list of script html</returns>
+		public static PageDataCollection GetFormattedPageContentAndScripts(string pageContent)
 		{
+			var collection = new PageDataCollection()
+				{
+					HtmlFormatted = pageContent,
+					ScriptContents = new List<string>(),
+					StylesContents = new List<string>()
+				};
+
+			// Save a lookup
 			if (String.IsNullOrEmpty(pageContent))
 			{
-				return pageContent;
+				return collection;
 			}
 
 			// pull everything in-between brackets. Ex : [text] will extract "text".
@@ -60,14 +126,39 @@ namespace DirigoEdge.Utils
 				{
 					var tag = m.Groups[1].ToString();
 					var module = context.ContentModules.Where(x => x.ModuleName == tag).FirstOrDefault();
+
 					if (module != null)
 					{
-						pageContent = pageContent.Replace("[" + tag + "]", module.HTMLContent);
+						string htmlContent = String.Format("<div class='shortCodeInsert' data-name='{0}'>{1}</div>", module.ModuleName, module.HTMLContent);
+
+						collection.ScriptContents.Add(module.JSContent);
+						collection.StylesContents.Add(module.CSSContent);
+
+						pageContent = pageContent.Replace("[" + tag + "]", htmlContent);
 					}
+                    // Otherwise check dynamic modules
+                    else
+                    {
+                        DynamicModules dm = Utils.DynamicModules.Instance;
+                        if (dm.GetDynamicModuleList().ContainsKey(tag))
+                        {
+                            var list = dm.GetDynamicModuleList();
+                            if (list.ContainsKey(tag))
+                            {
+                                string htmlContent = String.Format("<div class='dynamicCodeInsert editor-removable {2}' data-name='{0}' data-tag='{3}'>{1}</div>", list[tag].GetModuleName(),
+                                                           list[tag].GetHtml(), list[tag].GetCSSClass(), tag);
+
+                                pageContent = pageContent.Replace("[" + tag + "]", htmlContent);
+                            }
+                        }
+                    }
 				}
 			}
 
-			return pageContent;
+			// update the collection's html entity once we're done parsing
+			collection.HtmlFormatted = pageContent;
+
+			return collection;
 		}
 
 		/// <summary>
@@ -84,5 +175,13 @@ namespace DirigoEdge.Utils
 			
 			return blogTitle.ToLower().Replace(" ", ContentGlobals.BLOGDELIMMETER);
 		}
+	}
+
+	public class PageDataCollection
+	{
+		public string HtmlFormatted;
+		public List<string> ScriptContents;
+		public List<string> StylesContents;
+
 	}
 }

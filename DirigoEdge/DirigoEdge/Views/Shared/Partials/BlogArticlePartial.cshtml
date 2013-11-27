@@ -1,26 +1,7 @@
 ﻿@using DirigoEdge.Utils
 @model List<Blog>
 
-@{
-    foreach (var blog in Model)
-    {
-        <article>
-            @{
-                if (!String.IsNullOrEmpty(blog.ImageUrl))
-                {
-                    <img src="@blog.ImageUrl" alt="@blog.Title"/>
-                }
-            }
-            <h3><a href="/blog/@ContentUtils.GetFormattedUrl(blog.Title)">@blog.Title</a></h3>
-            <h6>Written by <a href="@blog.BlogAuthorUrl">@blog.Author</a> on @blog.Date.ToLongDateString()</h6>
-
-            <div class="row">
-                <div class="userBlogContent twelve columns">
-                    @Html.Raw(blog.HtmlContent)
-                </div>
-            </div>
-        </article>
-
-        <hr />
-    }
-}
+<div class="row bigBlogListContainer contain">
+    @* Load posts *@
+    @Html.Partial("/Views/Shared/Partials/BlogArticleSinglePartial.cshtml")
+</div>

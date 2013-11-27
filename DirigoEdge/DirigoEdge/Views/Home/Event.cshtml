@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Event";
+}
+@using DirigoEdge.Utils
+@model DirigoEdge.Models.ViewModels.EventHomeViewModel
+
+<div class="row">
+    <div class="twelve columns">
+        <h2>Event</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="eight columns eventListing">
+        @{
+            // Renders the event article tags
+            @Html.Partial("/Views/Shared/Partials/EventArticlePartial.cshtml", Model.Events)
+        }
+    
+    </div>
+
+    <aside class="four columns">
+
+        <h5>Categories</h5>
+        @{
+            if (Model.Categories.Count < 1)
+            {
+            <p>There are currently no categories to display.</p>
+            }
+            else
+            {
+            <ul class="side-nav">
+                @{
+                        
+                    foreach (var cat in Model.Categories)
+                    {
+                        string catName = cat.TheCategory.CategoryName;
+                            
+                        <li>
+                            <a href="/Event/Categories/@ContentUtils.GetFormattedUrl(catName)">@catName (@cat.EventCount)</a>
+                        </li>
+                    }
+                }
+            </ul>
+            }
+        }
+        
+        <div class="panel">
+            <h5>Featured</h5>
+            @{
+                if (Model.FeaturedEvent != null)
+                {
+                    <p>@Html.Raw(Model.FeaturedEvent.ShortDesc)</p>
+                    <a href="/event/@Model.FeaturedEvent.PermaLink">Read More →</a>
+                }
+                else
+                {
+                    <p>There are currently no featured events to display.</p>
+                }
+            }
+        </div>
+
+    </aside>
+
+</div>

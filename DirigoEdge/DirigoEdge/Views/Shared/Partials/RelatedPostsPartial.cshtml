@@ -1,0 +1,24 @@
+﻿@using DirigoEdge.Utils
+@model DirigoEdge.Models.ViewModels.BlogRelatedViewModel
+@{
+    <div class="relatedPostsContainer contain">
+        <h4>Related Articles</h4>
+        @{
+            if (Model.RelatedPosts.Count < 1)
+            {
+                <p>There are no related articles</p>
+            }
+            else
+            {
+                <div class="relatedPostsInner contain">
+                    
+                    @* Load related posts *@
+                    @Html.Partial("/Views/Shared/Partials/RelatedBlogSinglePartial.cshtml", Model.RelatedPosts)
+
+                </div>
+                
+                <a id="LoadMoreRelatedBlogs" href="javascript:void(0);" value="Load More" class="secondary loadMore button" data-lastblog="@Model.RelatedPosts.LastOrDefault().BlogId" data-blogCount="@Model.MaxBlogCount">Load More</a>
+            }
+        }
+    </div>
+}

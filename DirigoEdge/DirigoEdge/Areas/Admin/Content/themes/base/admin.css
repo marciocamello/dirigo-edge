@@ -57,7 +57,7 @@ input.modifyPasswordButton, input.registerUserButton {
 }
 
 #ui-datepicker-div .ui-widget-header .ui-icon {
-	background-image: url("/Scripts/jqueryui/css/smoothness/images/ui-icons_ffffff_256x240.png");
+	background-image: url("/scripts/jqueryui/css/smoothness/images/ui-icons_ffffff_256x240.png");
 }
 
 #ui-datepicker-div .ui-state-default {
@@ -155,7 +155,9 @@ div.urlTip {
 }
 #InsertContentImage:hover { text-decoration: underline; }
 /** Blog Admin **/
-div.addBlog.module div.blogTitle , div.editBlog.module div.blogTitle {
+div.addBlog.module div.blogTitle , 
+div.editBlog.module div.blogTitle,
+div.editEvent.module div.eventTitle {
 	margin-bottom:10px;   
 	font-size:13px;
 	color:#666;
@@ -164,7 +166,9 @@ div.addBlog.module div.blogTitle input, div.editBlog.module div.blogTitle input 
     margin-bottom:4px;
     color:#333;
 }
-div.addBlog.module div.blogTitle span.permHint, div.editBlog.module div.blogTitle span.permHint {
+div.addBlog.module div.blogTitle span.permHint,
+div.editBlog.module div.blogTitle span.permHint,
+div.editEvent.module div.eventTitle span.permHint {
     margin-left:4px;
     font-weight:bold;
 }
@@ -185,7 +189,8 @@ div.addBlog.module div.blogTitle span.permHint, div.editBlog.module div.blogTitl
     text-transform: lowercase;
     width: auto;
 }
-div.addBlog div.editArea a.button, div.editBlog div.editArea a.button {
+div.addBlog div.editArea a.button, div.editBlog div.editArea a.button,
+div.addEvent div.editArea a.button, div.editEvent div.editArea a.button {
 	margin-top:12px;   
 }
 #popTitle {
@@ -220,6 +225,7 @@ li.editTabArea { min-height:400px; }
 div.manageBlogs table td.actions { min-width:166px; }
 #NewContentPage, 
 #NewBlogPage,
+#NewEventPage,
 #NewContentModule {
 	position:absolute;
 	right:15px;
@@ -498,4 +504,47 @@ div.siteSettings div.custom.dropdown {
 }
 #UseRevision {
 	text-decoration: underline;
+}
+
+/*New Page listing*/
+#NewPageModal {
+	
+}
+
+
+div.newPageTemplateListing ul li {
+	float: left;
+	list-style: none outside none;
+	margin-right: 24px;
+	max-width: 178px;
+}
+
+div.newPageTemplateListing ul li a {
+	display: inline-block;
+	text-align: center;
+	transition: all 300ms ease-in-out;
+	
+}
+
+div.newPageTemplateListing ul li a:hover {
+	
+}
+
+div.newPageTemplateListing ul li a img {
+	border: 3px solid #FFF;
+}
+
+div.newPageTemplateListing ul li a.active img {
+	border: 3px solid #00C7FF;
+
+}
+
+div.newPageTemplateListing ul li a img {
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+/** New Module **/
+#ChangeImageThumbnail img {
+	margin-bottom: 8px;
 }

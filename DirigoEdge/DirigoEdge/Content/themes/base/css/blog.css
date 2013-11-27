@@ -1,0 +1,112 @@
+﻿p.dateLine {
+    color: #aaa;
+    font-size: 13px;
+}
+
+p.dateLine:before {
+    content: "";
+    font-family: FontAwesome;
+    padding-right: 4px;
+}
+
+a.categoryLink:before {
+    content: "";
+    font-family: FontAwesome;
+    padding-right: 4px;
+}
+
+p.byLine {
+    margin-bottom: 2px;
+    font-size: 13px;
+}
+
+article.blogArticle {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/*Blog Author*/
+div.authorImage {
+    text-align: center;
+}
+
+div.authorTitle {
+    text-align: center;
+}
+
+/* Blog Panels */
+div.categoryBlogListModule >.module > h5 {
+    margin-top: 0;
+}
+
+.authorContainer .authorSocial {
+    margin: 10px;
+}
+
+.categoriesContainer ul {
+    list-style-type: none;
+}
+
+.categoriesContainer ul li.active a {
+    font-weight: bold;
+}
+
+.bigBlogListContainer > article > a > img {
+    width: 100%;    
+}
+
+.popularBlogsContainer p {
+    font-style: normal;
+}
+
+.popularBlogsContainer h5 {
+    margin-bottom: 0;
+}
+.popularBlogsContainer ul {
+    list-style-type: none;
+}
+
+.popularBlogsContainer .blogItem {
+    padding-top: 14px;
+    border-bottom: 1px dotted #ddd;
+}
+
+.archiveContainer ul {
+    list-style-type: none;
+}
+
+.archiveContainer ul li a {
+    display: inline-block;
+    width: 100%;
+    padding: 0;
+}
+
+.archiveContainer li.archive h5 {
+    line-height: 25px;
+    margin-bottom: 2px;
+    color: #666;
+}
+
+.relatedPostsContainer .relatedPost {
+    float: left;    
+    width: 50%;       
+}
+
+.bigBlogListContainer {
+    margin-bottom: 20px;
+}
+
+#LoadMoreBlogs {
+    margin-bottom: 20px;
+}
+
+#LoadMoreBlogs div.ajaxContainer {
+	width: 100% !important;
+}
+
+#LoadMoreBlogs div.ajaxLoader {
+	width: 100%;
+	left: 0;
+	top: -6px;
+	height: 50px;
+}

@@ -21,6 +21,8 @@ public class DataContext : DbContext
 		public DbSet<BlogUser> BlogUsers { get; set; }
 		public DbSet<ContentPage> ContentPages { get; set; }
 		public DbSet<ContentModule> ContentModules { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventCategory> EventCategories { get; set; }
 
 		// SlideShow
 		public DbSet<SlideshowModule> SlideshowModules { get; set; }
@@ -29,9 +31,14 @@ public class DataContext : DbContext
 		// Settings
 		public DbSet<BlogSettings> BlogSettings { get; set; }
 		public DbSet<SiteSettings> SiteSettings { get; set; }
+		public DbSet<FeatureSettings> FeatureSettings { get; set; }
+        
 
 		// Blog Admin Settings
 		public DbSet<BlogAdminModule> BlogAdminModules { get; set; }
+
+        // Event Admin Settings
+        public DbSet<EventAdminModule> EventAdminModules { get; set; }
 
 		// Content Page Revisions
 		public DbSet<ContentPageRevision> ContentPageRevisions { get; set; }

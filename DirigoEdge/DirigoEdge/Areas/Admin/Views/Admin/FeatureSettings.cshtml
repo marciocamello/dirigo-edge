@@ -1,0 +1,42 @@
+﻿@{
+	ViewBag.Title = "Enable Features";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model DirigoEdge.Areas.Admin.Models.ViewModels.FeatureSettingsViewModel
+
+<div class="siteSettings">
+    <div class="row">
+        <div class="twelve columns">
+            <h3>Enable Features</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="four columns mobile-two">
+            <label class="right inline">Events</label>
+        </div>
+        <div class="eight columns  mobile-two">
+            <form class="custom">
+                @{
+                    string isChecked = Model.Settings.EventsEnabled ? "checked = checked" : "";
+                }
+                <input class="custom saveField" data-field="EventsEnabled" autocomplete="off" type="checkbox" @isChecked />
+                <div class="settingsComment hide-for-small">Enables an 'Events' administration menu in the admin area, as well as a 'site.com/events/' url that will display all current events. </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="twelve columns">
+            <div class="contain left">
+                <a class="button mobileMarginBottom savePageButton" data-url="/settings/featuresettings/">Save</a>
+                <div id="SaveIndicator"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="/Areas/Admin/Scripts/siteSettings.js"></script>
+}

@@ -1,13 +1,18 @@
-﻿h1, h2, h3, h4, h5, h6 {
+﻿html, body {
+	height: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
 	font-family: 'Open Sans', sans-serif;
 }
 
-/** Blog Listing **/
-div.blogListing article {
-	background: #F2F2F2;
-	padding: 10px;
-	color: #636363;
+/*Site Modules*/ 
+.module {
+	margin-bottom: 20px;
+	position: relative;
 }
+
+/*Custom Forms*/
+span.requiredToken { color: #ff0000; }
 
 /** Admin Login Area **/
 input.registerUserButton { margin-bottom: 10px; }
@@ -19,59 +24,31 @@ p.message-success {
 div.graceFulOrbit { background: url(./Images/ajaxLoaderTransparent.gif) center center #f4f4f4 no-repeat; height: 300px; }
 div.graceFulOrbit img { display: none; }
 div.graceFulOrbit.orbit { background: none;height: auto; }
-div.graceFulOrbit.orbit img { display: block; }
+div.graceFulOrbit.orbit img { display: block;width: 100%; }
 
-/** Custom Buttons **/
-.button.full {
-	background: #ffffff;
-	background: -moz-linear-gradient(top, #ffffff 0%, #ededed 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ededed));
-	background: -webkit-linear-gradient(top, #ffffff 0%,#ededed 100%);
-	background: -o-linear-gradient(top, #ffffff 0%,#ededed 100%);
-	background: -ms-linear-gradient(top, #ffffff 0%,#ededed 100%);
-	background: linear-gradient(to bottom, #ffffff 0%,#ededed 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
-	border: 1px solid #CCCCCC;
-	color: #333333;
-	font-family: 'Open Sans', sans-serif;
-	font-style: normal;
-	width: 100%;
-}
-.button.full:hover {
-	background: #ededed;
-	background: -moz-linear-gradient(top, #ededed 0%, #dddddd 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededed), color-stop(100%,#dddddd));
-	background: -webkit-linear-gradient(top, #ededed 0%,#dddddd 100%);
-	background: -o-linear-gradient(top, #ededed 0%,#dddddd 100%);
-	background: -ms-linear-gradient(top, #ededed 0%,#dddddd 100%);
-	background: linear-gradient(to bottom, #ededed 0%,#dddddd 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#dddddd',GradientType=0 );
-}
-.button.full:focus {
-	box-shadow: 0 0 4px #CCC;
-	-moz-box-shadow: 0 0 4px #CCC;
-	-webkit-box-shadow: 0 0 4px #CCC;
+div.newBlog { display: none; }
+
+
+.button.loadMore {
+    width: 100%;
 }
 
-.button.radius {
-    border-radius: 3px 3px 3px 3px;
-}
-/** Blogs **/
-#LoadMoreBlogs div.ajaxContainer {
-	width: 100% !important;
-}
-#LoadMoreBlogs div.ajaxLoader {
-	width: 100%;
-	left: 0;
-	top: -6px;
-	height: 50px;
-}
-
-div.newBlog {
-	display: none;
-}
 /** Facebook Comments and like container Responsive adjustements */
 div.fbLikeContainer iframe { height: 40px !important;}
 .fb-comments, .fb-comments iframe { width: 100% !important; }
 iframe{ width:100% !important; }
 .fb_iframe_widget span { width: 100% !important;max-width: 480px;}
+
+/* login custom error styles */
+.validation-summary-errors ul {
+    list-style-type: none;
+}
+
+.validation-summary-errors ul li {
+    margin: 12px 0;
+}
+
+.field-validation-error {
+    display: block;
+    margin: 12px 0;
+}

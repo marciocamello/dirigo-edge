@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using DirigoEdge.Utils;
 
 namespace DirigoEdge.Models.ViewModels
 {
@@ -10,11 +11,15 @@ namespace DirigoEdge.Models.ViewModels
 	{
 		public Blog TheBlog;
 		public BlogUser TheBlogUser;
+	    public BlogRelatedViewModel RelatedPosts;
+
 		public bool ShowFacebookLikeButton;
 		public bool ShowFacebookComments;
 		public bool AllCommentsAreDisabled;
 		public bool UseDisqusComments;
 		public string DisqusShortName;
+
+	    public BlogAuthorViewModel BlogAuthorModel;
 
 		public string BlogAbsoluteUrl;
 
@@ -36,25 +41,32 @@ namespace DirigoEdge.Models.ViewModels
 					context.SaveChanges();
 				}
 
+                // Set up the Related Posts Module
+			    RelatedPosts = new BlogRelatedViewModel(TheBlog.Title);
+
 				// Get User based on authorid
 				TheBlogUser = context.BlogUsers.FirstOrDefault(x => x.UserId == TheBlog.AuthorId);
 
+			    string username = TheBlogUser != null ? TheBlogUser.DisplayName : "Anonymous";
+                BlogAuthorModel = new BlogAuthorViewModel(username);
+
 				// Facebook Like button
-				ShowFacebookLikeButton = Utils.UserUtils.ShowFbLikeButton();
+				ShowFacebookLikeButton = SiteSettingsUtils.ShowFbLikeButton();
 
 				// Facebook Comments
-				ShowFacebookComments = Utils.UserUtils.ShowFbComments();
+				ShowFacebookComments = SiteSettingsUtils.ShowFbComments();
 
 				// Absolute Url for FB Like Button
 				BlogAbsoluteUrl = HttpContext.Current.Request.Url.AbsoluteUri;
 
 				// Disqus Comments
-				UseDisqusComments = Utils.UserUtils.UseDisqusComments();				
+				UseDisqusComments = SiteSettingsUtils.UseDisqusComments();	
 				if (UseDisqusComments)
 				{
-					DisqusShortName = Utils.UserUtils.DisqusShortName();
+					DisqusShortName = SiteSettingsUtils.DisqusShortName();
 				}
 			}
 		}
+
 	}
 }

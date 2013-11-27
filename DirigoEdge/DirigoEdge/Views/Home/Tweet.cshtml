@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Tweets";
+}
+@model DirigoEdge.Models.ViewModels.TweetViewModel
+
+<div class="row">
+
+    <div class="eight columns">
+        <h1>Content</h1>
+        <p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit, dolore aliqua non est magna in labore pig pork biltong. Eiusmod swine spare ribs reprehenderit culpa. Boudin aliqua adipisicing rump corned beef.</p>
+    </div>
+    <div class="four columns">
+        <h3>Tweets</h3>
+        @foreach (var tweet in Model.Tweets)
+        {
+            <div class="tweet panel">
+                @tweet.text
+            </div>
+        }   
+    </div>
+   
+
+</div>
+

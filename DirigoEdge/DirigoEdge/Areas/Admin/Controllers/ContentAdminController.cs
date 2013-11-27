@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DirigoEdge.Entities;
+using DirigoEdge.Utils;
 
 namespace DirigoEdge.Areas.Admin.Controllers
 {
@@ -61,6 +63,22 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
 		    return result;
 	    }
+
+		[Authorize(Roles = "Administrators")]
+		public JsonResult UploadModuleThumb(HttpPostedFileBase file)
+		{
+			if (file != null)
+			{
+				var fileName = Path.GetFileName(file.FileName);
+				var physicalPath = Path.Combine(Server.MapPath("~" + Utils.ContentGlobals.MODULETHUMBNAILIMAGEUPLOADDIRECTORY), fileName);
+
+				file.SaveAs(physicalPath);
+			}
+
+			string imgPath = Utils.ContentGlobals.MODULETHUMBNAILIMAGEUPLOADDIRECTORY + file.FileName;
+
+			return new JsonResult() { Data = new { path = imgPath } };
+		}
 
 		// ===================================//
 		// ==== Utility / Helper Methods ==== //

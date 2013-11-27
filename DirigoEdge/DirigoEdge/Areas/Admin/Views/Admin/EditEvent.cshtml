@@ -1,0 +1,125 @@
+﻿@{
+	ViewBag.Title = "Edit Event";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model DirigoEdge.Areas.Admin.Models.ViewModels.EditEventViewModel
+@using DirigoEdge.Utils
+
+<div class="editEvent module" data-id="@Model.ThisEvent.EventId">
+    <div class="row">
+
+        <div id="Sortable1" class="eight columns">
+
+            <div class="row">
+                <div class="twelve columns">
+                    <h3>Edit Event</h3>
+                    @{
+                        string permaLinkModded = !String.IsNullOrEmpty(@Model.ThisEvent.PermaLink) ? "True" : "False";
+                    }
+                    <div class="eventTitle">
+                        <input id="EventTitle" class="required" type="text" value="@Model.ThisEvent.Title" autocomplete=off />
+                        <span class="permHint">Permalink: </span>
+                        <span>@Model.SiteUrl</span><span id="PermaLinkEnd" data-modified="@permaLinkModded">@ContentUtils.GetFormattedUrl(Model.ThisEvent.PermaLink)</span><input id="PermaLinkEditPane" type="text" class="hide" /><span>/</span><a id="EditPermaLink" href="javascript:void(0);">edit</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row editArea">
+                <div class="twelve columns">
+                    <textarea id="CKEDITEVENT" cols="40" rows="20" autocomplete="off">@Model.ThisEvent.HtmlContent</textarea>
+                    <a id="SaveEvent" class="button right">Save</a>
+                    <div id="SaveSpinner" class="standaloneSpinner"></div>
+                </div>
+            </div>
+            
+            @{
+                foreach (var module in Model.EventAdminModulesColumn1)
+                {
+                    string collapsed = module.IsCollapsed ? "collapsed" : "";
+                    <div id="@module.ModuleName" class="panel @collapsed">
+                        @Html.Partial("Partials/EventAdminModules/" + module.ModuleName)
+                    </div>
+                }
+            }            
+        </div>
+
+        <div id="Sortable2" class="four columns">                                    
+            @{
+                foreach (var module in Model.EventAdminModulesColumn2)
+                {
+                    string collapsed = module.IsCollapsed ? "collapsed" : "";
+                    <div id="@module.ModuleName" class="panel @collapsed">
+                        @Html.Partial("Partials/EventAdminModules/" + module.ModuleName)
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/scripts/ckeditor/ckeditor.js"></script>
+
+    <script type="text/javascript">
+		$(document).ready(function () {
+
+			// Thumbnail Upload
+			$("#FeaturedImageUpload").kendoUpload({
+				async: {
+					saveUrl: "/EventAdmin/UploadEventImage",
+					removeUrl: "/EventAdmin/Remove",
+					autoUpload: true,
+				},
+				multiple:false,
+				success: function (e) {
+					var noty_id = noty({ text: 'File uploaded successfully.', type: 'success', timeout: 3000 });
+					var filePath = e.files[0].name;
+					$("#FeaturedImage").attr("value", "/Content/Uploaded/EventFeaturedImages/" + filePath);
+				},
+				localization : {
+					select : "Upload..."
+				}
+			});			
+		}); 
+    </script>
+}
+
+
+@section Modals {
+
+    <div id="FeaturedImageModal" class="reveal-modal">
+        <h2>Featured Image</h2>
+        <p class="lead">Set the Event's Featured Image</p>
+
+        <p class="">This will show as the image headline on event overview pages.
+            <br />
+            Images should be 760px × 250px.</p>
+
+        <input id="FeaturedImage" type="text" placeholder="Image Location" value="@Model.ThisEvent.FeaturedImageUrl"/>
+
+        <input id="FeaturedImageUpload" name="files" type="file" placeholder="Image Location" value="@Model.ThisEvent.FeaturedImageUrl"/>
+
+        <p class="alt">
+            Don't have an image to upload? <a id="ChooseEventStockLink" href="#" data-reveal-id="StockImagesModal">Choose From Stock Photography...</a>
+        </p>
+
+        <a id="ConfirmFeatImage" class="right button" onclick=" $('#FeaturedImageModal').trigger('reveal:close');">Ok</a>
+        <p class="right saveTip" style="">(Changes will be saved when you save your event)</p>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+
+    <div id="StockImagesModal" class="reveal-modal medium">
+        <h2>Stock Images</h2>
+        <p class="lead">Choose from stock photography</p>
+
+        <div id="StockImageHolder">
+            <p>This content is lazy loaded for maximum awesomenesss.</p>
+        </div>
+
+        <a href="#" data-reveal-id="FeaturedImageModal"><- Back</a>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+}

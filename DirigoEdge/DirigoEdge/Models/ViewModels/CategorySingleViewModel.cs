@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using DirigoEdge.Entities;
+using DirigoEdge.Utils;
 
 namespace DirigoEdge.Models.ViewModels
 {
 	public class CategorySingleViewModel
 	{
 		public BlogCategory TheCategory;
-		public List<Blog> BlogRoll;
+
+        public List<Blog> BlogsByCat;
+        public int BlogRollCount = 10;
+        public int MaxBlogCount = 10;
+        public int LastBlogId = 0;
+        public bool ReachedMaxBlogs;
+
 		public List<string> ImageList;
 
 		private static readonly Random random = new Random();
 		private static readonly object syncLock = new object();
 		private HttpServerUtilityBase _server;
+
+        public string BlogTitle;
 
 		public CategorySingleViewModel(string category, HttpServerUtilityBase server)
 		{
@@ -27,11 +37,23 @@ namespace DirigoEdge.Models.ViewModels
 
 			using (var context = new DataContext())
 			{
+
 				TheCategory = context.BlogCategories.FirstOrDefault(x => x.CategoryName == category);
 
-				BlogRoll = context.Blogs.Where(x => x.MainCategory == category && x.IsActive == true).ToList();
+                MaxBlogCount = BlogListModel.GetBlogSettings().MaxBlogsOnHomepageBeforeLoad;
+			    BlogTitle = BlogListModel.GetBlogSettings().BlogTitle;
 
-				// Set a random picture on the blogRoll if none is currently set
+                BlogsByCat = context.Blogs.Where(x => x.MainCategory == category && x.IsActive)
+                            .OrderByDescending(blog => blog.Date)
+                            .Take(MaxBlogCount)
+                            .ToList();
+
+			    if (BlogsByCat.Count > 0)
+			    {
+			        LastBlogId = BlogsByCat.LastOrDefault().BlogId;
+			    }
+
+			    // Set a random picture on the blogRoll if none is currently set
 				//foreach (var blog in BlogRoll)
 				//{
 				//	if (String.IsNullOrEmpty(blog.ImageUrl))
@@ -84,4 +106,5 @@ namespace DirigoEdge.Models.ViewModels
 			return category;
 		}
 	}
+
 }

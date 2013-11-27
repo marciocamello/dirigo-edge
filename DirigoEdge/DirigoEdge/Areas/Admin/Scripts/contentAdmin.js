@@ -26,6 +26,8 @@ content_class.prototype.initPageEvents = function() {
     // Insert Image Functionality on Modules and Pages
     if ($("#InsertImageModal").length > 0) {
         this.initContentImageUploadEvents();
+        
+        this.initModuleUploadEvents();
     }
     
     // View / Act on Revisions
@@ -191,6 +193,7 @@ content_class.prototype.initCodeEditorEvents = function() {
 content_class.prototype.initContentImageUploadEvents = function() {
     var self = this;
     
+    // Upload in place images
     Dropzone.options.myAwesomeDropzone = {
         url: "/admin/fileUpload/",
         init: function () {
@@ -210,6 +213,32 @@ content_class.prototype.initContentImageUploadEvents = function() {
             });
         }
     };
+};
+
+content_class.prototype.initModuleUploadEvents = function () {
+
+    // Upload Module Image and refresh thumbnail
+    Dropzone.options.myAwesomeDropzone = {
+        url: "/contentadmin/uploadmodulethumb/",
+        init: function () {
+            this.on("success", function (file, data) {
+
+                $("#ModuleThumbnail").attr("value", data.path);
+                $("#ImageModuleThumbnail").attr("src", data.path);
+
+                // Close the dialog box
+                setTimeout(function () {
+                    $("#InsertImageModal").trigger('reveal:close');
+                }, 400);
+            });
+        }
+    };
+    
+    // Key up refreshes thumbnail
+    $("#ModuleThumbnail").keyup(function () {
+        var src = $(this).attr("value");
+        $("#ImageModuleThumbnail").attr("src", src);
+    });
 };
 
 content_class.prototype.manageContentAdminEvents = function() {
@@ -263,6 +292,8 @@ content_class.prototype.manageContentAdminEvents = function() {
                 ContentPageId: $("div.editContent").attr("data-id"),
                 DisplayName: $("#ContentName").attr("value"),
                 ModuleName: $("#ContentName").attr("value"),
+                Description: $("#ModuleDescription").val(),
+                ThumbnailLocation: $("#ModuleThumbnail").val(),
                 HTMLContent: htmlContent,
                 JSContent: jsContent,
                 CSSContent: cssContent,

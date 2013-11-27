@@ -50,6 +50,7 @@ adminEditor_class.prototype.initEditModulePopupEvent = function () {
             $.post('/admin/getModuleData', { id: $(this).attr("data-id") }, "json")
                 .done(function (result) {
                     $html = result.html;
+                    $title = result.title;
                     
                     // Destroy the editor if it exists so we can create a new one
                     if (CKEDITOR.instances.ModuleContentEditContainer != null) {
@@ -57,6 +58,8 @@ adminEditor_class.prototype.initEditModulePopupEvent = function () {
                     }
                     // Create the new editor
                     $("#ModuleContentEditContainer").html($html);
+                    $('.moduleTitle').html($title);
+                    
                     CKEDITOR.config.contentsCss = '/Content/Themes/Base/Site.css';
                     self.editContentEditor = CKEDITOR.replace('ModuleContentEditContainer');
             });
@@ -87,18 +90,22 @@ adminEditor_class.prototype.initEditModulePopupEvent = function () {
             $.post('/admin/getModuleData', { id: $(this).attr("data-id") }, "json")
                 .done(function (result) {
                     $html = result.html;
+                    $js = result.js;
+                    $css = result.css;
+                    $title = result.title;
                     
                     $('.editContent').attr('data-id', self.dataEditingId);
                     $("#SaveContentButton").attr('data-name', result.title);
+                    $('.moduleTitle').html($title);
 
                     if (typeof(self.content) == 'undefined') {
                         self.content = new content_modal_class();
                         self.content.manageContentAdminEvents();
-                        self.content.initCodeEditorEvents($html);
+                        self.content.initCodeEditorEvents($html, $css, $js);
                         self.content.initWordWrapEvents();
                         self.content.initContentImageUploadEvents();
                     } else {
-                        self.content.initUpdateEditor($html);
+                        self.content.initUpdateEditor($html, $css, $js);
                     }
                 });
 

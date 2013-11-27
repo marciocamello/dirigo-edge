@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Manage EventCategories";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model DirigoEdge.Areas.Admin.Models.ViewModels.ManageEventCategoriesViewModel
+
+<div class="row">
+    <div class="twelve columns">
+        <h3>Manage Event Categories</h3>
+        
+        <a id="NewEventPage" class="button newManageButton mobileBlockStatic mobileMarginBottom" data-reveal-id="AddEventCategoryModal" href="#">New Event Category +</a>
+
+        <table class="twelve bordered manageTable" id="EventCategoriesTable">
+            <thead>
+                <tr>
+                    <th class="hide-for-small">Id</th>
+                    <th>Name</th>
+                    <th class="actions">Actions</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                @{
+                    foreach (var cat in Model.EventCategories)
+                    {
+                        <tr>
+                            <td class="id hide-for-small">@cat.EventCategoryId</td>
+                            <td class="name">@cat.CategoryName</td>
+                            <td>
+                                <a class="deleteCategoryButton button small" href="#" data-id="@cat.EventCategoryId">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Modals {
+    <div id="AddEventCategoryModal" class="reveal-modal">
+        <div class="wrapper">
+            <h2>New Event Category</h2>
+            <p class="lead">Create a new event category.</p>
+        
+            <label>Event Category Name : </label><input id="EventCategoryNameInput" type="text" autocomplete="off"/>
+
+            <a id="ConfirmAddEventCategory" class="right button confirmModalButton tabletMarginBottom tabletBlockStatic">Add</a>
+            <a class="right button secondary" onclick="$('#AddEventCategoryModal').trigger('reveal:close');">Cancel</a>
+        </div>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+
+    <div id="DeleteEventCategoryModal" class="reveal-modal">
+        <div class="wrapper">
+            <h2>New Event Category</h2>
+            <p class="lead">Are you sure you want to delete this category?</p>
+
+            <p><span id="popTitle"></span>will be <em>permanently</em> deleted.</p>
+
+            <a id="ConfirmDeleteEventCategory" class="right button confirmModalButton">Confirm</a>
+            <a class="right button secondary" onclick="$('#DeleteEventCategoryModal').trigger('reveal:close');">Cancel</a>
+        </div>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+}
+
+@section Scripts {
+    @{
+        // Only load if there is a good reason to
+        if (Model.EventCategories.Count > 0)
+        {
+            <script src="/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $("table.manageTable").dataTable({
+                        "iDisplayLength": 25,
+                        "aoColumnDefs": [
+                            { "bSortable": false, "aTargets": ["actions"] } // No Sorting on actions
+                        ],
+                        "aaSorting": [[0, "desc"]] // Sort by id
+                    });
+                });
+            </script>
+        }
+    }
+}
