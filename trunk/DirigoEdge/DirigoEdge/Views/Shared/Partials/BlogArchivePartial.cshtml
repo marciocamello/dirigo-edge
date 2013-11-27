@@ -1,0 +1,24 @@
+﻿@using DirigoEdge.Utils
+@model DirigoEdge.Models.ViewModels.BlogArchiveViewModel
+
+<div class="archiveContainer module">
+    
+    <h5 class="title">Archive</h5>
+
+    @{
+        if (!Model.Grouped.Any())
+        {
+            <p>There are currently no blogs in the archive.</p>
+        }
+        else
+        {
+            <ul>
+                @* Load the archive *@
+                @Html.Partial("/Views/Shared/Partials/BlogArchiveSinglePartial.cshtml", Model.Grouped)
+            </ul>
+        
+            // Allow the user to load more blogs
+            <a id="LoadMoreArchives" href="javascript:void(0);" value="Load More" data-lastMonth="0" data-blogCount="@Model.MaxArchiveCount">More...</a>
+        }
+    }
+</div>

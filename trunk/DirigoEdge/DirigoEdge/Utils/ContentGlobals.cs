@@ -13,6 +13,12 @@ namespace DirigoEdge.Utils
 
 		public const string BLOGIMAGEUPLOADDIRECTORY = "/content/uploaded/blogimages/";
 
+        public const string EVENTIMAGEUPLOADDIRECTORY = "/content/uploaded/eventimages/";
+
 		public const string STOCKBLOGIMAGESDIRECTORY = "/content/stockfeaturedimages/";
+
+        public const string STOCKEVENTIMAGESDIRECTORY = "/content/stockfeaturedimages/";
+
+		public const string MODULETHUMBNAILIMAGEUPLOADDIRECTORY = "/content/uploaded/modulethumbs/";
 	}
 }

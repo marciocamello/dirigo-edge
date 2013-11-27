@@ -1,0 +1,12 @@
+﻿@using DirigoEdge.Utils
+@model IEnumerable<String>
+
+@{
+    foreach (var archive in Model)
+    {
+        <li class="archive relative">
+            @* Archive will come through as an href="/blog?date=?">... *@
+            @Html.Raw(archive)
+        </li>
+    }
+}

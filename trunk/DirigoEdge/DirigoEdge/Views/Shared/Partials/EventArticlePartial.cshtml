@@ -1,0 +1,37 @@
+﻿@using DirigoEdge.Utils
+@model List<Event>
+
+@{
+    foreach (var thisEvent in Model)
+    {
+        <article>
+            @{
+                if (!String.IsNullOrEmpty(thisEvent.FeaturedImageUrl))
+                {
+                    <img src="@thisEvent.FeaturedImageUrl" alt="@thisEvent.Title"/>
+                }
+
+                var end = "- " + Convert.ToDateTime(thisEvent.EndDate).ToString("dddd, M/dd/yyyy");
+                var start = Convert.ToDateTime(thisEvent.StartDate).ToString("dddd, M/dd/yyyy");
+                if (thisEvent.StartDate == DateTime.Today)
+                {
+                    start = "Today";
+                }
+                if (thisEvent.EndDate == thisEvent.StartDate)
+                {
+                    end = "";
+                }
+            }
+            <h3><a href="/event/@thisEvent.PermaLink">@thisEvent.Title</a></h3>
+            <h5>@start @end</h5>
+
+            <div class="row">
+                <div class="userEventContent twelve columns">
+                    @Html.Raw(thisEvent.HtmlContent)
+                </div>
+            </div>
+        </article>
+
+        <hr />
+    }
+}

@@ -4,7 +4,6 @@
 }
 
 @model DirigoEdge.Areas.Admin.Models.ViewModels.EditModuleViewModel
-@using DirigoEdge.Utils
 
 <div class="editContent" data-id="@Model.TheModule.ContentModuleId">
     <div class="row">
@@ -42,33 +41,41 @@
                 </li>
             </ul>
 
+            <a id="SaveContentButton" class="button" data-url="ModifyModule">Save</a>
+            <div id="SaveSpinner" class="standaloneSpinner"></div>
+            
+            
+            <div class="tipContainer hide-for-touch">
+                Tip: You can press <kbd>Ctrl - S </kbd>to save within the editor.
+            </div>
+           
+
         </div>
 
         <div class="three columns">
-            <h3>Settings</h3>
-            <label>Module Name</label>
-            <input id="ContentName" type="text" value="@Model.TheModule.ModuleName"/>
+            
+            <div class="panel">
+                <h3>Settings</h3>
+                <label>Module Name</label>
+                <input id="ContentName" type="text" value="@Model.TheModule.ModuleName"/>
+            </div>
+            
         </div>
 
-    </div>
-
-    <div class="row">
-        <div class="twelve columns">
-            <a id="SaveContentButton" class="button" data-url="ModifyModule">Save</a>
-            <div id="SaveSpinner" class="standaloneSpinner"></div>
-        </div>
-    </div>
-    
-    <div class="row hide-for-touch">
-        <div class="twelve columns tipContainer">
-            Tip: You can press <kbd>Ctrl - S </kbd> to save within the editor.
-        </div>
-    </div>
+    </div>            
 
 </div>
 
 @section Modals {
     @Html.Partial("Partials/InsertImageModalPartial")
+
+    <div id="InsertModuleThumbModal" class="reveal-modal">
+        <h2>Insert Image.</h2>
+
+        <form action="/contentadmin/uploadmodulethumb/" class="dropzone" id="my-awesome-dropzone"></form>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
 }
 
 @section scripts {

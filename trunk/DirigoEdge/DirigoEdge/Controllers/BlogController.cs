@@ -13,12 +13,12 @@ namespace DirigoEdge.Controllers
 {
     public class BlogController : Controller
     {
-        public ActionResult Index(string title)
+        public ActionResult Index(string title, string date)
         {
 			// Blog Listing Homepage
 			if (String.IsNullOrEmpty(title))
 			{
-				var model = new BlogHomeViewModel();
+				var model = new BlogHomeViewModel(date);
 
 				return View("~/Views/Home/Blog.cshtml", model);
 			}

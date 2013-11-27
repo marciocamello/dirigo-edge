@@ -2,57 +2,69 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DirigoEdge.Entities;
 
 namespace DirigoEdge.Models.ViewModels
 {
 	public class BlogHomeViewModel
 	{
-		public List<Blog> Blogs;
-		public int MaxBlogCount;
+        public List<Blog> BlogRoll;
+	    public BlogsCategoriesViewModel BlogCats;
+
+        public int BlogRollCount = 10;
+        public int MaxBlogCount = 10;
+        public int LastBlogId = 0;
 
 		public Blog FeaturedBlog;
-		public List<BlogCatExtraData> Categories;
 		public bool ReachedMaxBlogs;
 
-		public BlogHomeViewModel()
+        public string CurrentMonth;
+
+	    public string BlogTitle;
+
+		public BlogHomeViewModel(string date = "")
 		{
 			using (var context = new DataContext())
 			{
-				// Get the amount of blogs to load on homepage
-				var blogSettings = context.BlogSettings.FirstOrDefault();
-				if (blogSettings != null)
-				{
-					MaxBlogCount = blogSettings.MaxBlogsOnHomepageBeforeLoad;
-				}
-				else
-				{
-					// Set the default blog settings then come back and get data
-					Utils.UserUtils.SetDefaultBlogSettings();
-					blogSettings = context.BlogSettings.FirstOrDefault();
-					MaxBlogCount = blogSettings.MaxBlogsOnHomepageBeforeLoad;
-				}
+			    MaxBlogCount = BlogListModel.GetBlogSettings().MaxBlogsOnHomepageBeforeLoad;
+                BlogTitle = BlogListModel.GetBlogSettings().BlogTitle;
 
-				// Used to show the "Load More" link at the bottom to ajax in more content
-				ReachedMaxBlogs = context.Blogs.Count() > MaxBlogCount;
+				FeaturedBlog = context.Blogs.FirstOrDefault(x => x.IsFeatured);
 
-				Blogs = context.Blogs.Where(x => x.IsActive == true).Take(MaxBlogCount).ToList();
-				FeaturedBlog = context.Blogs.FirstOrDefault(x => x.IsFeatured == true);
-				Categories = new List<BlogCatExtraData>();
+                CurrentMonth = "";
 
-				var cats = context.BlogCategories.Where(x => x.IsActive == true).ToList();
-				foreach (var cat in cats)
-				{
-					int count = context.Blogs.Count(x => x.MainCategory == cat.CategoryName);
-					Categories.Add(new BlogCatExtraData() { TheCategory = cat, BlogCount = count });
-				}
+                BlogRoll = context.Blogs.Where(x => x.IsActive)
+                            .OrderByDescending(blog => blog.Date)
+                            .Take(MaxBlogCount)
+                            .ToList();
+
+			    BlogCats = new BlogsCategoriesViewModel("");
+
+
+                if (!String.IsNullOrEmpty(date))
+                {
+                    DateTime startDate = Convert.ToDateTime(date);
+
+                    CurrentMonth = startDate.ToString("MM/yyyy");
+
+                    BlogRoll =
+                        context.Blogs.Where(
+                            x => x.IsActive
+                                 && (x.Date.Month == startDate.Month)
+                                 && (x.Date.Year == startDate.Year)
+                            )
+                               .OrderBy(x => x.Date)
+                               .ToList();
+                }
+
+			    LastBlogId = 0;
+
+			    if (BlogRoll.Count < 1)
+			    {
+			        LastBlogId = BlogRoll.LastOrDefault().BlogId;
+			    }
 
 			}
 		}
-	}
-
-	public class BlogCatExtraData
-	{
-		public BlogCategory TheCategory;
-		public int BlogCount;
 	}
 }

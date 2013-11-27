@@ -104,15 +104,21 @@ slideEditor_class.prototype.initslideActions = function () {
     });
 
     // Delete Row
-    $("#SlideEditList ul.actionList li a.delete").live("click", function() {
-        $(this).closest("li.slideContainer").remove();
+    $("#SlideEditList ul.actionList li a.delete").live("click", function () {
+        if ($("#SlideEditList > li").length > 1) {
+            $(this).closest("li.slideContainer").remove();
+        } else {
+            alert("There must be at least one slide.");
+        }
     });
 
     // Add Slide
-    $("#AddSlide").click(function() {
-        var $html = $("#SlideCopyHtml").html();
-        $("#SlideEditList").append($html);
-    });
+    $("#AddSlide").click(function () {
+        // Just clone the last slide
+        var $html = $("#SlideEditList > li").last().clone();
+
+        $("#SlideEditList").append($html.wrap($("<div/>").parent().html()));
+    });    
 };
 
 

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DirigoEdge.Entities;
+using DirigoEdge.Utils;
 
 namespace DirigoEdge.Areas.Admin.Controllers
 {
@@ -143,7 +144,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 						context.SaveChanges();
 
 						// Save a Page Revision if enabled
-						if (Utils.UserUtils.PageRevisionsEnabled())
+						if (SiteSettingsUtils.PageRevisionsEnabled())
 						{
 							var revision = new ContentPageRevision()
 								{
@@ -156,11 +157,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 							context.ContentPageRevisions.Add(revision);
 							
 							context.SaveChanges();
-						}
-
-
-
-						
+						}						
 					}
 				}
 			}

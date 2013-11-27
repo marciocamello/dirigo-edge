@@ -114,36 +114,6 @@
 </div>
 
 
-@*The list item below is used when a user clicks "Add Slide"
-The list item is copied and then appended under the SlideEditList below.
-** If you edit the slide html above, make sure to edit this as well.*@
-<div class="hide">
-    <ol id="SlideCopyHtml">
-        <li class="slideContainer">
-            <label>Image Location</label>
-
-            <div class="container">
-                <input class="imageLocation eight columns" type="text" autocomplete="off" value="http://placehold.it/1200x400" />
-                <div class="four columns">
-                    <img class="previewImg has-tip tip-left" src="http://placehold.it/1200x400" width="100%" title="<img src='http://placehold.it/1200x400' />" />
-                </div>
-            </div>
-
-            <label class="has-tip tip-top" title="Leave empty if you do not want to show a caption.">Caption</label>
-            <input class="caption" type="text" autocomplete="off" />
-
-            <label>Actions</label>
-            <ul class="actionList inline-list">
-                <li><a class="moveUp" href="javascript:void(0);">Move Up</a></li>
-                <li><a class="moveDown" href="javascript:void(0);">Move Down</a></li>
-                <li><a class="delete" href="javascript:void(0);">Delete</a></li>
-            </ul>
-        </li>
-    </ol>
-
-</div>
-
-
 @section Scripts {
     <script src="/Areas/Admin/Scripts/slideshowEditor.js"></script>
 }

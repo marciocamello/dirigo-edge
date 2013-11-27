@@ -17,12 +17,15 @@ namespace DirigoEdge.Controllers
 		public ActionResult Index()
 		{
 			var model = new HomeViewModel();
+
 			return View(model);
 		}
 
 		public ActionResult About()
 		{
-			return View();
+			var model = new ContentViewViewModel("about");
+
+			return View(model.TheTemplate.ViewLocation, model);
 		}
 
 		public ActionResult Blog()
@@ -34,6 +37,12 @@ namespace DirigoEdge.Controllers
 		{
 			return View();
 		}
+
+        public ActionResult Tweet()
+        {
+            var model = new TweetViewModel(1);
+            return View(model);
+        }
 
 		// Generate a sitemap on request
 		public XmlSitemapResult SitemapXML()

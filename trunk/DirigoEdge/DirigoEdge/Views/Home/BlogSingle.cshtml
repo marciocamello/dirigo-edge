@@ -3,12 +3,33 @@
 @{
     ViewBag.Title = Model.TheBlog.Title;
     ViewBag.MetaDesc = Model.TheBlog.MetaDescription;
-    ViewBag.Title = Model.TheBlog.Title;
     ViewBag.OGType = Model.TheBlog.OGType ?? "article";
     ViewBag.OGTitle = Model.TheBlog.OGTitle ?? Model.TheBlog.Title;
+    ViewBag.OGImage = Model.TheBlog.OGImage ?? Model.TheBlog.OGImage;
 }
 
 <div class="singleBlogModule module">
+    
+    @* Breadcrumbs *@
+    <div class="breadcrumbsContainer row">
+        <div class="twelve columns">
+            <ul class="breadcrumbs">
+                <li>
+                    <a href="/blog">
+                        <span>Blog Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/blog/categories/@ContentUtils.GetFormattedUrl(Model.TheBlog.MainCategory)">
+                        <span>@Model.TheBlog.MainCategory</span>
+                    </a>
+                </li>
+                <li class="current">
+                    <a href="/blog/@ContentUtils.GetFormattedUrl(Model.TheBlog.Title)">@Model.TheBlog.Title</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <div class="row">
         @*Give admins a quick way to edit blog*@
@@ -20,10 +41,40 @@
         }
         
         @*Content Rail*@
-        <div class="eight columns">
+        <div class="nine columns">
             <article>
+                @* Blog Author *@
+                @{
+                    var user = "Anonymous";
+                    var authorUrl = "#";
+                    if (Model.TheBlogUser != null)
+                    {
+                        user = Model.TheBlogUser.Username;
+                        authorUrl = Model.TheBlog.BlogAuthorUrl ?? "#";
+                    }
+                }
                 <h3><a href="/blog/@Model.TheBlog.PermaLink">@Model.TheBlog.Title</a></h3>
-                <h6>Written by <a href="@Model.TheBlog.BlogAuthorUrl">@Model.TheBlog.Author</a> on @Model.TheBlog.Date.ToLongDateString()</h6>
+                <h6>Written by <a href="@authorUrl">@user</a> on @Model.TheBlog.Date.ToLongDateString()</h6>
+                
+                @{
+                    if (!String.IsNullOrEmpty(Model.TheBlog.ImageUrl))
+                    {
+                        <p>
+                            <img src="@Model.TheBlog.ImageUrl" alt="@Model.TheBlog.Title" />    
+                        </p>                        
+                    }
+                    else
+                    {
+                        <p>
+                            <img src="/Content/StockFeaturedImages/recordsPlayer.jpg" alt="@Model.TheBlog.Title" />
+                        </p>     
+                    }
+                }
+                <div class="row">
+                    <div class="userBlogContent twelve columns">
+                        @Html.Raw(Model.TheBlog.ShortDesc)
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="userBlogContent twelve columns">
@@ -34,15 +85,18 @@
             
             <hr/>
             
+            @* Related Posts *@
+            @Html.Partial("~/Views/Shared/Partials/RelatedPostsPartial.cshtml", Model.RelatedPosts)
+
+            <hr/>
+            
             @*== Facebook Like Button ==*@
             @{
                 if (Model.ShowFacebookLikeButton)
                 {
                     string absUrl = Model.BlogAbsoluteUrl;   
                     <div class="fbLikeContainer">
-                        <iframe src="http://www.facebook.com/plugins/like.php?href=@absUrl" scrolling="no" frameborder="0"
-                                style="border: none; width: 450px; height: 80px">
-                        </iframe>
+                        <iframe src="http://www.facebook.com/plugins/like.php?href=@absUrl" scrolling="no" frameborder="0" style="border: none; width: 450px; height: 80px"></iframe>
                     </div>
                 }
             }
@@ -80,19 +134,31 @@
         </div>
         
         @*Right Rail*@
-        <div class="four columns">
+        <div class="three columns blogPanels">
             
+            @* Blog Author *@
+            @Html.Partial("~/Views/Shared/Partials/BlogAuthorPartial.cshtml", Model.BlogAuthorModel)
             
+            @* Categories *@
+            @Html.Partial("~/Views/Shared/Partials/CategoriesListingPartial.cshtml", new DirigoEdge.Models.ViewModels.BlogsCategoriesViewModel(Model.TheBlog.MainCategory))
+            
+            @* Latest Blogs / Popular *@
+            @Html.Partial("~/Views/Shared/Partials/PopularBlogsPartial.cshtml", new DirigoEdge.Models.ViewModels.BlogPopularViewModel())
+            
+            @* Archive *@
+            @Html.Partial("~/Views/Shared/Partials/BlogArchivePartial.cshtml", new DirigoEdge.Models.ViewModels.BlogArchiveViewModel())
 
         </div>
+
     </div>
+
 </div>
 
 @section Meta {
     @{
         if (!String.IsNullOrEmpty(Model.TheBlog.Canonical))
         {
-            <link rel="canonical" href="Model.TheBlog.Canonical" />        
+            <link rel="canonical" href="@Model.TheBlog.Canonical" />        
         }
     }
 }

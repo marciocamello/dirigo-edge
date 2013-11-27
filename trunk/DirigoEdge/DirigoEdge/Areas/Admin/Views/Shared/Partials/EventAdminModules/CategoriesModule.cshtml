@@ -1,0 +1,26 @@
+﻿@model DirigoEdge.Areas.Admin.Models.ViewModels.EditEventViewModel
+
+<h4>Category</h4>
+
+<div class="content">
+    <form class="custom">
+            @{
+                if (Model.EventCategories != null && Model.EventCategories.Count > 0)
+                {
+                    <select class="saveField" data-field="MainCategory">
+                    @{
+                        foreach (var item in @Model.EventCategories)
+                        {
+                            string selected = Model.ThisEvent.MainCategory == item.CategoryName ? "selected='selected'" : "";
+                                <option @selected value="@item.CategoryName" data-id="@item.EventCategoryId 222">@item.CategoryName</option>
+                        }
+                    }
+                    </select>
+                }
+                else
+                {
+                    <span>There are no categories to display.</span>
+                }
+            }
+    </form>
+</div>

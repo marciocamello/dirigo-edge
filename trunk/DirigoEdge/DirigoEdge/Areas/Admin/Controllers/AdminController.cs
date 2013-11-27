@@ -9,7 +9,7 @@ using DirigoEdge.Areas.Admin.Models.ViewModels;
 
 namespace DirigoEdge.Areas.Admin.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : Controller 
     {
 		[Authorize(Roles = "Administrators")]
         public ActionResult Index()
@@ -41,6 +41,27 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			var model = new EditBlogViewModel(id);
 			return View(model);
 		}
+
+        [Authorize(Roles = "Administrators")]
+        public ActionResult EditEvent(string id)
+        {
+            var model = new EditEventViewModel(id);
+            return View(model);
+        }
+
+        [Authorize(Roles = "Administrators")]
+        public ActionResult ManageEvents()
+        {
+            var model = new ManageEventsViewModel();
+            return View(model);
+        }
+
+        [Authorize(Roles = "Administrators")]
+        public ActionResult ManageEventCategories()
+        {
+            var model = new ManageEventCategoriesViewModel();
+            return View(model);
+        }
 
 		[Authorize(Roles = "Administrators")]
 		public ActionResult ManageCategories()
@@ -81,11 +102,10 @@ namespace DirigoEdge.Areas.Admin.Controllers
 				context.SaveChanges();
 
 				// Update the page title / permalink with the new id we now have
-				int id = page.ContentPageId;
-				page.DisplayName = "Page " + id;
+				page.DisplayName = "Page " + page.ContentPageId;
 				context.SaveChanges();
 
-				return RedirectToAction("EditContent", "Admin", new { id = id });
+				return RedirectToAction("EditContent", "Admin", new { id = page.ContentPageId });
 			}
 		}
 
@@ -123,7 +143,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			int ModuleId = 0;
 
 			// Create a new Content Page to be passed to the edit content action
-			using (DataContext context = new DataContext())
+			using (var context = new DataContext())
 			{
 				ContentModule page = getDefaultContentModule();
 
@@ -154,6 +174,14 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
 			return View(model);
 		}
+
+        [Authorize(Roles = "Administrators")]
+		public ActionResult FeatureSettings()
+        {
+            var model = new FeatureSettingsViewModel();
+
+            return View(model);
+        }
 
 		#region Admin Actions
 
@@ -246,6 +274,29 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			return RedirectToAction("EditBlog", "Admin", new { id = blogId });
 		}
 
+        [Authorize(Roles = "Administrators")]
+        public ActionResult AddEvent()
+        {
+            string eventId = String.Empty;
+
+            // Create a new event to be passed to the edit event action
+            using (var context = new DataContext())
+            {
+                var thisEvent = new Event() { IsActive = false, Title = "New Event", DateCreated = DateTime.Now, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(7)};
+
+                context.Events.Add(thisEvent);
+                context.SaveChanges();
+
+                // Update the event title / permalink with the new id we now have
+                eventId = thisEvent.EventId.ToString();
+
+                thisEvent.Title = thisEvent.Title + " " + eventId;
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("EditEvent", "Admin", new { id = eventId });
+        }
+
 		[Authorize(Roles = "Administrators")]
 		public JsonResult DeleteContent(string id)
 		{
@@ -292,7 +343,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 			return result;
 		}
 
-        
+		[Authorize(Roles = "Administrators")]
 		public JsonResult fileUpload(HttpPostedFileBase file)
 		{
 			if (file != null)
@@ -323,6 +374,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
         /*
          * Method to return html to view for on screen editor
          */
+		[Authorize(Roles = "Administrators")]
         [AcceptVerbs(HttpVerbs.Post)]
         public JsonResult getModuleData(string id)
         {
@@ -344,20 +396,21 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
             return result;
         }
-		
+
 		#endregion
 
 
 		#region Helper Methods
-		private ContentPage getDefaultContentPage()
+
+	    private ContentPage getDefaultContentPage()
 		{
 			return new ContentPage()
 			{
 				DisplayName = "PlaceHolder",
 				IsActive = false,
-				HTMLContent = "<div class='row'>\n\n</div>",
-				CSSContent = ".page { \n\n}",
-				JSContent = "$(document).ready(function() { \n    // Awesome Code Here\n\n});",
+				HTMLContent = "",
+				CSSContent = "",
+				JSContent = "",
 				CreateDate = DateTime.Now
 			};
 		}
@@ -372,6 +425,20 @@ namespace DirigoEdge.Areas.Admin.Controllers
 				JSContent = "$(document).ready(function() { \n    // Awesome Code Here\n\n});",
 				CreateDate = DateTime.Now
 			};
+		}
+
+		public static string RenderPartialViewToString(string viewName, object model, ControllerContext context, ViewDataDictionary viewData, TempDataDictionary tempData)
+		{
+			viewData.Model = model;
+
+			using (StringWriter sw = new StringWriter())
+			{
+				ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(context, viewName);
+				ViewContext viewContext = new ViewContext(context, viewResult.View, viewData, tempData, sw);
+				viewResult.View.Render(viewContext, sw);
+
+				return sw.GetStringBuilder().ToString();
+			}
 		}
 
 		#endregion

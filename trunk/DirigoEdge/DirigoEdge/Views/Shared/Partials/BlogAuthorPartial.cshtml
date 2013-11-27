@@ -1,0 +1,45 @@
+﻿@model DirigoEdge.Models.ViewModels.BlogAuthorViewModel
+
+@* Author info *@
+    <div class="authorContainer">
+        
+        @* User Image *@
+        @{
+            var userImg = "/Areas/Admin/Content/Themes/Base/Images/User.png";
+            if (Model.TheBlogUser != null)
+            {
+                userImg = Model.TheBlogUser.UserImageLocation ?? "/Areas/Admin/Content/Themes/Base/Images/User.png";
+            }
+            
+            @* Blog Author *@
+            var user = "Anonymous";
+            var authorUrl = "#";
+            if (Model.TheBlogUser != null)
+            {
+                user = Model.TheBlogUser.Username;
+                authorUrl = Model.TheBlog.BlogAuthorUrl ?? "#";
+            }
+        }
+        <div class="authorImage">
+            <a href="@authorUrl"><img src="@userImg"></a>
+        </div>
+        
+        <div class="authorTitle">
+            <h5>@user</h5>
+        </div>
+        <div class="authorSocial">
+            @*== Facebook Like Button ==*@
+            @{
+                if (Model.ShowFacebookLikeButton)
+                {
+                    string absUrl = Model.BlogAbsoluteUrl;   
+                    <div class="fbLikeContainer">
+                        <iframe src="http://www.facebook.com/plugins/like.php?href=@absUrl" scrolling="no" frameborder="0"
+                                style="border: none; width: 450px; height: 80px">
+                        </iframe>
+                    </div>
+                }
+            }
+        </div>
+    
+</div>

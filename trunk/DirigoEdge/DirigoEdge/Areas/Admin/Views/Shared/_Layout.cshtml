@@ -1,4 +1,5 @@
-﻿@using SquishIt.Framework
+﻿@using DirigoEdge.Utils
+@using SquishIt.Framework
 
 <!DOCTYPE html>
 <!--[if lt IE 7 ]> <html class="ie ie6 no-js" lang="en"> <![endif]-->
@@ -37,24 +38,24 @@
     @{ 
         // SquishIt : https://github.com/jetheredge/SquishIt
         string style = SquishIt.Framework.Bundle.Css()
-                .Add("~/Content/themes/base/css/foundation.css")
-                .Add("~/Content/themes/base/css/base.css")
-                .Add("~/Content/themes/base/css/common.css")
+                               .Add("~/Content/themes/base/css/foundation.css")
+                               .Add("~/Content/themes/base/css/base.css")
+                               .Add("~/Content/themes/base/css/common.css")
                 
-                .Add("~/Content/themes/base/css/offcanvas.css")
+                               .Add("~/Content/themes/base/css/offcanvas.css")
 
-                .Add("~/Content/themes/base/css/kendo.common.min.css")
-                .Add("~/Content/themes/base/css/kendo.default.min.css")
+                               .Add("~/Content/themes/base/css/kendo.common.min.css")
+                               .Add("~/Content/themes/base/css/kendo.default.min.css")
 
-                .Add("~/Content/themes/base/css/print.css")
-                .Add("~/Content/themes/base/css/msftStyles.css") // Styles for membership framework validation errors, etc.
+                               .Add("~/Content/themes/base/css/print.css")
+                               .Add("~/Content/themes/base/css/msftStyles.css") // Styles for membership framework validation errors, etc.
 				
-                .Add("~/Scripts/jqueryui/css/smoothness/jquery-ui-1.9.2.custom.css")
+                               .Add("~/Scripts/jqueryui/css/smoothness/jquery-ui-1.9.2.custom.css")
                 
-                .Add("~/Areas/Admin/Content/themes/base/admin.css")
-                .Add("~/Areas/Admin/Content/themes/base/mediaQueries.css")
-                .Add("~/Areas/Admin/Content/themes/base/CSS/jquery.dataTables.css")
-			.Render("~/CSS/admin_#.css");
+                               .Add("~/Areas/Admin/Content/themes/base/admin.css")
+                               .Add("~/Areas/Admin/Content/themes/base/mediaQueries.css")
+                               .Add("~/Areas/Admin/Content/themes/base/CSS/jquery.dataTables.css")
+                               .Render("~/CSS/admin_#.css");
     }
     @Html.Raw(style)
 
@@ -62,6 +63,7 @@
     <script src="@Url.Content("~/Scripts/modernizr-2.6.2.min.js")" type="text/javascript"></script>
 
 </head>
+    
 <body class="off-canvas">
     <!--[if lt IE 7]>
 			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
@@ -190,7 +192,7 @@
                                 <a href="@Url.Action("AddBlog", "Admin")"><span>Add Blog +</span></a>
                             </li>
                         </ul>
-                    </li>
+                    </li>                    
                     <li class="has-dropdown">
                         <a href="#">
                             <img src="/Areas/Admin/Content/themes/base/Images/icons/file.png" class="adminIcon" />
@@ -209,12 +211,34 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="hide">
-                        <a href="@Url.Action("ManageMedia", "Admin")">
-                            <img src="/Areas/Admin/Content/themes/base/Images/icons/pictures.png" class="adminIcon" />
-                            <span>Media</span>
-                        </a>
-                    </li>
+                    
+                    @{
+                        // Events
+                        if (SiteSettingsUtils.EventsEnabled())
+                        {
+                            <li class="has-dropdown">
+                                <a href="#">
+                                    <img src="/Areas/Admin/Content/themes/base/Images/icons/calendar.png" class="adminIcon" />
+                                    <span>Events</span></a>
+                                <ul class="dropdown">
+                                    <li>
+                                        <a href="@Url.Action("ManageEvents", "Admin")">
+                                            <span>Manage Events</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("ManageEventCategories", "Admin")">
+                                            <span>Categories</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("AddEvent", "Admin")"><span>Add Event +</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                    }
+                    
                     <li>
                         <a href="@Url.Action("ManageUsers", "Admin")">
                             <img src="/Areas/Admin/Content/themes/base/Images/icons/group.png" class="adminIcon" />
@@ -237,6 +261,11 @@
                                     <span>Blog Settings</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="@Url.Action("FeatureSettings", "Admin")">
+                                    <span>Enable Features</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -245,7 +274,7 @@
     </div>
 
     @RenderSection("Modals", false)
-
+    
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="/Scripts/jquery/jquery-1.8.2.min.js"><\/script>')</script>
     @{ 
@@ -284,9 +313,11 @@
 
                 // Admin Area Specific JS
 				.Add("~/Areas/Admin/Scripts/blogAdmin.js")
+                .Add("~/Areas/Admin/Scripts/eventAdmin.js")
                 .Add("~/Areas/Admin/Scripts/userAdmin.js")
                 .Add("~/Areas/Admin/Scripts/contentAdmin.js")
                 .Add("~/Areas/Admin/Scripts/categoriesAdmin.js")
+                .Add("~/Areas/Admin/Scripts/eventCategoriesAdmin.js")
                 .Add("~/Areas/Admin/Scripts/mediaUploadWidget.js")
                 .Add("~/Areas/Admin/Scripts/adminSave.js")
 				

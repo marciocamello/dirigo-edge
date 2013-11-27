@@ -13,7 +13,13 @@ namespace DirigoEdge.Controllers
 		{
 			var model = new ContentViewViewModel(title);
 
-			return View(model.TheTemplate.ViewLocation, model);
+			if (model.ThePage != null)
+			{
+				return View(model.TheTemplate.ViewLocation, model);
+			}
+
+			HttpContext.Response.StatusCode = 404;
+			return View("~/Views/Home/Error404.cshtml");
 		}
     }
 }

@@ -55,6 +55,20 @@ namespace DirigoEdge
 				defaults: new { controller = "Blog", action = "Index", title = UrlParameter.Optional }
 			);
 
+            routes.MapRoute(
+                name: "Event",
+                url: "event/{title}",
+                defaults: new { controller = "Event", action = "Index", title = UrlParameter.Optional }
+            );
+
+            // Event Categories View
+            // Ex: dirigodev.com/event/categories/seo/
+            routes.MapRoute(
+                "Event Categories View", // Route name
+                "event/categories/{category}", // URL with parameters
+                new { controller = "Event", action = "Categories", category = UrlParameter.Optional } // Parameter defaults
+            );
+
 			routes.MapRoute(
 				name: "Content",
 				url: "content/{title}",
@@ -66,6 +80,12 @@ namespace DirigoEdge
 				url: "account/{action}/{id}",
 				defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
 			);
+
+            routes.MapRoute(
+                name: "Tweets",
+                url: "tweet/",
+                defaults: new { controller = "Home", action = "Tweet"}
+            );
 
 			// Generated Site Map
 			routes.MapRoute(

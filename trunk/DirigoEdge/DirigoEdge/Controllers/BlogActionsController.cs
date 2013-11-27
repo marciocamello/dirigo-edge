@@ -10,18 +10,61 @@ namespace DirigoEdge.Controllers
 {
     public class BlogActionsController : Controller
     {
-		public JsonResult LoadMoreBlogs(int lastBlogId, int count)
+		public JsonResult LoadMoreBlogs(int lastBlogId, int count, List<string> idList, string user = "", string date = "")
 		{
 			var result = new JsonResult();
 
-			List<Blog> blogs = BlogListModel.GetBlogs(lastBlogId, count);
+			List<Blog> blogs = BlogListModel.GetBlogs(lastBlogId, count, idList, user, date);
 
-			string html = RenderPartialViewToString("/Views/Shared/Partials/BlogArticlePartial.cshtml", blogs, ControllerContext, ViewData, TempData);
+			string html = RenderPartialViewToString("/Views/Shared/Partials/BlogArticleSinglePartial.cshtml", blogs, ControllerContext, ViewData, TempData);
 
-			result.Data = new { html = html, lastBlogId = blogs.LastOrDefault().BlogId };
+            lastBlogId = blogs.Count < 1 ? 0 : blogs.LastOrDefault().BlogId;
+			result.Data = new { html = html, lastBlogId = lastBlogId };
 
 			return result;
 		}
+
+        public JsonResult LoadMorePopularBlogs(int lastBlogId, int count, List<string> idList)
+        {
+            var result = new JsonResult();
+
+            List<Blog> blogs = BlogListModel.GetBlogs(lastBlogId, count, idList);
+
+            string html = RenderPartialViewToString("/Views/Shared/Partials/PopularBlogSinglePartial.cshtml", blogs, ControllerContext, ViewData, TempData);
+
+            lastBlogId = blogs.Count < 1 ? 0 : blogs.LastOrDefault().BlogId;
+            result.Data = new { html = html, lastBlogId = lastBlogId };
+
+            return result;
+        }
+
+        public JsonResult LoadMoreRelatedBlogs(int lastBlogId, int count, List<string> idList)
+        {
+            var result = new JsonResult();
+
+            List<Blog> blogs = BlogListModel.GetBlogs(lastBlogId, count, idList);
+
+            string html = RenderPartialViewToString("/Views/Shared/Partials/RelatedBlogSinglePartial.cshtml", blogs, ControllerContext, ViewData, TempData);
+
+            lastBlogId = blogs.Count < 1 ? 0 : blogs.LastOrDefault().BlogId;
+            result.Data = new { html = html, lastBlogId = lastBlogId };
+
+            return result;
+        }
+
+        public JsonResult LoadMoreArchives(string lastMonth, int count, List<string> idList, string user = "", string date = "")
+        {
+            var result = new JsonResult();
+
+            IEnumerable<string> archives = BlogListModel.GetArchives(lastMonth, count, idList, user, date);
+
+            string html = RenderPartialViewToString("/Views/Shared/Partials/BlogArchiveSinglePartial.cshtml", archives, ControllerContext, ViewData, TempData);
+
+            lastMonth = !archives.Any() ? "0" : "";
+            result.Data = new { html = html, lastMonth = lastMonth };
+
+            return result;
+        }
 
         // ===================================//
 		// ==== Utility / Helper Methods ==== //

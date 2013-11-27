@@ -1,0 +1,33 @@
+﻿@using DirigoEdge.Utils
+@model DirigoEdge.Models.ViewModels.BlogsCategoriesViewModel
+
+@* Categories *@
+    <div class="categoriesContainer module">
+        @{
+            if (Model.Categories.Count < 1)
+            {
+                <p>There are currently no categories to display.</p>
+            }
+            else
+            {
+                <h5>Categories</h5>
+                <ul>
+                    @{
+                        foreach (var cat in Model.Categories)
+                        {
+                            string catName = cat.TheCategory.CategoryName;
+                            var active = "";
+                            if (catName == Model.CurrentCategory)
+                            {
+                                active = "active";
+                            }
+                    
+                            <li class="categoryItem relative @active">
+                                <a href="/blog/categories/@ContentUtils.GetFormattedUrl(catName)/">@catName (@cat.BlogCount)</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            }
+        }
+</div>

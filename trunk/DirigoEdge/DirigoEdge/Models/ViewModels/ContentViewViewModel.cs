@@ -12,6 +12,9 @@ namespace DirigoEdge.Models.ViewModels
 		public ContentPage ThePage;
 		public ContentTemplate TheTemplate;
 
+		public PageDataCollection PageData;
+
+
 		public ContentViewViewModel(string title)
 		{
 			using (var context = new DataContext())
@@ -20,7 +23,12 @@ namespace DirigoEdge.Models.ViewModels
 
 				ThePage = context.ContentPages.Where(x => x.DisplayName == title).Take(1).FirstOrDefault();
 
-				TheTemplate = GetContentTemplate(ThePage.Template);
+				if (ThePage != null)
+				{
+					TheTemplate = GetContentTemplate(ThePage.Template);
+
+					PageData = ContentUtils.GetFormattedPageContentAndScripts(ThePage.HTMLContent);
+				}
 			}
 		}
 

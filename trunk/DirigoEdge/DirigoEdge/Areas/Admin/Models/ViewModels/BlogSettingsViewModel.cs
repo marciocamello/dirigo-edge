@@ -19,7 +19,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 				// Set some initial values if none are found.
 				if (Settings == null)
 				{
-					Utils.UserUtils.SetDefaultBlogSettings();
+					Utils.SiteSettingsUtils.SetDefaultBlogSettings();
 					Settings = context.BlogSettings.FirstOrDefault();
 				}
 			}

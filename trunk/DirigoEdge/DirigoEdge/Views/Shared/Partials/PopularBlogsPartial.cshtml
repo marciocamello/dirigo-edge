@@ -1,0 +1,24 @@
+﻿@using DirigoEdge.Utils
+@model DirigoEdge.Models.ViewModels.BlogPopularViewModel
+
+<div class="popularBlogsContainer module">
+    
+    <h5 class="title">Popular</h5>
+
+    @{
+        if (Model.BlogRoll.Count < 1)
+        {
+            <p>There are currently no blogs to display.</p>
+        }
+        else
+        {
+            <ul>
+                @* Load the popular blogs *@
+                @Html.Partial("/Views/Shared/Partials/PopularBlogSinglePartial.cshtml", Model.BlogRoll)
+            </ul>
+        }
+    }
+    @{
+        <a id="LoadMorePopularBlogs" href="javascript:void(0);" value="Load More" data-lastblog="@Model.LastBlogId" data-blogCount="@Model.MaxBlogCount">More...</a>
+    }
+</div>

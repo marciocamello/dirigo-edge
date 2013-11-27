@@ -1,0 +1,57 @@
+﻿@using DirigoEdge.Utils
+@model DirigoEdge.Models.ViewModels.EventSingleHomeViewModel
+@{
+    ViewBag.Title = Model.TheEvent.Title;
+    ViewBag.MetaDesc = Model.TheEvent.MetaDescription;
+    ViewBag.Title = Model.TheEvent.Title;
+    ViewBag.OGType = Model.TheEvent.OGType ?? "article";
+    ViewBag.OGTitle = Model.TheEvent.OGTitle ?? Model.TheEvent.Title;
+}
+
+<div class="singleEventModule module">
+
+    <div class="row">
+        @*Give admins a quick way to edit event*@
+        @{
+            if (UserUtils.UserIsAdmin())
+            {
+                <a href="/Admin/EditEvent/@Model.TheEvent.EventId" class="adminEdit" target="_blank">Edit</a>    
+            }
+        }
+        
+        @*Content Rail*@
+        <div class="eight columns">
+            <article>
+                @{
+                    if (!String.IsNullOrEmpty(@Model.TheEvent.FeaturedImageUrl))
+                    {
+                        <img src="@Model.TheEvent.FeaturedImageUrl" alt="@Model.TheEvent.Title"/>
+                    }
+                    var end = "- " + Convert.ToDateTime(Model.TheEvent.EndDate).ToString("dddd, M/dd/yyyy");
+                    var start = Convert.ToDateTime(Model.TheEvent.StartDate).ToString("dddd, M/dd/yyyy");
+                    if (Model.TheEvent.StartDate == DateTime.Today)
+                    {
+                        start = "Today";
+                    }
+                    if (Model.TheEvent.EndDate == Model.TheEvent.StartDate)
+                    {
+                        end = "";
+                    }
+                }
+                <h3><a href="/event/@Model.TheEvent.PermaLink">@Model.TheEvent.Title</a></h3>
+                <h5>@start @end</h5>
+
+                <div class="row">
+                    <div class="userEventContent twelve columns">
+                        @Html.Raw(Model.TheEvent.HtmlContent)
+                    </div>
+                </div>
+            </article>
+        </div>
+            
+        @*Right Rail*@
+        <div class="four columns">
+            
+        </div>
+    </div>
+</div>
