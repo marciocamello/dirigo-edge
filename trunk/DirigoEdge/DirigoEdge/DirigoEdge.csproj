@@ -24,6 +24,8 @@
     <SccLocalPath>.</SccLocalPath>
     <SccAuxPath>http://192.168.5.47:8080</SccAuxPath>
     <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -150,26 +152,39 @@
     <Compile Include="Areas\Admin\Controllers\BlogAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ContentAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EventCategoryController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EventAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ListBlogsController.cs" />
     <Compile Include="Areas\Admin\Controllers\MediaUploadController.cs" />
     <Compile Include="Areas\Admin\Controllers\SettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SlideAdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Areas\Admin\Models\DataModels\DefaultAdminModules.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\BlogSettingsViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\EditEventViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\EditSlideShowViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\DashBoardViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\EditBlogViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\EditContentViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\EditModuleViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\FeatureSettingsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageBlogsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageCategoriesViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageContentViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\ManageEventCategoriesViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\ManageEventsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageMediaViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageModulesViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageUsersViewModel.cs" />
+    <Content Include="Areas\Admin\Content\themes\base\adminEdit.css" />
     <Content Include="Areas\Admin\Content\themes\base\CSS\jquery.dataTables.css" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\builder\template_1.jpg" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\builder\template_2.jpg" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\builder\template_3.jpg" />
     <Content Include="Areas\Admin\Content\themes\base\Images\collapse.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\expand.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\icons\business_contact.png" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\icons\edit_white.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\icons\services.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\back_disabled.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\back_enabled.png" />
@@ -183,12 +198,14 @@
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_both.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_desc.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_desc_disabled.png" />
-    <Content Include="Areas\Admin\Content\themes\base\adminEdit.css" />
     <Content Include="Areas\Admin\Scripts\adminContentEditorModal.js" />
     <Content Include="Areas\Admin\Scripts\adminSave.js" />
+    <Content Include="Areas\Admin\Scripts\eventCategoriesAdmin.js" />
+    <Content Include="Areas\Admin\Scripts\eventAdmin.js" />
     <Content Include="Areas\Admin\Scripts\siteSettings.js" />
     <Content Include="Areas\Admin\Scripts\mediaUploadWidget.js" />
     <Content Include="Content\logo.png" />
+    <Content Include="Content\themes\base\css\blog.css" />
     <Content Include="Content\uploaded\dirigoLogo.jpg" />
     <Content Include="Content\uploaded\Media\ph.txt" />
     <Compile Include="Areas\Admin\Models\ViewModels\SiteSettingsViewModel.cs" />
@@ -198,6 +215,7 @@
     <Compile Include="Controllers\BlogActionsController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Entities\BlogSettings.cs" />
     <Compile Include="Entities\BlogUser.cs" />
@@ -207,6 +225,10 @@
     <Compile Include="Entities\ContentModule.cs" />
     <Compile Include="Entities\BlogAdminModules.cs" />
     <Compile Include="Entities\ContentPageRevision.cs" />
+    <Compile Include="Entities\FeatureSettings.cs" />
+    <Compile Include="Entities\Event.cs" />
+    <Compile Include="Entities\EventAdminModules.cs" />
+    <Compile Include="Entities\EventCategory.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\SiteSettings.cs" />
     <Compile Include="Entities\SlideshowModule.cs" />
@@ -229,13 +251,26 @@
     <Compile Include="Models\ViewModels\CategoryHomeViewModel.cs" />
     <Compile Include="Models\ViewModels\CategorySingleViewModel.cs" />
     <Compile Include="Models\ViewModels\ContentViewViewModel.cs" />
+    <Compile Include="Models\ViewModels\BlogAuthorViewModel.cs" />
+    <Compile Include="Models\ViewModels\BlogCategoriesViewModel.cs" />
+    <Compile Include="Models\ViewModels\BlogPopularViewModel.cs" />
+    <Compile Include="Models\ViewModels\BlogRelatedViewModel.cs" />
+    <Compile Include="Models\ViewModels\BlogArchiveViewModel.cs" />
+    <Compile Include="Models\ViewModels\EventCategoryHomeViewModel.cs" />
+    <Compile Include="Models\ViewModels\EventCategorySingleViewModel.cs" />
+    <Compile Include="Models\ViewModels\EventSingleHomeViewModel.cs" />
+    <Compile Include="Models\ViewModels\EventHomeViewModel.cs" />
+    <Compile Include="Models\ViewModels\TweetViewModel.cs" />
     <Compile Include="Models\ViewModels\HomeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ContentGlobals.cs" />
     <Compile Include="Utils\ContentUtils.cs" />
+    <Compile Include="Utils\DynamicModules.cs" />
     <Compile Include="Utils\HtmlHelperExtensions.cs" />
     <Compile Include="Utils\HTTPUtils.cs" />
     <Compile Include="Utils\Sitemap.cs" />
+    <Compile Include="Utils\SiteSettingsUtils.cs" />
+    <Compile Include="Utils\TwitterUtils.cs" />
     <Compile Include="Utils\UserUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -766,6 +801,7 @@
     <Content Include="Scripts\jqueryui\css\smoothness\images\ui-icons_222222_256x240.png" />
     <Content Include="Scripts\jqueryui\css\smoothness\images\ui-icons_454545_256x240.png" />
     <Content Include="Scripts\jqueryui\css\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Scripts\jqueryui\css\smoothness\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Scripts\jqueryui\css\smoothness\jquery-ui-1.9.2.custom.css" />
     <Content Include="Scripts\jqueryui\js\jquery-ui-1.9.2.custom.js" />
     <Content Include="Scripts\jquery\plugins\dropzone\css\basic.css" />
@@ -818,8 +854,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\uploaded\ModuleThumbs\" />
     <Folder Include="Content\uploaded\Sliders\" />
-    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -944,6 +980,42 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Shared\Partials\RevisionsListInnerPartial.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\StockPageTemplates\LeftRailRightContentOptionalHeaderFooter.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\ListBlogs\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Shared\Partials\StockPageTemplates\RightRailLeftContentOptionalHeaderFooter.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\StockPageTemplates\FullWidth.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\EditEvent.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ManageEventCategories.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ManageEvents.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\EventAdminModules\CategoriesModule.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\EventAdminModules\FeaturedImageModule.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\EventAdminModules\FeaturedTextModule.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\EventAdminModules\PublishModule.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\EventAdminModules\SEOMetaModule.cshtml" />
+    <Content Include="Content\uploaded\EventFeaturedImages\ph" />
+    <Content Include="Content\uploaded\EventImages\ph" />
+    <Content Include="Areas\Admin\Views\Admin\FeatureSettings.cshtml" />
+    <None Include="Properties\PublishProfiles\Dirigo5 edge.dirigodev.com.pubxml" />
+    <Content Include="Views\Home\Tweet.cshtml" />
+    <Content Include="Views\Home\Event.cshtml" />
+    <Content Include="Views\Shared\Partials\EventArticlePartial.cshtml" />
+    <Content Include="Views\Home\EventSingle.cshtml" />
+    <Content Include="Views\Event\CategoriesSingle.cshtml" />
+    <Content Include="Views\Shared\Partials\BlogAuthorPartial.cshtml" />
+    <Content Include="Views\Shared\Partials\CategoriesListingPartial.cshtml" />
+    <Content Include="Views\Shared\Partials\PopularBlogsPartial.cshtml" />
+    <Content Include="Views\Shared\Partials\RelatedPostsPartial.cshtml" />
+    <Content Include="Views\Shared\Partials\PopularBlogSinglePartial.cshtml" />
+    <Content Include="Views\Shared\Partials\RelatedBlogSinglePartial.cshtml" />
+    <Content Include="Views\Shared\Partials\BlogArticleSinglePartial.cshtml" />
+    <Content Include="Views\Shared\Partials\BlogArchivePartial.cshtml" />
+    <Content Include="Views\Shared\Partials\BlogArchiveSinglePartial.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -963,6 +1035,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
