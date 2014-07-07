@@ -10,8 +10,8 @@
     <div class="twelve columns">
 
         <div class="contain">
-            <h2 class="left">Manage Users</h2>
-            <a id="NewUser" class="right button small tabletMarginBottom" data-reveal-id="NewUserModal">New User +</a>
+            <h2 class="left"><i class="fa fa-users"></i> Manage Users</h2>
+            <h2><a id="NewUser" class="right button" data-reveal-id="NewUserModal">New User +</a></h2>
         </div>
 
         <div id="ManageUserTableContainer">
@@ -21,21 +21,39 @@
                         <th class="hide-for-small">Thumbnail</th>
                         <th>User Name</th>
                         <th class="hide-for-small">User Image Location</th>
-                        <th>Is Active</th>
-                        <th class="actions">Actions</th>
+                        <th>Role(s)</th>
+                        <th class="actions" style="min-width: 120px">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @{
 					    foreach (var user in Model.Users)
 					    {
-						    string active = (bool)user.IsActive ? "True" : "False";
+						    string active = !user.IsLockedOut ? "True" : "False";
                             <tr>
                                 <td class="imageLocation hide-for-small">
-                                    <img width="100" src="@user.UserImageLocation" /></td>
-                                <td class="displayName">@user.DisplayName</td>
+                                    <img width="80" src="@user.UserImageLocation" />
+                                </td>
+                                <td class="displayName">@user.Username</td>
                                 <td class="hide-for-small"><a class="has-tip" href="javascript:void(0);" title="<img src='@user.UserImageLocation' alt='Image Not Found'>">@user.UserImageLocation</a></td>
-                                <td class="isActive">@active</td>
+                                
+                                @{
+                                    string roleList = "";
+                                    if (user.Roles != null && user.Roles.Count > 0)
+                                    {
+                                        foreach (var role in user.Roles)
+                                        {
+
+                                            string trailingComma = role != user.Roles.Last() ? ", " : "";
+                                            roleList += role.RoleName + trailingComma;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        roleList = "(No Roles Assigned.)";
+                                    }
+                                }
+                                <td class="roles">@roleList</td>
                                 <td>
                                     <a class="editUser button small secondary tabletMarginBottom" href="javascript:void(0);" data-id="@user.UserId">Edit</a>
                                     <a class="deleteUser button small secondary" href="javascript:void(0);" data-id="@user.UserId">Delete</a>
@@ -53,20 +71,36 @@
 @section Modals {
     <div id="NewUserModal" class="reveal-modal">
         <div class="content">
-            <h2>Create New User.</h2>
+            <h2>Create New User :</h2>
             <p class="hide lead">Create a new Username</p>
 
             <form class="custom">
                 <label>User Name</label>
                 <input id="NewUserName" type="text" placeholder="User Name" autocomplete="off" />
+                
+                <label>Password</label>
+                <input id="NewUserPassword" type="password" placeholder="password" autocomplete="off" />
 
                 <label>Image Location</label>
-                <input id="NewUserImage" type="text" autocomplete="off" />
+                <input id="NewUserImage" type="text" value="@Model.NOUSERIMAGE" autocomplete="off" />
 
-                <label for="IsActiveBox">
+                <label class="hide" for="IsActiveBox">
                     <input type="checkbox" id="IsActiveBox" checked="checked" style="display: none;" autocomplete="off">
                     <span id="NewUserIsActiveBox" class="custom checkbox"></span> Is Active
                 </label>
+                
+                <hr/>
+                
+                <div class="roleListing">
+                    <h4>Assign Roles : </h4>
+                    @{
+                        foreach (var role in Model.RolesList)
+                        {
+                            string inputID = role + "_check";
+                            <label for="@inputID"><input id="@inputID" type="checkbox" data-role="@role"/> @role</label>
+                        }
+                    }
+                </div>
             </form>
 
             <a id="CreateUserButton" class="button right">Create</a>
@@ -76,25 +110,63 @@
     </div>
 
     <div id="ModifyUserModal" class="reveal-modal">
-        <h2>Modify User.</h2>
-        <p class="hide lead">Modify a blog user.</p>
+        <div class="content">
+            <h2>Modify User :</h2>
+            <p class="hide lead">Modify a blog user.</p>
 
-        <form class="custom">
-            <label>User Name</label>
-            <input type="text" id="ModUserName" autocomplete="off" />
+            <form class="custom">
+                <label>User Name</label>
+                <input type="text" id="ModUserName" autocomplete="off" />
+            
+                <label><a href="#" id="ChangeUserPassword">Change Password</a></label>
+            
+                <hr/>
+            
+                <label>Image Location</label>
+                <input type="text" id="ModUserImageLocation" autocomplete="off" />
 
-            <label>Image Location</label>
-            <input type="text" id="ModUserImageLocation" autocomplete="off" />
+                <label class="hide" for="ModUserIsActiveBox">
+                    <input type="checkbox" id="ModUserIsActiveBox" style="display: none;" autocomplete="off">
+                    <span id="ModUserIsActiveBoxOver" class="custom checkbox"></span><span> Is Active</span>
+                </label>
+            
+                <hr/>
+            
+                <div class="roleListing">
+                    <h4>Assigned Roles : </h4>
+                    @{
+                        foreach (var role in Model.RolesList)
+                        {
+                            string inputID = role + "_check";
+                            <label for="@inputID"><input id="@inputID" type="checkbox" data-role="@role"/> @role</label>
+                        }
+                    }
+                </div>
+            </form>
 
-            <label for="ModUserIsActiveBox">
-                <input type="checkbox" id="ModUserIsActiveBox" style="display: none;" autocomplete="off">
-                <span id="ModUserIsActiveBoxOver" class="custom checkbox"></span><span> Is Active</span>
-            </label>
-        </form>
-
-        <a id="ModifyUserButton" class="button right">Update</a>
+            <a id="ModifyUserButton" class="button right">Update</a>
+        </div>
+        
         <a class="close-reveal-modal">&#215;</a>
     </div>
+    
+    
+    <div id="ChangePasswordModal" class="reveal-modal">
+        <div class="content">
+            <h4>Change password for user : <em id="ChngPasswdUname"></em></h4>
+        
+            <label>New Password :</label>
+            <input type="password" id="NewUserChangePassword" autocomplete="off" />
+        
+            <label>Repeat New Password :</label>
+            <input type="password" id="RepeatNewUserChangePassword" autocomplete="off" />
+
+            <a id="ChangeUserPasswordButton" class="button right confirmModalButton">Change Password</a>
+        </div>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+
 
     <div id="DeleteUserModal" class="reveal-modal">
         <h2>Delete User.</h2>
@@ -109,6 +181,6 @@
 
 @section Scripts {
     @{
-        <script src="/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+        <script src="/Areas/Admin/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
     }
 }

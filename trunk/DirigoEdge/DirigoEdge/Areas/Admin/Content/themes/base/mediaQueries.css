@@ -1,6 +1,60 @@
-﻿@media all and (max-width: 840px) and (min-width: 768px) {
+﻿@media all and (max-width: 1410px) {
+    #PreviewContentButton {
+        float: left;
+    }
+
+    .sideBarClosed #PreviewContentButton {
+        float: right;
+    }
+}
+
+/*Full-Width Admin*/
+@media all and (min-width: 1200px) {
+
+    html,body, body > div.contents, div.visibleOverflow {
+        height: 100%;
+    }
+
+    html {
+        overflow: hidden;
+    }
+
+    div.top-barContainer > .row.header {
+        width: 100%;
+    }
+
+    #Main {
+        width: 100%;
+        padding-left: 220px;
+        padding-right: 0;
+        bottom: 0;
+        overflow: auto;
+        position: absolute;
+        top: 45px;
+    }
+
+
+    #Main > .row, #Main > div > div.row {
+        max-width: none;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    #sidebar {
+        padding-top: 8px;
+        width:220px;
+        position: absolute;
+        top: 45px;
+        bottom: 0;
+        overflow: auto;
+        border-right: 2px solid #CCC;
+        background: #FFF;
+    }
+}
+
+@media all and (max-width: 840px) and (min-width: 768px) {
 	/** Admin Sidebar icons - hide for iPad and devices slightly above*/
-	#sidebar ul li a img {
+	#sidebar ul li a i {
 		display: none;
 	}
 	#sidebar ul.tabs li span {

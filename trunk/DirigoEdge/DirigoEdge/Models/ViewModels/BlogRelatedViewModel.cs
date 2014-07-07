@@ -33,15 +33,18 @@ namespace DirigoEdge.Models.ViewModels
                     TheBlog = context.Blogs.FirstOrDefault(x => x.Title == title);
                 }
 
-                List<string> tags = TheBlog.Tags.Split(',').ToList();
-                RelatedPosts = context.Blogs.Where(x => x.BlogId != TheBlog.BlogId && tags.Contains(x.Tags) && x.MainCategory == TheBlog.MainCategory)
-                                .OrderByDescending(blog => blog.Date)
-                                .Take(MaxBlogCount)
-                                .ToList();
-
-                if (RelatedPosts.Count > 0)
+                if (TheBlog != null && TheBlog.Tags != null)
                 {
-                    LastBlogId = RelatedPosts.LastOrDefault().BlogId;
+                    List<string> tags = TheBlog.Tags.Split(',').ToList();
+                    RelatedPosts = context.Blogs.Where(x => x.BlogId != TheBlog.BlogId && tags.Contains(x.Tags) && x.MainCategory == TheBlog.MainCategory)
+                                    .OrderByDescending(blog => blog.Date)
+                                    .Take(MaxBlogCount)
+                                    .ToList();
+
+                    if (RelatedPosts.Count > 0)
+                    {
+                        LastBlogId = RelatedPosts.LastOrDefault().BlogId;
+                    }
                 }
             }
 		}

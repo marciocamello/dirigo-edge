@@ -33,7 +33,6 @@ namespace DirigoEdge.Controllers
 			ModelState.AddModelError("", "The user name or password provided is incorrect.");
 			return View(model);
 		}
-
 		
 		public ActionResult LogOff()
 		{
@@ -58,16 +57,56 @@ namespace DirigoEdge.Controllers
 				// Attempt to register the user
 				try
 				{
+                    var cfrp = new CodeFirstRoleProvider();
+
 					WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
 					WebSecurity.Login(model.UserName, model.Password);
 
-					// Make sure roll exists
-					if (!Roles.RoleExists("Administrators"))
+                    // By default add the user to the admin group, unless user has specified another group in the settings area
+				    string defaultRole = "Administrators";
+				    using (var context = new DataContext())
+				    {
+				        var siteSettings = context.SiteSettings.FirstOrDefault();
+                        if (siteSettings != null && !String.IsNullOrEmpty(siteSettings.DefaultUserRole))
+				        {
+				            defaultRole = siteSettings.DefaultUserRole;
+				        }
+				    }
+
+                    // Now check if user entered a registration Code.
+                    // Registration Codes allow users to be inserted into a non-default role
+                    if (!String.IsNullOrEmpty(model.RegistrationCode))
+                    {
+                        // Check for a Role that has this registration code
+                        using (var context = new DataContext())
+                        {
+                            var role = context.Roles.FirstOrDefault(x => x.RegistrationCode == model.RegistrationCode);
+                            if (role != null)
+                            {
+                                defaultRole = role.RoleName;
+                            }
+                        }
+                    }
+
+				    // Make sure roll exists
+                    if (!Roles.RoleExists(defaultRole))
 					{
-						Roles.CreateRole("Administrators");
+                        Roles.CreateRole(defaultRole);
 					}
 
-					Roles.AddUserToRole(model.UserName, "Administrators");
+                    // Double Check CodeFirst Provider
+                    if (!cfrp.RoleExists(defaultRole))
+                    {
+                        cfrp.CreateRole(defaultRole);
+                    }
+
+                    // Sanity Check
+                    if (!Roles.IsUserInRole(model.UserName, defaultRole))
+                    {
+                        Roles.AddUserToRole(model.UserName, defaultRole);    
+                    }
+                    // Add to CodeFirst as well
+                    cfrp.AddUsersToRoles(new string[] { model.UserName }, new string[] { defaultRole });
 
 					return RedirectToAction("Index", "Admin");
 				}

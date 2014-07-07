@@ -23,33 +23,6 @@ blog_class.prototype.initPageEvents = function() {
         this.initBlogAdminModuleEvents();
     }
 
-    // Sidebar menu
-    $("#sidebar ul > li.has-dropdown > a").click(function(e) {
-        e.preventDefault();
-        var $li = $(this).parent();
-        // SlideUp
-        if ($li.hasClass("active")) {
-            $li.removeClass("active");
-
-            setTimeout(function() {
-                $("#sidebar ul.tabs li.active").removeClass("active");
-            }, 200);
-            
-
-            $li.find("ul.dropdown").slideUp("fast");
-        }
-        // Slide down
-        else {
-            $li.addClass("active");
-            $li.find("ul.dropdown").slideDown("fast");
-        }
-
-        
-       
-        
-       
-    });
-
     // Ckeditor instances
     if ($('#CKEDITBLOG').length > 0) {
         this.CKPageEditor = CKEDITOR.replace('CKEDITBLOG', {
@@ -250,31 +223,6 @@ blog_class.prototype.editBlogEvents = function() {
         self.blogId = $("div.editBlog").attr("data-id");
         self.blogIsSaved = true;
     }
-
-    // Lazy Load Stock Images in
-    $("#ChooseStockLink").click(function() {
-        var $holder = $("#StockImageHolder");
-        var hasContent = $holder.find("img").length > 0;
-
-        if (!hasContent) {
-
-            var $container = $("#StockImageHolder");
-
-            common.showAjaxLoader($container);
-
-            $container.load("/blogadmin/loadStockImages/", function(data) {
-                common.hideAjaxLoader($container);
-            });
-        }
-    });
-
-    // Click on Stock Images to populate stock dropdown
-    $("#StockImagesModal a.stockImage").live("click", function() {
-        var src = $(this).find("img").attr("src");
-        $("#FeaturedImage").attr("value", src);
-        $("#FeaturedImageModal").reveal();
-
-    });
 };
 
 blog_class.prototype.addBlogEvents = function() {
@@ -319,7 +267,7 @@ blog_class.prototype.addBlogEvents = function() {
                 OGUrl: $("#OGUrl").attr("value"),
                 Canonical: $("#Canonical").attr("value"),
                 Date: $("#PublishDate").attr("value"),
-                PermaLink: $("#PermaLinkEnd").text()
+                PermaLink: self.formatBlogLink($("#PermaLinkEnd").text())
             }
         };
 

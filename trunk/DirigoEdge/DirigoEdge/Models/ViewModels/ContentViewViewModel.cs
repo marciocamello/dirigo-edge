@@ -14,23 +14,45 @@ namespace DirigoEdge.Models.ViewModels
 
 		public PageDataCollection PageData;
 
-
 		public ContentViewViewModel(string title)
 		{
 			using (var context = new DataContext())
 			{
-				title = title.Replace(ContentGlobals.BLOGDELIMMETER, " ");
+                // Use Permalink first
+                ThePage = context.ContentPages.Where(x => x.Permalink == title && x.IsRevision == false && x.IsActive == true).Take(1).FirstOrDefault();
 
-				ThePage = context.ContentPages.Where(x => x.DisplayName == title).Take(1).FirstOrDefault();
+                // If not found, try the title
+                if (ThePage == null)
+                {
+                    ThePage = context.ContentPages.Where(x => x.DisplayName == title && x.IsRevision == false && x.IsActive == true).Take(1).FirstOrDefault();
+                }
 
 				if (ThePage != null)
 				{
-					TheTemplate = GetContentTemplate(ThePage.Template);
-
-					PageData = ContentUtils.GetFormattedPageContentAndScripts(ThePage.HTMLContent);
+                    this.init();
 				}
 			}
 		}
+
+        public ContentViewViewModel(int pageId)
+        {
+            using (var context = new DataContext())
+            {
+                ThePage = context.ContentPages.Where(x => x.ContentPageId == pageId).Take(1).FirstOrDefault();
+
+                if (ThePage != null)
+                {
+                    this.init();
+                }
+            }
+        }
+
+        private void init()
+        {
+            TheTemplate = GetContentTemplate(ThePage.Template);
+
+            PageData = ContentUtils.GetFormattedPageContentAndScripts(ThePage.HTMLContent);
+        }
 
 		private ContentTemplate GetContentTemplate(string templateName)
 		{

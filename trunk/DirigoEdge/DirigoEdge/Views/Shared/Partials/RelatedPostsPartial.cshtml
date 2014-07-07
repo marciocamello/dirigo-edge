@@ -4,7 +4,7 @@
     <div class="relatedPostsContainer contain">
         <h4>Related Articles</h4>
         @{
-            if (Model.RelatedPosts.Count < 1)
+            if (Model.RelatedPosts == null || Model.RelatedPosts.Count < 1)
             {
                 <p>There are no related articles</p>
             }

@@ -1,10 +1,13 @@
-﻿@model List<DirigoEdge.Entities.ContentPageRevision>
+﻿@model List<ContentPage>
 <ul>
     @{
         foreach (var rev in Model)
         {
+            string isDraft = rev.IsRevision ? "(Draft)" : "Published";
+            string publishDate = Convert.ToDateTime(rev.PublishDate).ToString("MM/dd/yyyy @ hh:mm");
+            string authorName = rev.DraftAuthorName ?? "Anonymous";
             <li>
-                <a href="javascript:void(0);" data-id="@rev.ContentPageRevisionId">@String.Format("{0:dd MMMM, yyyy @ HH:mm}", rev.DateCreated)</a><span>by @rev.AuthorName</span>
+                <a href="javascript:void(0);" data-id="@rev.ContentPageId">@publishDate <span class="status">@isDraft</span></a><span>by @authorName</span>
             </li>
         }
     }

@@ -3,7 +3,6 @@
     ViewBag.Title = "Register";
 }
 
-
 <div class="row">
     <div class="eight columns">
         <hgroup class="title">
@@ -30,18 +29,18 @@
                         @Html.LabelFor(m => m.ConfirmPassword)
                         @Html.PasswordFor(m => m.ConfirmPassword)
                     </li>
+                    
+                    <li>
+                        @Html.LabelFor(m => m.RegistrationCode)
+                        @Html.TextBoxFor(m => m.RegistrationCode)
+                    </li>
+
                 </ol>
                 <input type="submit" value="Register" class="button registerUserButton" />
             </fieldset>
-}
-        
-        
-
+        }
     </div>
 </div>
-
-
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

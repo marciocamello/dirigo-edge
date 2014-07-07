@@ -34,9 +34,8 @@ namespace DirigoEdge.Areas.Admin.Controllers
 						editedBlog.IsActive = entity.IsActive;
 						editedBlog.IsFeatured = entity.IsFeatured;
 						editedBlog.Title = scrubInput(entity.Title);
-						editedBlog.PermaLink = scrubInput(entity.PermaLink);
-						//jptodo
-						//editedBlog.Categories = scrubInput(entity.Categories);
+						editedBlog.PermaLink = ContentUtils.GetFormattedUrl(entity.PermaLink);
+						
 						editedBlog.MainCategory = scrubInput(entity.MainCategory);
 						editedBlog.Tags = scrubInput(entity.Tags);
 						editedBlog.ShortDesc = entity.ShortDesc;
@@ -113,58 +112,79 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		{
 			var result = new JsonResult();
 
-			if (!String.IsNullOrEmpty(entity.DisplayName))
+			if (!String.IsNullOrEmpty(entity.Title))
 			{
 				using (var context = new DataContext())
 				{
 					ContentPage editedContent = context.ContentPages.FirstOrDefault(x => x.ContentPageId == entity.ContentPageId);
 					if (editedContent != null)
 					{
-						editedContent.DisplayName = scrubInput(entity.DisplayName);
-						editedContent.HTMLContent = entity.HTMLContent;
+					    editedContent.IsActive = true; // Saving / Publishing content sets this to true.
 
-						if (!isBasic)
-						{
-							editedContent.JSContent = entity.JSContent;
-							editedContent.CSSContent = entity.CSSContent;
-						}
-
-						editedContent.Template = entity.Template;
-						editedContent.Title = entity.Title;
-						editedContent.PublishDate = entity.PublishDate;
-
-						// SEO Related Info
-						editedContent.MetaDescription = entity.MetaDescription;
-						editedContent.OGTitle = entity.OGTitle;
-						editedContent.OGImage = entity.OGImage;
-						editedContent.OGType = entity.OGType;
-						editedContent.OGUrl = entity.OGUrl;
-						editedContent.Canonical = entity.Canonical;
+					    setContentPageData(ref editedContent, entity, false, isBasic);
 
 						context.SaveChanges();
 
-						// Save a Page Revision if enabled
-						if (SiteSettingsUtils.PageRevisionsEnabled())
-						{
-							var revision = new ContentPageRevision()
-								{
-									AuthorName = Utils.UserUtils.CurrentMembershipUsername(),
-									ContentHtml = entity.HTMLContent,
-									ContentPageId = entity.ContentPageId,
-									DateCreated = DateTime.Now
-								};
-
-							context.ContentPageRevisions.Add(revision);
-							
-							context.SaveChanges();
-						}						
-					}
+                        result.Data = new { publishDate = Convert.ToDateTime(DateTime.Now).ToString("MM/dd/yyyy @ hh:mm") };
+					}						
 				}
 			}
 			return result;
 		}
 
-		[HttpPost]
+        [HttpPost]
+        [Authorize(Roles = "Administrators")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult SaveDraft(ContentPage entity)
+        {
+            var result = new JsonResult();
+            var draft = new ContentPage();
+
+            setContentPageData(ref draft, entity, true, false);
+
+            using (var context = new DataContext())
+            {
+                context.ContentPages.Add(draft);
+
+                context.SaveChanges();
+            }
+
+            result.Data = new { id = draft.ContentPageId };
+
+            return result;
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = "Administrators")]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult ChangeDraftStatus(ContentPage entity)
+        {
+            var result = new JsonResult();
+
+            using (var context = new DataContext())
+            {
+                ContentPage editedContent = context.ContentPages.FirstOrDefault(x => x.ContentPageId == entity.ContentPageId);
+                if (editedContent != null)
+                {
+                    editedContent.IsActive = entity.IsActive;
+                }
+
+                // Return last publish date if we just changed to publish
+                if (Convert.ToBoolean(entity.IsActive))
+                {
+                    editedContent.PublishDate = DateTime.Now;
+                    result.Data = new { publishDate = Convert.ToDateTime(DateTime.Now).ToString("MM/dd/yyyy @ hh:mm") };
+                }
+
+                context.SaveChanges();
+            }
+
+            return result;
+        }
+
+        
+        [HttpPost]
 		[Authorize(Roles = "Administrators")]
 		[AcceptVerbs(HttpVerbs.Post)]
 		[ValidateInput(false)]
@@ -258,8 +278,11 @@ namespace DirigoEdge.Areas.Admin.Controllers
 					{
 						editedContent.ModuleName = scrubInput(entity.ModuleName);
 						editedContent.HTMLContent = entity.HTMLContent;
+                        editedContent.HTMLUnparsed = entity.HTMLUnparsed;
 						editedContent.JSContent = entity.JSContent;
 						editedContent.CSSContent = entity.CSSContent;
+					    editedContent.SchemaId = entity.SchemaId;
+                        editedContent.SchemaEntryValues = entity.SchemaEntryValues;
 
 						context.SaveChanges();
 					}
@@ -336,6 +359,46 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		}
 
 		#region Helper Methods
+
+        protected void setContentPageData(ref ContentPage editedContent, ContentPage entity, bool isRevision, bool isBasic)
+        {
+            if (isRevision)
+            {
+                editedContent.IsRevision = true;
+                editedContent.ParentContentPageId = entity.ContentPageId;
+            }
+            else
+            {
+                editedContent.IsRevision = false;
+            }
+
+            if (!isBasic)
+            {
+                editedContent.JSContent = entity.JSContent;
+                editedContent.CSSContent = entity.CSSContent;
+            }
+
+            editedContent.DraftAuthorName = UserUtils.CurrentMembershipUsername();
+            editedContent.DisplayName = scrubInput(entity.DisplayName);
+            editedContent.Permalink = ContentUtils.GetFormattedUrl(entity.Permalink);
+            editedContent.HTMLContent = entity.HTMLContent;
+            editedContent.HTMLUnparsed = entity.HTMLUnparsed;
+            editedContent.SchemaId = entity.SchemaId;
+            editedContent.SchemaEntryValues = entity.SchemaEntryValues;
+            
+
+            editedContent.Template = entity.Template;
+            editedContent.Title = entity.Title;
+            editedContent.PublishDate = DateTime.Now;
+
+            // SEO Related Info
+            editedContent.MetaDescription = entity.MetaDescription;
+            editedContent.OGTitle = entity.OGTitle;
+            editedContent.OGImage = entity.OGImage;
+            editedContent.OGType = entity.OGType;
+            editedContent.OGUrl = entity.OGUrl;
+            editedContent.Canonical = entity.Canonical;
+        }
 
 		private void checkNullUserModules(User thisUser)
 		{

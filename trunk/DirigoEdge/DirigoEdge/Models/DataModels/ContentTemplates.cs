@@ -18,7 +18,7 @@ namespace DirigoEdge.Models.DataModels
 
 		private void addTemplates()
 		{
-			Templates = new Dictionary<string, ContentTemplate>();
+            Templates = new Dictionary<string, ContentTemplate>(StringComparer.InvariantCultureIgnoreCase);
 
 			// Get list of Template files in this location
 			var templateList = System.IO.Directory.EnumerateFiles(HttpContext.Current.Server.MapPath(string.Format("~{0}", _templatesLocation)));

@@ -18,7 +18,6 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 		public List<BlogAdminModule> AdminModulesColumn2;
 		public int BlogId;
 		public string SiteUrl;
-
 		
 		private User _thisUser;
 		private readonly MembershipUser _memUser;
@@ -37,6 +36,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 				if (String.IsNullOrEmpty(ThisBlog.PermaLink))
 				{
 					ThisBlog.PermaLink = ContentUtils.GetFormattedUrl(ThisBlog.Title);
+				    context.SaveChanges();
 				}
 
 				// Get the list of Authors for the drop down select

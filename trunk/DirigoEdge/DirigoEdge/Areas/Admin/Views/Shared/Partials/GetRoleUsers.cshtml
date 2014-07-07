@@ -1,0 +1,59 @@
+﻿@{
+    string roleName = ViewBag.Role;  
+}
+
+<dl class="tabs contained">
+    <dd class="active"><a href="#simple1">In Role</a></dd>
+    <dd><a href="#simple2">Not In Role</a></dd>
+</dl>
+
+<ul class="tabs-content contained noPadding">
+    <li class="active" id="simple1Tab">
+        <ul class="userList">
+        @{
+              
+            using (var context = new DataContext())
+            {
+                Role RoleToModify = context.Roles.Where(x => x.RoleName == roleName).ToList().FirstOrDefault();
+
+                foreach (var user in RoleToModify.Users)
+                {
+                    string labelId = "check" + user.UserId;
+                    <li data-id="@user.UserId">
+                        <input class="no-custom" type="checkbox" checked="checked" id="@labelId"/> <label for="@labelId">@user.Username</label>
+                    </li>
+                }
+            }
+        }
+        </ul>
+        
+
+    </li>
+    <li id="simple2Tab">
+        <ul class="userList">
+        @{
+            using (var context = new DataContext())
+            {
+                Role RoleToModify = context.Roles.Where(x => x.RoleName == roleName).ToList().FirstOrDefault();
+        
+                // Add all other users that aren't in that role, that way admins can quickly add users
+                var allUsers = context.Users.ToList();
+                var test = allUsers.Where(x => !x.Roles.Contains(RoleToModify)).ToList();
+
+                if (test.Any())
+                {
+                    foreach (var user in test)
+                    {
+                        string labelId = "check" + user.UserId;
+                        <li data-id="@user.UserId">
+                            <input class="no-custom" type="checkbox" id="@labelId"/> <label for="@labelId">@user.Username</label>
+                        </li>
+                    }
+                }
+            }
+        }
+        </ul>
+
+    </li>
+  
+</ul>

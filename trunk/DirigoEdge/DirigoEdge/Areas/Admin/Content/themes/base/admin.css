@@ -19,9 +19,73 @@ h1, h2, h3, h4, h5, h6 {
 body {
 	background:url(./Images/cream_dust.png) #EEE;
 }
-.row {
-    width:1440px;
+
+.row { width:1440px; }
+
+body.sidebarOpen #sidebar {
+     width:220px  !important;
+     border-right: 2px solid #CCC  !important;
 }
+
+body.sidebarOpen #Main {
+    padding-left: 220px !important;     
+}
+
+/*Admin Styles*/
+body.sideBarClosed #sidebar {
+    width: 5px;
+    border-right: 5px solid #AAA;
+}
+
+body.sideBarClosed #Main {
+    padding-left: 5px;
+}
+
+#ToggleSidebar {
+    padding: 5px 12px 0;
+}
+.username .userIcon {
+    background: url("./Images/User_white.png") repeat scroll 0 0 / 20px auto rgba(0, 0, 0, 0);
+    display: inline-block;
+    height: 20px;
+    margin-right: 8px;
+    opacity: 0.9;
+    position: relative;
+    top: 5px;
+    width: 20px;
+}
+
+
+#sidebar, .sidebar {
+    border-right: 2px solid #CCC;
+    padding: 0;
+}
+
+#sidebar > ul,
+.sidebar > ul {
+    margin: 0;
+}
+
+#sidebar > ul > li.has-dropdown.active,
+.sidebar > ul > li.has-dropdown.active {
+    border: none;
+}
+
+#sidebar > ul > li.has-dropdown.active > a,
+.sidebar > ul > li.has-dropdown.active > a {
+    background: #f4f4f4;
+    color: #666;
+    position: relative;
+    border-left: 3px solid #2BA6CB;
+}
+
+#sidebar > ul > li.has-dropdown.active > a:hover,
+.sidebar > ul > li.has-dropdown.active > a:hover {
+    background: #f2f2f2;
+        color: #666;
+}
+
+
 #sidebarButton {
 	float: right;
 	margin: 10px 10px 0;
@@ -81,7 +145,6 @@ div.row.header {
 }
 .top-barContainer {
     background:url(./Images/debut_dark.png) #444;
-    margin-bottom:30px;
 }
 nav.top-bar {
 	background:url(./Images/debut_dark.png) #444;
@@ -107,7 +170,8 @@ p.saveTip {
 }
 div.publishContainer {
     font-size:12px;
-    color:#444;    
+    color:#444;
+    clear: both; 
 }
 div.editBlog div.publishContainer a {
     margin-left:8px;   
@@ -151,24 +215,33 @@ div.urlTip {
 #InsertContentImage {
 	position: absolute;
 	right: 15px;
-	top: 10px;
+	top: 74px;
+    font-weight:normal;
 }
-#InsertContentImage:hover { text-decoration: underline; }
-/** Blog Admin **/
+
+#InsertContentImage.moduleButton {
+    top: 0px;
+}
+
+/** Admin Content Editors **/
 div.addBlog.module div.blogTitle , 
 div.editBlog.module div.blogTitle,
-div.editEvent.module div.eventTitle {
-	margin-bottom:10px;   
+div.editEvent.module div.eventTitle,
+div.editContent div.contentTitle {
+	margin-bottom:18px;   
 	font-size:13px;
 	color:#666;
 }
-div.addBlog.module div.blogTitle input, div.editBlog.module div.blogTitle input {
+div.addBlog.module div.blogTitle input, 
+div.editBlog.module div.blogTitle input,
+div.editContent div.contentTitle input {
     margin-bottom:4px;
     color:#333;
 }
 div.addBlog.module div.blogTitle span.permHint,
 div.editBlog.module div.blogTitle span.permHint,
-div.editEvent.module div.eventTitle span.permHint {
+div.editEvent.module div.eventTitle span.permHint,
+div.editContent span.permHint {
     margin-left:4px;
     font-weight:bold;
 }
@@ -176,8 +249,8 @@ div.editEvent.module div.eventTitle span.permHint {
     text-transform:lowercase;
     background-color:#FFFBCC;
 }
-#EditPermaLink {
-    margin-left:15px;
+#EditPermaLink, #ViewPermaLink {
+    margin-left:10px;
 }
 #PermaLinkEditPane {
     box-shadow: none;
@@ -206,9 +279,20 @@ ul.adminList li {
 ul.tabs-content.contained li {
 	background:#FFF;   
 }
-#sidebar ul.tabs li a:hover {
-    background:#FFF;
+
+
+
+#sidebar ul.tabs li a,
+.sidebar ul.tabs li a {
+    border-left: 3px solid transparent;
+}
+
+#sidebar ul.tabs li a:hover,
+.sidebar ul.tabs li a:hover,
+.sidebar ul.tabs li a.active {
+    background: #f9f9f9;
     color:#333;
+    border-left: 3px solid  #2BA6CB;
 }
 #ConfirmFeatImage {
     margin-top:8px;
@@ -223,6 +307,8 @@ div.aceEditArea {
 }
 li.editTabArea { min-height:400px; }
 div.manageBlogs table td.actions { min-width:166px; }
+
+.newContentButton,
 #NewContentPage, 
 #NewBlogPage,
 #NewEventPage,
@@ -245,10 +331,9 @@ div.manageBlogs table td.actions { min-width:166px; }
 	font-family: 'Open Sans', sans-serif;
 	width: 200px;
 }
-#PreviewContentButton {
-	margin-left:12px;
-	font-weight:normal;
-}
+#PreviewContentButton {	float: right; }
+#SaveContentButton { margin-bottom: 12px; float: left; }
+#SaveSpinner { float: left;top: -7px; }
 
 /** Stock Image Holder **/
 #StockImageHolder {
@@ -276,19 +361,84 @@ div.manageBlogs table td.actions { min-width:166px; }
 	margin-top:12px;
 }
 /** admin sidebar**/
-#sidebar ul.tabs li {
+#sidebar ul.tabs li,
+.sidebar ul.tabs li {
 	position:relative;
+    border: none;
 }
-#sidebar ul.tabs li span {
-	margin-left: 5px;
+#sidebar ul.tabs li a,
+.sidebar ul.tabs li a {
+    overflow: hidden;
+    font-weight: normal;
+    border-right: none;
+    padding: 14px 16px;
+    position: relative;
+}
+#sidebar ul.tabs li span,
+.sidebar ul.tabs li span {
+	margin-left: 8px;
 	position: relative;
 	top: 2px;
+    float: left;
+    line-height: 16px;
 }
-#sidebar ul.tabs li img.adminIcon {
-	width:15px;	
+#sidebar .tabs.vertical li ul,
+.sidebar .tabs.vertical li ul {
+    border-left: none;
 }
+#sidebar ul > li.has-dropdown.active a:after,
+.sidebar ul > li.has-dropdown.active a:after {
+    border-color: #666666 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+}
+#sidebar ul.tabs li a,
+.sidebar ul.tabs li a {
+    background: #fff;
+}
+
+#sidebar ul.tabs li i.fa,
+.sidebar ul.tabs li i.fa {
+    position: relative;
+    top: 2px;
+    font-size: 16px;
+    float: left;
+    min-width: 20px;
+    text-align: center;
+}
+
+#sidebar ul > li.has-dropdown .dropdown li a,
+.sidebar ul > li.has-dropdown .dropdown li a {
+    padding: 14px 10px 14px 25px;
+    border-left: 3px solid transparent  !important;
+}
+
+#sidebar ul > li.has-dropdown .dropdown li a:hover,
+.sidebar ul > li.has-dropdown .dropdown li a:hover {
+    background: #f7f7f7 !important;
+    border-left: 3px solid #2BA6CB !important;
+}
+
+#sidebar ul > li.has-dropdown .dropdown li a .delete-media-folder,
+.sidebar ul > li.has-dropdown .dropdown li a .delete-media-folder {
+    position: relative;
+    float: right;
+    opacity: 0.3;
+    z-index: 1000;
+}
+
+#sidebar ul > li.has-dropdown .dropdown li a .delete-media-folder:hover,
+.sidebar ul > li.has-dropdown .dropdown li a .delete-media-folder:hover {
+    color: red;
+    opacity: 1;
+}
+
+#sidebar ul > li.has-dropdown .dropdown li,
+.sidebar ul > li.has-dropdown .dropdown li {
+    padding: 0;
+}
+
 div.saveContainer a.button {
 	margin: 5px 5px 20px 0;
+    font-weight: normal;
 }
 a.confirmModalButton {
 	margin-left: 12px;
@@ -367,6 +517,89 @@ span.tooltip img.constrained {
 	width: 100%;
 }
 
+/** Manage Media */
+.manageMedia h3 {
+    float: left;
+    text-transform: capitalize;
+}
+
+.manageMedia .main-actions {
+    margin: 14px 0;
+    float: right;
+}
+
+.manageMedia .main-actions label,
+.manageMedia .main-actions .button {
+    display: block;
+    margin: 0 0 0 1em;
+    float: left;    
+}
+
+.manageMedia .main-actions a {
+    position: static !important; 
+}
+
+.manageMedia .main-actions label {
+    line-height: 37px;
+}
+
+.manageMedia .copyImg input {
+    width: 60%;
+    display: inline-block;
+    margin: 0px;
+}
+
+.manageMedia .copyImg .button {
+    display: inline-block;
+}
+.manageMedia .manageTable .new-row {
+    background: lightyellow;
+}
+
+.manageMedia .manageTable .thumbnail {
+    width: 72px;
+}
+
+.manageMedia .manageTable .thumbnail .image {
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-right: -8px;
+    text-align: center;
+}
+
+.manageMedia .manageTable .thumbnail i {
+    font-size: 34px;
+    padding-top: 12px;
+    color: #555;
+}
+
+.manageMedia .tip-image {
+    max-width: 300px;
+}
+
+.manageMedia ul.folder-listing {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.manageMedia ul.folder-listing li {
+    display: block;
+    background: #f7f7f7
+}
+
+.manageMedia ul.folder-listing a {
+    font-size: 1.125em;
+    color: inherit;
+}
+
+.manageMedia ul.folder-listing a i {
+    float: none;
+}
+
 /** Site Settings **/
 div.settingsComment {
 	margin: 6px 0 10px 0;
@@ -390,8 +623,11 @@ div.editArea {
 	margin-left: 4px;
 }
 /* Give extra space to drop elements below*/
-#Sortable1 { padding-bottom: 150px; }
-#Sortable2 { padding-bottom: 100px; }
+@media all and (min-width: 768px) {
+    #Sortable1 { padding-bottom: 150px; }
+    #Sortable2 { padding-bottom: 100px; }
+}
+
 
 div.connectedSortable div.panel {
 	padding-top: 4px;
@@ -484,6 +720,11 @@ ul.imageList li a:hover {
 div.siteSettings div.custom.dropdown {
 	display: inline-block;
 }
+
+div.siteSettings div.row {
+    overflow: visible;
+}
+
 /*Revisions Listing*/
 #RevisionsList {
 	max-height: 88px;
@@ -502,16 +743,8 @@ div.siteSettings div.custom.dropdown {
 	color: #444;
 	margin-left: 6px;
 }
-#UseRevision {
-	text-decoration: underline;
-}
 
 /*New Page listing*/
-#NewPageModal {
-	
-}
-
-
 div.newPageTemplateListing ul li {
 	float: left;
 	list-style: none outside none;
@@ -547,4 +780,157 @@ div.newPageTemplateListing ul li a img {
 /** New Module **/
 #ChangeImageThumbnail img {
 	margin-bottom: 8px;
+}
+
+/*User Roles*/
+#UserListing .tabs dd.active {
+    margin-top: -4px;
+    border-bottom: 1px solid #F2F2F2;
+}
+ul.userList {
+    height: 220px;
+    overflow: auto;    
+    border-radius: 2px;
+    margin: 0;
+}
+
+ul.userList li {
+    list-style: none;
+    border-bottom: 1px solid #CCC;
+    padding: 8px;
+}
+
+ul.userList li:nth-child(even) {
+    background-color: #fafafa;
+}
+
+ul.userList li:hover {
+    cursor: pointer;
+    background-color: #ddd;
+}
+
+    ul.userList li label {
+        display: inline;
+        font-size: 16px;
+    }
+
+    ul.tabs-content.contained.noPadding > li {
+        padding: 0;
+    }
+
+#PublishModule { margin-top: 20px; }
+h2.left i.fa { color: #444; }
+
+/** Draft Status **/
+div.contentStatus {
+    clear: both;
+    margin: 12px 0;
+
+}
+.contentStatus label {
+    position: relative;
+    top: 4px;
+    margin-right: 12px;
+    font-size: 12px;
+    color: #444;
+}
+
+.contentStatus select {
+    width: auto;
+}
+#DraftStatusContainer {
+    display: none;
+    margin-top: 10px;
+}
+#CloseDraftStatus {
+    display: block;
+    font-size: 12px;
+    margin-top: 10px;
+}
+div.alert-box a {
+    color: #fff;
+    text-decoration: underline;
+}
+.topAlert {
+    margin-top: 20px;
+}
+.contentTitle tester {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.secondary.button.dropdown:after {
+    border-color: #555 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+}
+
+.secondary.button.dropdown i {
+    color: #555555;
+    font-size: 16px;
+    line-height: 8px;
+    position: relative;
+    top: 2px;
+}
+
+/** Schema Editor **/
+span.requiredToken {
+    color: #ff0000;
+}
+p.labelDescription {
+    font-size: 12px;
+    position: relative;
+    top: -5px;
+}
+div.wysiwyg  p.labelDescription { top: 5px; }
+
+div.formContainer.small input[type=text] { max-width: 280px; }
+div.formContainer.medium input[type=text] { max-width: 560px; }
+
+div.radioContainer label { display: inline; }
+#FieldEntry div.formContainer.image .upload.button {
+    float: left;
+    position: relative;
+    top: 2px;
+    margin-left: 12px;
+    font-weight: normal;
+}
+
+#FieldEntry div.formContainer.image input[type="text"] {
+    float: left;
+    max-width: 426px;
+}
+#FieldEntry div.formContainer.image { overflow: hidden; }
+
+#HtmlTab {
+    position: relative;
+    margin-bottom: 40px;
+}
+#HtmlTab div.tipContainer {
+    position: absolute;
+    bottom: -28px;
+    left: 0;
+    margin: 0;
+}
+
+div.panel .panelActions {
+    color: #999;
+    margin-top: 6px;
+    font-size: 12px;
+}
+.confirmButton {
+    margin-left: 12px;
+}
+
+.badge {
+  background-color: #bbb;
+  border-radius: 50px;
+  color: #fff;
+  display: inline-block;
+  float: right;
+  font-size: 10px;
+  margin: 3px 4px 0;
+  padding: 1px 8px 2px;
+  text-align: center;
 }

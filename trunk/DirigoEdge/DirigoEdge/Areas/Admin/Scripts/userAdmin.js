@@ -1,5 +1,5 @@
 ﻿/// ===========================================================================================
-/// This currently serves as both the blog admin, user admin, and content admin Javascript area
+/// User Management
 /// ===========================================================================================
 
 user_class = function() {
@@ -10,6 +10,7 @@ user_class.prototype.initPageEvents = function() {
     // Save delegate resources by only triggering on the correct page
     if ($("#ManageUserTable").length > 0) {
         this.manageUserAdminEvents();
+        this.manageChangePasswordEvents();
         this.sortUsers();
     }
 };
@@ -32,11 +33,25 @@ user_class.prototype.manageUserAdminEvents = function() {
         var data = {
             user: {
                 DisplayName: $("#NewUserName").attr("value"),
-                UserName : $("#NewUserName").attr("value"),
+                UserName: $("#NewUserName").attr("value"),
                 UserImageLocation: $("#NewUserImage").attr("value"),
-                IsActive: $("#NewUserIsActiveBox").hasClass("checked")
+                IsActive: $("#NewUserIsActiveBox").hasClass("checked"),
+                Password: $("#NewUserPassword").attr("value"),
+                Roles: []
             }
         };
+        
+        // Add the Roles
+        $("#NewUserModal div.roleListing input[type=checkbox]").each(function () {
+
+            if ($(this).is(":checked")) {
+                var oRole = {
+                    RoleName: $(this).data("role"),
+                };
+
+                data.user.Roles.push(oRole);
+            }
+        });
 
         var $container = $("#NewUserModal div.content");
         common.showAjaxLoader($container);
@@ -78,38 +93,70 @@ user_class.prototype.manageUserAdminEvents = function() {
         if ($row.find("td.isActive").text() == "True") {
             // Do Checkbox
             $("#ModUserIsActiveBoxOver").addClass("checked");
-        } else {
+        }
+        else {
             $("#ModUserIsActiveBoxOver").removeClass("checked");
         }
+        
+        // Set the Roles
+        $("#ModifyUserModal div.roleListing input[type=checkbox]").each(function () {
+            var role = $(this).data("role");
+
+            if ($row.find("td.roles:contains(" + role + ")").length > 0) {
+                $(this).prop('checked', true).next().addClass("checked");
+            }
+            else {
+                $(this).prop('checked', false).next().removeClass("checked");
+            }
+        });
 
         $("#ModifyUserModal").reveal();
     });
 
     // Submit edit user
-    $("#ModifyUserButton").click(function() {
+    $("#ModifyUserButton").click(function () {
+
+        // populate roles
+        var roles = [];
+        $(".roleListing input[type='checkbox']:checked").each(function () {
+            var oRole = {
+                RoleName: $(this).data("role"),
+            };
+            
+            roles.push(oRole);
+        });
+
+
         var data = {
             user: {
-                DisplayName: $("#ModUserName").attr("value"),
+                UserName: $("#ModUserName").attr("value"),
                 UserImageLocation: $("#ModUserImageLocation").attr("value"),
                 IsActive: $("#ModUserIsActiveBoxOver").hasClass("checked"),
-                UserID: self.EditUserId
+                UserID: self.EditUserId,
+                Roles: roles
             }
         };
 
+        var $container = $("#ModifyUserModal > div.content");
+        common.showAjaxLoader($container);
         $.ajax({
             url: "/Admin/ModifyUser",
             type: "POST",
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data, null, 2),
-            success: function(data) {
+            success: function (data) {
+                
+                common.hideAjaxLoader($container);
+                
                 // Close the dialog box
                 $('#ModifyUserModal').trigger('reveal:close');
 
                 //Refresh the inner content to show the new user
                 self.refreshUserTable(noty({ text: 'User Successfully Modified.', type: 'success', timeout: 3000 }));
             },
-            error: function(data) {
+            error: function (data) {
+                common.hideAjaxLoader($container);
                 $('#ModifyUserModal').trigger('reveal:close');
                 var noty_id = noty({ text: 'There was an error processing your request.', type: 'error' });
             }
@@ -156,6 +203,60 @@ user_class.prototype.manageUserAdminEvents = function() {
     // Close Delete User Modal
     $("#CancelDeleteButton").click(function() {
         $('#DeleteUserModal').trigger('reveal:close');
+    });
+};
+
+user_class.prototype.manageChangePasswordEvents = function () {
+    var self = this;
+
+    $("#ChangeUserPassword").click(function () {
+        // set up modal info before showing modal
+        $("#ChngPasswdUname").text(self.EditUserDisplayName);
+
+        //
+        $("#ChangePasswordModal").reveal();
+    });
+    
+    // Change Password Submit
+    $("#ChangeUserPasswordButton").click(function() {
+        //self.EditUserId
+        var newPassword = $("#NewUserChangePassword").val();
+        var newPasswordRepeated = $("#RepeatNewUserChangePassword").val();
+
+        // Passwords must match
+        if (newPassword != newPasswordRepeated) {
+            alert("Passwords must match");
+            return;
+        }
+        
+        // Min lenfth on password
+        if (newPassword.length < 1) {
+            alert("Passwords much be at least one character long.");
+            return;
+        }
+        
+        // We're good - send off the ajax call
+        var $container = $("#ChangePasswordModal .content");
+        common.showAjaxLoader($container);
+        var data = { user: { UserID: self.EditUserId }, newPassword: newPassword };
+        $.ajax({
+            url: "/Admin/ChangeUserPassword",
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data, null, 2),
+            success: function (data) {
+                // Close the dialog box
+                common.hideAjaxLoader($container);
+                $('#ChangePasswordModal').trigger('reveal:close');
+
+                self.refreshUserTable(noty({ text: 'Password Successfully Updated.', type: 'success', timeout: 3000 }));
+            },
+            error: function (data) {
+                common.hideAjaxLoader($container);                
+                var noty_id = noty({ text: 'There was an error processing your request.', type: 'error' });
+            }
+        });
     });
 };
 

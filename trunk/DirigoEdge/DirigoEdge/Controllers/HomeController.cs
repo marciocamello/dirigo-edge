@@ -3,29 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DirigoEdge.Models.ViewModels;
+using DirigoEdge.PluginFramework;
 using DirigoEdge.Utils;
+
 
 namespace DirigoEdge.Controllers
 {
 	public class HomeController : Controller
 	{
 		public ActionResult Index()
-		{
-			var model = new HomeViewModel();
+		{		    
+            var model = new ContentViewViewModel("home");
 
-			return View(model);
+            if (model.ThePage != null)
+            {
+                return View(model.TheTemplate.ViewLocation, model);
+            }
+            
+            HttpContext.Response.StatusCode = 404;
+            return View("~/Views/Home/Error404.cshtml");
 		}
 
 		public ActionResult About()
 		{
-			var model = new ContentViewViewModel("about");
-
-			return View(model.TheTemplate.ViewLocation, model);
+			return View();
 		}
 
 		public ActionResult Blog()

@@ -28,13 +28,8 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Remove some buttons, provided by the standard plugins, which we don't
 	// need to have in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
+	config.removeButtons = 'Underline,Subscript,Superscript,Image';
 
-    // Code Mirror plugin
-	config.extraPlugins = 'codemirror';    
-    // config.codemirror_theme : 'rubyblue';
+	config.extraPlugins = 'codemirror,insertimage';
 
-    // Image Upload
-	config.filebrowserImageUploadUrl = '/BlogAdmin/UploadBlogImageInline';
-	//config.filebrowserImageBrowseUrl = '/Scripts/ckeditor/filemanager/browser/default/browser.html';
 };

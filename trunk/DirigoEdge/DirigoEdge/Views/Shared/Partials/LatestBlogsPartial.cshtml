@@ -1,0 +1,12 @@
+﻿@model DirigoEdge.Models.ViewModels.LatestBlogsViewModel
+
+<ul class="latestBlogsList">
+    @{
+        foreach (var blog in Model.Blogs)
+        {
+            <li>
+                @blog.Title
+            </li>
+        }
+    }
+</ul>

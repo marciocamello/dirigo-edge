@@ -1,0 +1,51 @@
+﻿@using DirigoEdge.Utils
+
+@helper MediaDirectoriesList() {
+    var directories = Directory.GetDirectories(Server.MapPath(ContentGlobals.IMAGEUPLOADDIRECTORY));
+
+    foreach (var directory in directories)
+    {
+        var folder = directory.Split('\\').Last();
+        <li data-folder="@folder">
+            <a href="/admin/managemedia/@folder">
+                <i class="fa fa-folder-open"></i>
+                <span>@folder</span>
+                <div class="delete-media-folder">
+                    <i class="fa fa-times"></i>
+                </div>
+            </a>
+        </li>
+    }
+
+}
+
+@helper MediaDirectoriesTable() {
+    var directories = Directory.GetDirectories(Server.MapPath(ContentGlobals.IMAGEUPLOADDIRECTORY));
+    
+    <table class="manageTable twelve bordered manageTable">
+        <thead>
+            <tr>
+                <th class="name">Name</th>
+                <th class="items">Items</th>
+                <th class="actions">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var directory in directories)
+            {
+                var folder = directory.Split('\\').Last();
+                <tr data-folder="@folder">
+                    <td class="title">
+                        <a href="/admin/managemedia/@folder.ToLower()/">@folder</a>
+                    </td>
+                    <td>
+                        @Directory.GetFiles(directory).Length
+                    </td>
+                    <td>
+                        <button class="button secondary small tabletMarginBottom delete-media-folder" >Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

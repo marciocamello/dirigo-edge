@@ -12,7 +12,11 @@ public class ContentPage
 	public virtual String Title { get; set; }
 	public virtual String Permalink { get; set; }
 
+    // Stores the html content that is formatted on save. Does not parse shortcodes.
 	public virtual String HTMLContent { get; set; }
+
+    // Store html that hasn't been run through a templating script such as mustache.js
+    public virtual String HTMLUnparsed { get; set; }
 
 	/// <summary>
 	/// Returns Html Content with included module html, if any. Use this when outputting to a page
@@ -41,6 +45,15 @@ public class ContentPage
 	public virtual String RobotsNoFollow { get; set; }
 	public virtual String Canonical { get; set; }
 
+    // revisions stored as pages with this flag set to true
+    public virtual bool IsRevision { get; set; }
+    // If a draft, reference the parent page
+    public virtual int? ParentContentPageId { get; set; }
+    public virtual String DraftAuthorName { get; set; }
+
 	// Keep track of changes / revisions
 	public virtual ICollection<ContentPageRevision> Revisions { get; set; }
+
+    public virtual int? SchemaId { get; set; }
+    public virtual string SchemaEntryValues { get; set; }
 }

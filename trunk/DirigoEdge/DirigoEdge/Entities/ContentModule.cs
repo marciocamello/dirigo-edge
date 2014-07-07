@@ -9,8 +9,14 @@ public class ContentModule
 	[Required]
 	public virtual String ModuleName { get; set; }
 	public virtual String HTMLContent { get; set; }
+
+    public virtual String HTMLUnparsed { get; set; }
+
 	public virtual String CSSContent { get; set; }
 	public virtual String JSContent { get; set; }
 	public virtual DateTime? CreateDate { get; set; }
 	public virtual Boolean? IsActive { get; set; }
+
+    public virtual int? SchemaId { get; set; }
+    public virtual string SchemaEntryValues { get; set; }
 }

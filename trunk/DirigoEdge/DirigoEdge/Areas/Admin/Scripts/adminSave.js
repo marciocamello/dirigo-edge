@@ -122,9 +122,42 @@ save_class.prototype.getListData = function () {
     return data;
 };
 
-
 // Keep at the bottom
 $(document).ready(function () {
     save = new save_class();
     save.initPageEvents();
 });
+
+(function () {
+    var method;
+    var noop = function () { };
+    var methods = [
+        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+        'timeStamp', 'trace', 'warn', 'rainbow'
+    ];
+    var length = methods.length;
+    var console = (window.console = window.console || {});
+
+    while (length--) {
+        method = methods[length];
+
+        // Only stub undefined methods.
+        if (!console[method]) {
+            console[method] = noop;
+        }
+    }
+}());
+
+(function () {
+    var log = console.log;
+
+    console.rainbow = function(str) {
+        var css = 'font-size:30px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; background: linear-gradient(to right, red, yellow, lime, aqua, blue, fuchsia); color: white; font-weight: bold; padding: 0 0.5em;';
+        var args = Array.prototype.slice.call(arguments);
+        args[0] = '%c' + args[0];
+        args.splice(1, 0, css);
+        return log.apply(console, args);
+    };
+})();

@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="twelve columns">
-            <h3>Manage Posts</h3>
+            <h3><i class="fa fa-pencil"></i> Manage Posts</h3>
             <a id="NewBlogPage" class="button mobileBlockStatic mobileMarginBottom" href="@Url.Action("AddBlog", "Admin")">New Blog +</a>
             <table class="twelve bordered manageTable" width="100%">
                 <thead>
@@ -67,7 +67,7 @@
         // Only load if there is a good reason to
         if (Model.BlogListing.Count > 0)
         {
-            <script src="/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+            <script src="/Areas/Admin/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
 
             <script>
                 $(document).ready(function () {

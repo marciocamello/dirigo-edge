@@ -7,7 +7,7 @@
 <div class="siteSettings">
     <div class="row">
         <div class="twelve columns">
-            <h3>Site Settings</h3>
+            <h3><i class="fa fa-wrench"></i> Site Settings</h3>
         </div>
     </div>
 
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="retension row ">
         <div class="four columns mobile-two">
             <label class="right inline">Revision Retension Policy</label>
         </div>
@@ -89,6 +89,31 @@
             </form>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="four columns mobile-two">
+            <label class="right inline">Default User Role</label>
+        </div>
+        <div class="eight columns  mobile-two">
+            <form class="custom">
+                <select class="saveField" data-field="DefaultUserRole">
+                    
+                    @{
+                        foreach (string role in Model.RolesList)
+                        {
+                            string selected = Model.Settings.DefaultUserRole == role ? "selected='selected'" : "";
+                            <option @selected>@role</option>    
+                        }
+                    }
+                </select>
+                <div class="settingsComment hide-for-small">Default User Role to assign to newly registered users.</div>
+            </form>
+        </div>
+    </div>
+    
+    
+    
+
 
     <div class="row">
         <div class="twelve columns">

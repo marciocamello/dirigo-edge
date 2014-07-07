@@ -25,7 +25,7 @@
                     </a>
                 </li>
                 <li class="current">
-                    <a href="/blog/@ContentUtils.GetFormattedUrl(Model.TheBlog.Title)">@Model.TheBlog.Title</a>
+                    <a href="/blog/@Model.TheBlog.PermaLink">@Model.TheBlog.Title</a>
                 </li>
             </ul>
         </div>
@@ -63,12 +63,7 @@
                             <img src="@Model.TheBlog.ImageUrl" alt="@Model.TheBlog.Title" />    
                         </p>                        
                     }
-                    else
-                    {
-                        <p>
-                            <img src="/Content/StockFeaturedImages/recordsPlayer.jpg" alt="@Model.TheBlog.Title" />
-                        </p>     
-                    }
+             
                 }
                 <div class="row">
                     <div class="userBlogContent twelve columns">

@@ -11,9 +11,9 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 
 		public ManageContentViewModel()
 		{
-			using (DataContext context = new DataContext())
+			using (var context = new DataContext())
 			{
-				Pages = context.ContentPages.ToList();
+				Pages = context.ContentPages.Where(x => x.IsRevision == false).ToList();
 			}
 		}
 	}

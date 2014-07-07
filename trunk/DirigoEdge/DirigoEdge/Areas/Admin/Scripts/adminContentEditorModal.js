@@ -103,35 +103,6 @@ content_modal_class.prototype.initCodeEditorEvents = function ($html, $css, $js)
     });
 };
 
-content_modal_class.prototype.initContentImageUploadEvents = function () {
-    var self = this;
-
-    var afterImageInsert = function (imgTag) {
-        $("#InsertImageModal").trigger('reveal:close');
-        $("#AdminEditRawContentModal").reveal({
-            "opened": function () {
-                // Insert an img tag into the editor
-                self.htmlEditor.insert(imgTag);
-
-                // Highlight the newly placed tag
-                self.htmlEditor.find(imgTag, { backwards: true, });
-            }
-        });
-    };
-
-    $("#modal-dropzone").addClass('dropzone').dropzone({
-        url: "/admin/fileUpload/",
-        init: function () {
-            this.on("success", function (file, data) {
-                var imgTag = "<img src='" + data.path + "' alt='' />";
-
-                // Close the dialog box
-                setTimeout(afterImageInsert(imgTag), 400);
-            });
-        }
-    });
-};
-
 content_modal_class.prototype.manageContentAdminEvents = function () {
     var self = this;
 

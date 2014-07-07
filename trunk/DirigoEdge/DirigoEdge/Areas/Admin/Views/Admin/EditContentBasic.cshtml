@@ -8,26 +8,29 @@
 
 
 <div class="editContent" data-id="@Model.ThePage.ContentPageId">
-    <div class="row">
-        <div class="twelve columns">
-            <h2>Edit Content</h2>
-        </div>
-    </div>
+    
+    @Html.Partial("BlogEditHeaderPartial")
 
-    <div class="row" id="ContentRowContainer">
+    <div class="row visibleOverflow" id="ContentRowContainer">
         <div id="ContentRow" class="nine columns">
-            <textarea id="CKEDITCONTENT" cols="40" rows="20" autocomplete="off">@Model.ThePage.HTMLContent</textarea>
             
-            <div class="saveContainer" style="margin-top:18px;">
-                <a id="SaveContentButton" class="button">Save</a>
-                <a id="PreviewContentButton" class="secondary button">Preview</a>
-                <div id="SaveSpinner" class="standaloneSpinner"></div>
+            @{
+                string permaLinkModded = !String.IsNullOrEmpty(@Model.ThePage.Permalink) ? "True" : "False";
+            }
+
+            <div class="contentTitle">
+                <input id="PageTitle" class="required" type="text" value="@Model.ThePage.Title" autocomplete=off />
+                <span class="permHint">Permalink: </span>
+                <span>@Model.SiteUrl</span><span id="PermaLinkEnd" data-modified="@permaLinkModded">@ContentUtils.GetFormattedUrl(Model.ThePage.Permalink)</span>
+                <input id="PermaLinkEditPane" type="text" class="hide autogrow"  autocomplete="off" /><span>/</span>
+                <a id="EditPermaLink" href="javascript:void(0);">edit</a>
+                <a id="ViewPermaLink" href="@Model.SiteUrl@Model.ThePage.Permalink" target="_blank">view live page</a>
             </div>
 
+            <textarea id="CKEDITCONTENT" cols="40" rows="20" autocomplete="off">@Model.ThePage.HTMLContent</textarea>            
         </div>
 
         <div class="three columns">
-            @*jptodo*@
             @Html.Partial("~/Areas/Admin/Views/Shared/EditContentSettingsPartial.cshtml")
         </div>
 
@@ -37,10 +40,24 @@
 
 @section Scripts {
     <script src="/scripts/ckeditor/ckeditor.js"></script>
+    
+    <script src="/Scripts/jquery/plugins/jquery.zclip.min.js"></script>
+    <script src="/Scripts/jquery/plugins/dropzone/dropzone.js"></script>
+    <link href="/Scripts/jquery/plugins/dropzone/css/dropzone.css" type="text/css" rel="stylesheet">
+    <link href="/Scripts/jquery/plugins/dropzone/css/basic.css" type="text/css" rel="stylesheet">
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // AutoGrow Input
+            $("input.autogrow").autoGrowInput();
+        });
+    </script>
 }
 
 @section Modals {
     
+    @Html.Partial("Partials/InsertImageModalPartial")
+
     @Html.Partial("Partials/RevisionDetailPartial")
 
     <div id="SEOMetaModal" class="reveal-modal medium">

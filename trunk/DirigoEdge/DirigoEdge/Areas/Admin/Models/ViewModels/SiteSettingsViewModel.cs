@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Web.Security;
 using DirigoEdge.Entities;
 
 namespace DirigoEdge.Areas.Admin.Models.ViewModels
@@ -10,6 +9,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 	{
 		public SiteSettings Settings;
 		public Dictionary<int, bool> SiteRetensionTimeValues; // Count / IsSelected
+        public List<string> RolesList;	    
 
 		public SiteSettingsViewModel()
 		{
@@ -38,6 +38,8 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 					{ 25, Settings.ContentPageRevisionsRetensionCount == 25 },
 					{ 50, Settings.ContentPageRevisionsRetensionCount == 50 }
 				};
+
+            RolesList = Roles.GetAllRoles().ToList();
 		}
 	}
 }

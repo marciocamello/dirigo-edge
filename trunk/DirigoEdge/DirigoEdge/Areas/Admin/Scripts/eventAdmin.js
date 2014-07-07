@@ -199,7 +199,7 @@ event_class.prototype.addEventEvents = function() {
                 ShortDesc: featText,
                 StartDate: $('[data-field="StartDate"]').attr("value"),
                 EndDate: $('[data-field="EndDate"]').attr("value"),
-                PermaLink: $("#PermaLinkEnd").text()
+                PermaLink: self.formatEventLink($("#PermaLinkEnd").text())
             }
         };
 
@@ -271,6 +271,6 @@ event_class.prototype.initTinyMCEEvents = function() {
 };
 // Keep at the bottom
 $(document).ready(function() {
-    event = new event_class();
-    event.initPageEvents();
+    eventMCP = new event_class();
+    eventMCP.initPageEvents();
 });

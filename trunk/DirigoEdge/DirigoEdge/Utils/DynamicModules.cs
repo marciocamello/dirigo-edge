@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.UI;
+using DirigoEdge.Models.Modules;
+using DirigoEdge.Models.Shortcodes;
 
 namespace DirigoEdge.Utils
 {
@@ -20,18 +26,23 @@ namespace DirigoEdge.Utils
 
         }
 
-        private Dictionary<string, IDynamicModule> _dynamicModuleList;
+        private Dictionary<string, IShortcode> _dynamicModuleList;
 
         // This is where dynamic module function definitions are stores. Accepts a string argument (module / shortcode name), returns string (html content)
-        public Dictionary<string, IDynamicModule> GetDynamicModuleList()
+        public Dictionary<string, IShortcode> GetDynamicModuleList()
         {
             if (_dynamicModuleList == null)
             {
                 // Create the initial list and populate it with default dynamic modules.
-                _dynamicModuleList = new Dictionary<string, IDynamicModule>();
+                _dynamicModuleList = new Dictionary<string, IShortcode>();
 
-                // Test Dynamic Module for demo purposes
-                _dynamicModuleList.Add("test", new TestModule());
+                // Default Shortcodes for demo purposes
+                _dynamicModuleList.Add("current_year", new CurrentYearShortcode());
+                _dynamicModuleList.Add("latest_blogs", new LatestBlogsModule());
+
+                // Add any additional shortcodes here, 
+                // *or you can dynamically add them using "AddDynamicModule" from another function
+
             }
 
             return _dynamicModuleList;
@@ -43,7 +54,7 @@ namespace DirigoEdge.Utils
         /// <param name="shortTag"></param>
         /// <param name="module"></param>
         /// <returns>True on success, false on error (tyopically if already added or key exists in dictionary</returns>
-        public bool AddDynamicModule(string shortTag, IDynamicModule module)
+        public bool AddDynamicModule(string shortTag, IShortcode module)
         {
             // Pre-populate the list if necessary
             var moduleList = GetDynamicModuleList();
@@ -84,35 +95,52 @@ namespace DirigoEdge.Utils
 
             return false;
         }
-    }
 
-    public interface IDynamicModule
+        public static string GetViewHtml(string partialViewName, object model)
+        {
+            //Fake a context
+            var context = new ControllerContext();
+            context.RouteData = HttpContext.Current.Request.RequestContext.RouteData;
+            context.RequestContext = HttpContext.Current.Request.RequestContext;
+
+            ViewEngineResult result = ViewEngines.Engines.FindPartialView(context, partialViewName);
+
+            // Try a regular view if partial not found
+            if (result.View == null)
+            {
+                result = ViewEngines.Engines.FindView(context, partialViewName, "_layout");
+            }
+
+            var viewData = new ViewDataDictionary(model);
+            var tempData = new TempDataDictionary();
+
+            if (result.View != null)
+            {
+                var sb = new StringBuilder();
+                using (var sw = new StringWriter(sb))
+                {
+                    using (var output = new HtmlTextWriter(sw))
+                    {
+                        var viewContext = new ViewContext(context, result.View, viewData, tempData, output);
+                        result.View.Render(viewContext, output);
+                    }
+                }
+
+                return sb.ToString();
+            }
+            return String.Empty;
+        }
+    }    
+
+    public interface IShortcode
     {
         // The formal name of the object used for display purposes
-        string GetModuleName();
+        string GetDisplayName();
 
         // Appended to the wrapper div for stying purposes
         string GetCSSClass();
 
         // Return method for html to be consumed
-        string GetHtml(params object[] parameters);
-    }
-
-    public class TestModule : IDynamicModule
-    {
-        public string GetModuleName()
-        {
-            return "Test Module";
-        }
-
-        public string GetCSSClass()
-        {
-            return "testModule";
-        }
-
-        public string GetHtml(params object[] parameters)
-        {
-            return DateTime.Now.ToShortDateString();
-        }
+        string GetHtml(Dictionary<string, string> parameters);
     }
 }

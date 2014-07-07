@@ -1,0 +1,21 @@
+﻿@model DirigoEdge.Areas.Admin.Models.ViewModels.Media
+
+<tr class="new-row">
+    <td class="thumbnail hide-for-small">
+        <div class="image" data-thumb="@Model.Path"></div>
+    </td>
+    <td class="title">
+        @Model.Path.Split('/').Last()
+    </td>
+    <td>
+        @Model.CreateDate.ToString("MM/dd/yyyy")
+    </td>
+    <td class="hide-for-small copyImg">
+        <input type="text" name="copy" class="copyText" value="@Model.Path" />
+        <button class="button small secondary copy">Copy</button>
+    </td>
+    <td>
+        <a class="preview button secondary small tabletMarginBottom" href="@Model.Path" target="_blank" data-src="@Model.Path">Preview</a>
+        <button class="delete button secondary small tabletMarginBottom disabled has-tip" title="Refresh page to enable delete" data-src="@Model.Path">Delete</button>
+    </td>
+</tr>

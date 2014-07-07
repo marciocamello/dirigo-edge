@@ -13,14 +13,14 @@
 
             <div class="row">
                 <div class="twelve columns">
-                    <h3>Edit Post</h3>
+                    <h3><i class="fa fa-pencil"></i> Edit Post</h3>
                     @{
                         string permaLinkModded = !String.IsNullOrEmpty(@Model.ThisBlog.PermaLink) ? "True" : "False";
                     }
                     <div class="blogTitle">
                         <input id="BlogTitle" class="required" type="text" value="@Model.ThisBlog.Title" autocomplete=off />
                         <span class="permHint">Permalink: </span>
-                        <span>@Model.SiteUrl</span><span id="PermaLinkEnd" data-modified="@permaLinkModded">@ContentUtils.GetFormattedUrl(Model.ThisBlog.PermaLink)</span><input id="PermaLinkEditPane" type="text" class="hide" /><span>/</span><a id="EditPermaLink" href="javascript:void(0);">edit</a>
+                        <span>@Model.SiteUrl</span><span id="PermaLinkEnd" data-modified="@permaLinkModded">@ContentUtils.GetFormattedUrl(Model.ThisBlog.PermaLink)</span><input id="PermaLinkEditPane" type="text" class="hide autogrow" /><span>/</span><a id="EditPermaLink" href="javascript:void(0);">edit</a>
                     </div>
                 </div>
             </div>
@@ -73,66 +73,38 @@
 
 @section Scripts {
     <script src="/scripts/ckeditor/ckeditor.js"></script>
+    <script src="/Scripts/jquery/plugins/dropzone/dropzone.js"></script>
+    <link href="/Scripts/jquery/plugins/dropzone/css/dropzone.css" type="text/css" rel="stylesheet">
+    <link href="/Scripts/jquery/plugins/dropzone/css/basic.css" type="text/css" rel="stylesheet">
 
     <script type="text/javascript">
-		$(document).ready(function () {
+        $(document).ready(function() {
 
-			// Thumbnail Upload
-			$("#FeaturedImageUpload").kendoUpload({
-				async: {
-					saveUrl: "/BlogAdmin/UploadBlogImage",
-					removeUrl: "/BlogAdmin/Remove",
-					autoUpload: true,
-				},
-				multiple:false,
-				success: function (e) {
-					var noty_id = noty({ text: 'File uploaded successfully.', type: 'success', timeout: 3000 });
-					var filePath = e.files[0].name;
-					$("#FeaturedImage").attr("value", "/Content/Uploaded/BlogFeaturedImages/" + filePath);
-				},
-				localization : {
-					select : "Upload..."
-				}
-			});			
-		}); 
+            // AutoGrow Input
+            $("input.autogrow").autoGrowInput();
+
+            $('#SetFeaturedImage').fileBrowser({
+                directory: "",
+                isEditor : false
+            },
+            function(object) {
+                if (object.type === 'image' && object.src) {
+
+                    $("#FeaturedImage").attr("value", object.src);
+                }
+            });
+        });
     </script>
 }
 
-
 @section Modals {
 
-    <div id="FeaturedImageModal" class="reveal-modal">
+    <div id="FeaturedImageModal" class="reveal-modal medium">
         <h2>Featured Image</h2>
         <p class="lead">Set the blog's Featured Image</p>
 
         <p class="">This will show as the image headline on blog overview pages.
             <br />
             Images should be 760px × 250px.</p>
-
-        <input id="FeaturedImage" type="text" placeholder="Image Location" value="@Model.ThisBlog.ImageUrl"/>
-
-        <input id="FeaturedImageUpload" name="files" type="file" placeholder="Image Location" value="@Model.ThisBlog.ImageUrl"/>
-
-        <p class="alt">
-            Don't have an image to upload? <a id="ChooseStockLink" href="#" data-reveal-id="StockImagesModal">Choose From Stock Photography...</a>
-        </p>
-
-        <a id="ConfirmFeatImage" class="right button" onclick=" $('#FeaturedImageModal').trigger('reveal:close');">Ok</a>
-        <p class="right saveTip" style="">(Changes will be saved when you save your blog)</p>
-
-        <a class="close-reveal-modal">&#215;</a>
-    </div>
-
-    <div id="StockImagesModal" class="reveal-modal medium">
-        <h2>Stock Images</h2>
-        <p class="lead">Choose from stock photography</p>
-
-        <div id="StockImageHolder">
-            <p>This content is lazy loaded for maximum awesomenesss.</p>
-        </div>
-
-        <a href="#" data-reveal-id="FeaturedImageModal"><- Back</a>
-
-        <a class="close-reveal-modal">&#215;</a>
     </div>
 }
