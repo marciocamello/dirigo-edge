@@ -22,20 +22,18 @@
                 }
                 if (!String.IsNullOrEmpty(blog.ImageUrl))
                 {
-                    <a href="/blog/@ContentUtils.GetFormattedUrl(blog.Title)/">
+                    <a href="/blog/@blog.PermaLink/">
                         <img src="@blog.ImageUrl" alt="@blog.Title" />
                     </a>
                 }
-                else
-                {
-                    <a href="/blog/@ContentUtils.GetFormattedUrl(blog.Title)/">
-                        <img src="/content/stockfeaturedimages/recordsplayer.jpg" alt="@blog.Title" />
-                    </a>
-                }
+         
             }
-            <h4><a href="/blog/@ContentUtils.GetFormattedUrl(blog.Title)/">@blog.Title</a></h4>
+            <h4><a href="/blog/@blog.PermaLink/">@blog.Title</a></h4>
             
-            <p class="byLine">Written by <a href="@blogAuthorUrl">@blogAuthor</a> in <a class="categoryLink" href="/blog/categories/@ContentUtils.GetFormattedUrl(blog.MainCategory)/">@blog.MainCategory</a></p>
+            @{
+                string inCategoryLanguage = String.IsNullOrEmpty(blog.MainCategory) ? "" : " in <a class='categoryLink' href='/blog/categories/" + ContentUtils.GetFormattedUrl(blog.MainCategory) + "'/>" + blog.MainCategory + "</a>";
+            }
+            <p class="byLine">Written by <a href="@blogAuthorUrl">@blogAuthor</a>@Html.Raw(inCategoryLanguage)</p>
             <p class="dateLine">@blog.Date.ToLongDateString()</p>
             
             <div class="row">

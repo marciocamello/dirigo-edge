@@ -202,13 +202,12 @@ using System.Web.Security;
             }
             using (DataContext Context = new DataContext())
             {
-                User User = null;
-                User = Context.Users.FirstOrDefault(Usr => Usr.Username == username);
+                User User = Context.Users.FirstOrDefault(Usr => Usr.Username == username);
                 if (User != null)
                 {
                     if (userIsOnline)
                     {
-                        User.LastActivityDate = DateTime.UtcNow;
+                        User.LastActivityDate = DateTime.UtcNow;                        
                         Context.SaveChanges();
                     }
                     return new MembershipUser(Membership.Provider.Name, User.Username, User.UserId, User.Email, null, null, User.IsApproved, User.IsLockedOut, User.CreateDate.Value, User.LastLoginDate.Value, User.LastActivityDate.Value, User.LastPasswordChangedDate.Value, User.LastLockoutDate.Value);
@@ -293,6 +292,38 @@ using System.Web.Security;
                     Context.SaveChanges();
                     return false;
                 }
+                String NewHashedPassword = Crypto.HashPassword(newPassword);
+                if (NewHashedPassword.Length > 128)
+                {
+                    return false;
+                }
+                User.Password = NewHashedPassword;
+                User.LastPasswordChangedDate = DateTime.UtcNow;
+                Context.SaveChanges();
+                return true;
+            }
+        }
+
+        public bool ChangePassword(string username, string newPassword)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return false;
+            }
+            
+            if (string.IsNullOrEmpty(newPassword))
+            {
+                return false;
+            }
+            using (DataContext Context = new DataContext())
+            {
+                User User = null;
+                User = Context.Users.FirstOrDefault(Usr => Usr.Username == username);
+                if (User == null)
+                {
+                    return false;
+                }
+                
                 String NewHashedPassword = Crypto.HashPassword(newPassword);
                 if (NewHashedPassword.Length > 128)
                 {
@@ -502,6 +533,8 @@ using System.Web.Security;
         }
         public override string GetPassword(string username, string answer)
         {
+
+            //WebSecurity.User
             throw new NotSupportedException("Consider using methods from WebSecurity module.");
         }
 

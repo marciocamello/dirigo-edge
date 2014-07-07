@@ -38,8 +38,10 @@ using System.ComponentModel.DataAnnotations;
 
         public virtual ICollection<Role> Roles { get; set; }
 
-		public virtual ICollection<BlogAdminModule> BlogAdminModules { get; set; }
+        public virtual ICollection<BlogAdminModule> BlogAdminModules { get; set; }
         public virtual ICollection<EventAdminModule> EventAdminModules { get; set; }
+
+        public virtual string UserImageLocation { get; set; }
 
 		// Admin Settings
 		public bool ContentAdminWordWrap { get; set; }

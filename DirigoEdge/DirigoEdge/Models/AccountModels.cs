@@ -86,6 +86,9 @@ namespace DirigoEdge.Models
 		[Display(Name = "Confirm password")]
 		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 		public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Registration Code")]
+        public string RegistrationCode { get; set; }
 	}
 
 	public class ExternalLogin

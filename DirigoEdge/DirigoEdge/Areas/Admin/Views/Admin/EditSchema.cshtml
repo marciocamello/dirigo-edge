@@ -1,0 +1,79 @@
+﻿@{
+	ViewBag.Title = "Edit Schema";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@model DirigoEdge.Areas.Admin.Models.ViewModels.EditSchemaViewModel
+
+<div class="editContent" data-id="@Model.TheSchema.SchemaId">
+    <div class="row">
+        <div class="twelve columns">
+            <h2>Edit Schema</h2>
+            
+            <label>Schema Name</label>
+            <input id="SchemaName" type="text" value="@Model.TheSchema.DisplayName" autocomplete="off"/>
+        </div>
+    </div>
+    
+    <div class="row">
+        
+        <div class="twelve columns">
+            
+            <div id="FormBuilder"></div>
+
+        </div>
+
+    </div>
+    
+</div>
+
+
+@section Styles {
+    <link href="/Areas/Admin/Scripts/jquery/plugins/formbuilder/jquery.formbuilder.css" rel="stylesheet" />
+    <style>
+        #SchemaName {
+            max-width: 280px;
+        }
+
+        .fb-left.fixed {
+            left: 255px;
+            top: 45px;
+            transition: all 300ms ease-in-out;
+            bottom: 0;
+            overflow: auto;
+        }
+
+        .sideBarClosed .fb-left.fixed {
+            left: 40px;
+        }
+
+        /*Disabling these for now*/
+        .fb-button[data-field-type='price'],
+        .fb-button[data-field-type='address'],
+        .fb-button[data-field-type='date'],
+        .fb-button[data-field-type='checkboxes'],
+        .fb-button[data-field-type='radio'],
+        .fb-button[data-field-type='dropdown'],
+        .fb-button[data-field-type='number'],
+        .fb-button[data-field-type='website'],
+        .fb-button[data-field-type='email'],
+        .fb-button[data-field-type='time'] {
+            display: none;
+        }
+
+    </style>
+}
+
+@section Scripts {        
+
+    <script src="/Areas/Admin/Scripts/jquery/plugins/formbuilder/backbone-min.js"></script>
+    
+    <script src="/Areas/Admin/Scripts/jquery/plugins/formbuilder/jquery.formbuilder.js"></script>
+    
+    <script src="/Areas/Admin/Scripts/schemaEditor.js"></script>
+    
+    <script>
+        // Setup the data for loading
+        ODATA = @Html.Raw(Model.TheSchema.JSONData);
+    </script>
+}

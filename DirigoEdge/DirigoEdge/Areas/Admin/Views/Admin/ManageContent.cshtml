@@ -9,13 +9,14 @@
 
     <div class="row">
         <div class="twelve columns">
-            <h3>Manage Content Pages</h3>
+            <h3><i class="fa fa-file-text-o"></i> Manage Content Pages</h3>
             <a id="NewContentPage" class="button mobileMarginBottom mobileBlockStatic" href="@Url.Action("NewContentPage", "Admin")">New Page +</a>
             <table class="manageTable twelve bordered manageTable">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Title</th>
                         <th class="hide-for-small">Created</th>
+                        <th class="hide-for-small">Status</th>
                         <th class="actions">Actions</th>
                     </tr>
                 </thead>
@@ -24,12 +25,19 @@
 					    foreach(var page in Model.Pages)
 					    {
                             <tr>
-                                <td class="title"><a href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">@page.DisplayName</a></td>
+                                <td class="title"><a href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">@page.Title</a></td>
                                 <td class="hide-for-small">@Convert.ToDateTime(page.CreateDate).ToString("MM/dd/yyyy")</td>
+                                
+                                @{
+                                    string published = Convert.ToBoolean(page.IsActive) ? "Published" : "Draft";
+                                }
+
+                                <td class="hide-for-small">@published</td>
+
                                 <td>
                                     <a class="delete button secondary small tabletMarginBottom" href="javascript:void(0);" data-id="@page.ContentPageId">Delete</a>
                                     @{
-                                            string url = "/Content/" + DirigoEdge.Utils.ContentUtils.GetFormattedUrl(page.DisplayName);
+                                            string url = "/" + page.Permalink + "/";
                                     }
                                     <a class="button secondary small tabletMarginBottom" href="@url" target=_blank>Preview</a>
 
@@ -67,7 +75,7 @@
         // Only load if there is a good reason to
         if (Model.Pages.Count > 0)
         {
-            <script src="/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+            <script src="/Areas/Admin/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
 
             <script>
                 $(document).ready(function () {

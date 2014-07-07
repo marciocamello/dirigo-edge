@@ -34,15 +34,15 @@ namespace DirigoEdge.Areas.Admin.Controllers
 	    [Authorize(Roles = "Administrators")]
 		public JsonResult GetRevisionHtml(int revisionId)
 	    {
-			JsonResult result = new JsonResult();
+			var result = new JsonResult();
 		    string html = "";
 
 			using (var context = new DataContext())
 			{
-				html = context.ContentPageRevisions.Where(x => x.ContentPageRevisionId == revisionId).FirstOrDefault().ContentHtml;
+				html = context.ContentPages.Where(x => x.ContentPageId == revisionId).FirstOrDefault().HTMLContent;
 			}
 
-			result.Data = new { html = html };
+			result.Data = new { html = html ?? String.Empty };
 
 		    return result;
 	    }
@@ -55,8 +55,8 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
 			using (var context = new DataContext())
 			{
-				List<ContentPageRevision> revisions = context.ContentPageRevisions.Where(x => x.ContentPageId == id).OrderByDescending(x => x.DateCreated).ToList();
-				html = RenderPartialViewToString("/Areas/Admin/Views/Shared/Partials/RevisionsListInnerPartial.cshtml", revisions, ControllerContext, ViewData, TempData);
+				List<ContentPage> drafts = context.ContentPages.Where(x => x.ParentContentPageId == id || x.ContentPageId == id).OrderByDescending(x => x.PublishDate).ToList();
+                html = RenderPartialViewToString("/Areas/Admin/Views/Shared/Partials/RevisionsListInnerPartial.cshtml", drafts, ControllerContext, ViewData, TempData);
 			}
 
 			result.Data = new { html = html };
@@ -79,6 +79,61 @@ namespace DirigoEdge.Areas.Admin.Controllers
 
 			return new JsonResult() { Data = new { path = imgPath } };
 		}
+
+        [Authorize(Roles = "Administrators")]
+        public JsonResult SaveSchema(int id, string data, string name)
+        {
+            var result = new JsonResult();
+
+            using (var context = new DataContext())
+            {
+                var schema = context.Schemas.FirstOrDefault(x => x.SchemaId == id);
+
+                if (schema != null)
+                {
+                    schema.JSONData = data;
+                    schema.DisplayName = name;
+                }
+
+                context.SaveChanges();
+            }
+
+            result.Data = new {  };
+
+            return result;
+        }
+
+        [Authorize(Roles = "Administrators")]
+        public JsonResult GetSchemaHtml(int schemaId, int moduleId, bool isPage = false)
+        {
+            var result = new JsonResult();
+            Schema theSchema;
+            
+            string entryValues = String.Empty;
+
+            using (var context = new DataContext())
+            {
+                theSchema = context.Schemas.FirstOrDefault(x => x.SchemaId == schemaId);
+
+                if (isPage)
+                {
+                    ContentPage thePage = context.ContentPages.FirstOrDefault(x => x.ContentPageId == moduleId);
+                    entryValues = thePage.SchemaEntryValues;
+                }
+                else
+                {
+                    ContentModule theModule = context.ContentModules.FirstOrDefault(x => x.ContentModuleId == moduleId);
+                    entryValues = theModule.SchemaEntryValues;
+                }                
+            }
+
+            if (theSchema != null)
+            {
+                result.Data = new { data = theSchema.JSONData, values = entryValues };    
+            }
+
+            return result;
+        }
 
 		// ===================================//
 		// ==== Utility / Helper Methods ==== //

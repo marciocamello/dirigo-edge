@@ -10,6 +10,7 @@ namespace DirigoEdge.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = false;
         }
 
         protected override void Seed(DataContext context)

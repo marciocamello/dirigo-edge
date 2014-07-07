@@ -12,21 +12,42 @@
         </div>
     </div>
 
-    <div class="row" id="ContentRowContainer">
+    <div class="row visibleOverflow" id="ContentRowContainer">
         <div id="ContentRow" class="nine columns">
+            
+            <a id="InsertContentImage" class="button secondary small moduleButton" href="#"><i class="fa fa-picture-o"></i>&nbsp; Insert Image</a>
 
-            <dl class="tabs">
-                <dd class="active"><a href="#Html">HTML</a></dd>
+            @{
+                // If no schema is assigned, show the html tab by default
+                bool hasSchema = Model.TheModule.SchemaId != null && Model.TheModule.SchemaId > 0;
+                string fieldEditorActive = hasSchema ? "active" : "";
+                string htmlEditorActive = !hasSchema ? "active" : "";
+            }
+
+            <dl class="tabs contained">
+                <dd class="@fieldEditorActive"><a href="#Editor">Fields</a></dd>
+                <dd class="@htmlEditorActive"><a href="#Html">HTML</a></dd>
                 <dd><a href="#CSS">CSS</a></dd>
                 <dd><a href="#JS">Javascript</a></dd>
             </dl>
             
-            <a id="InsertContentImage" href="#" data-reveal-id="InsertImageModal">Insert Image</a>
-            
-            <ul class="tabs-content">
+            <ul class="tabs-content contained">
+                
+                 @*Schema Editor*@
+                <li class="relative editTabArea @fieldEditorActive" id="EditorTab" data-schemaid="@Model.TheModule.SchemaId">
+                    @{
+                        if (Model.TheModule.SchemaId == null || Model.TheModule.SchemaId < 1)
+                        {
+                            <p>No Schema assigned.</p>
+                        }
+                    }
+                </li>
+
                 @*HTML*@
-                <li class="active relative editTabArea" id="HtmlTab">
-                    <div class="aceEditArea" id="HTMLContent">@Model.TheModule.HTMLContent</div>
+                <li class="relative editTabArea @htmlEditorActive" id="HtmlTab">
+                    <div class="aceEditArea" id="HTMLContent">@Model.TheModule.HTMLUnparsed</div>
+                    
+                    <div class="tipContainer">Tip: Insert values from the Fields tab via <a href="https://github.com/janl/mustache.js" target="_blank">mustache.js</a>. Example: {{Field Label}} or {{{Field Label}}} for raw/unescaped html.</div>
                 </li>
 
                 @*CSS*@
@@ -41,7 +62,7 @@
                 </li>
             </ul>
 
-            <a id="SaveContentButton" class="button" data-url="ModifyModule">Save</a>
+            <a id="SaveModuleButton" class="button" data-url="ModifyModule">Save</a>
             <div id="SaveSpinner" class="standaloneSpinner"></div>
             
             
@@ -57,31 +78,56 @@
             <div class="panel">
                 <h3>Settings</h3>
                 <label>Module Name</label>
-                <input id="ContentName" type="text" value="@Model.TheModule.ModuleName"/>
+                <input id="ModuleName" type="text" value="@Model.TheModule.ModuleName" autocomplete="off"/>
             </div>
             
+            <div class="panel">
+                <h3>Schema</h3>
+                
+                <select id="SchemaSelector" autocomplete="off">
+                    
+                    @{
+                        string noneSelected = (Model.TheModule.SchemaId == null || Model.TheModule.SchemaId <= 0) ? "selected=selected" : "";
+                    }
+
+                    <option data-id="-1" @noneSelected>None</option>
+                    @{
+                        foreach (var schema in Model.Schemas)
+                        {
+                            string selected = schema.SchemaId == Model.TheModule.SchemaId ? "selected=selected" : "";
+                            <option @selected data-id="@schema.SchemaId">@schema.DisplayName</option>
+                        }
+                    }
+                </select>
+            
+                <div class="panelActions">
+                    <a id="RefreshSchemaLink" href="#">Refresh <i class="fa fa-refresh"></i></a> | <a id="EditSchemaLink" href="/admin/editschema/@Model.TheModule.SchemaId" target="_blank">Edit Schema <i class="fa fa-external-link"></i></a>
+                </div>
+
+            </div>            
         </div>
-
-    </div>            
-
+    </div>
 </div>
 
-@section Modals {
-    @Html.Partial("Partials/InsertImageModalPartial")
-
-    <div id="InsertModuleThumbModal" class="reveal-modal">
-        <h2>Insert Image.</h2>
-
-        <form action="/contentadmin/uploadmodulethumb/" class="dropzone" id="my-awesome-dropzone"></form>
-
-        <a class="close-reveal-modal">&#215;</a>
+@section Modals {  
+    <div id="FileBrowserModal" class="reveal-modal large">
+        @* Content is loaded via Ajax in CKEditor insertimage plugin *@
+    </div>
+    
+    <div id="FileBrowserThumbnailModal" class="reveal-modal large">
+        @* Content is loaded via Ajax in CKEditor insertimage plugin *@
     </div>
 }
 
 @section scripts {
     <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+    
     <script src="/Scripts/jquery/plugins/dropzone/dropzone.js"></script>
-
     <link href="/Scripts/jquery/plugins/dropzone/css/dropzone.css" type="text/css" rel="stylesheet">
     <link href="/Scripts/jquery/plugins/dropzone/css/basic.css" type="text/css" rel="stylesheet">
+    
+    @*CKEditor and Mustache required for Schema Editor*@
+    <script src="/scripts/ckeditor/ckeditor.js"></script>
+    <script src="/Areas/Admin/Scripts/mustache/mustache.js"></script>
+    <script src="/Areas/Admin/Scripts/fieldEditor.js"></script>
 }

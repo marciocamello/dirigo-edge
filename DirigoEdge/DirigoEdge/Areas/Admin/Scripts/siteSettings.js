@@ -20,9 +20,9 @@ siteSettings_class.prototype.initPageEvents = function () {
 siteSettings_class.prototype.updateRevisionRetensionVisibility = function () {
     // Hide Revision Retension Policy if not enabled on page load
     if (!$("input[data-field='ContentPageRevisionsEnabled']").is(":checked")) {
-        $("select.saveField[data-field='ContentPageRevisionsRetensionCount']").closest("div.row").addClass("hide");
+        $("select.saveField[data-field='ContentPageRevisionsRetensionCount']").closest("div.row.retension").addClass("hide");
     } else {
-        $("select.saveField[data-field='ContentPageRevisionsRetensionCount']").closest("div.row").removeClass("hide");
+        $("select.saveField[data-field='ContentPageRevisionsRetensionCount']").closest("div.row.retension").removeClass("hide");
     }
 };
 

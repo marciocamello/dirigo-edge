@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Routing;
 using System.Web.Security;
+using System.Data.SqlClient;
 
    public sealed class WebSecurity
     {
@@ -96,7 +97,19 @@ using System.Web.Security;
 
         public static bool DeleteUser(string Username)
         {
-            return Membership.DeleteUser(Username);
+            using (var context = new DataContext())
+            {
+                // Have to manually call stored proceduer to completely remove user from databases
+                string query = "aspnet_Users_DeleteUser @ApplicationName, @UserName, @TablesToDeleteFrom, @NumTablesDeletedFrom";
+                var appName = new SqlParameter("@ApplicationName", "/");
+                var unameParameter = new SqlParameter("@UserName", Username);
+                var tablesParameter = new SqlParameter("@TablesToDeleteFrom", 15);
+                var numTables = new SqlParameter("@NumTablesDeletedFrom", 2);
+
+                context.Database.ExecuteSqlCommand(query, appName, unameParameter, tablesParameter, numTables);
+
+                return Membership.DeleteUser(Username, true);
+            }
         }
 
         public static int GetUserId(string userName)

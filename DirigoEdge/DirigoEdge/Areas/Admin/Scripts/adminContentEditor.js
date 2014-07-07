@@ -1,7 +1,6 @@
 ﻿adminEditor_class = function() {
     // We don't want CKEditor to pick up edit fields right away
     CKEDITOR.disableAutoInline = true;
-
 };
 
 adminEditor_class.prototype.initPageEvents = function() {
@@ -30,7 +29,6 @@ adminEditor_class.prototype.initKeyboardShortcuts = function() {
             $("#grid-displayer").toggle();
         }
     });
-
 };
 
 adminEditor_class.prototype.initEditModulePopupEvent = function () {
@@ -118,7 +116,6 @@ adminEditor_class.prototype.initEditModulePopupEvent = function () {
         }
     });
 };
-
 
 adminEditor_class.prototype.initSaveModuleEvent = function() {
     var self = this;

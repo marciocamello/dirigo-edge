@@ -2,18 +2,47 @@
 
 <div class="panel settings">
     <h3>Settings</h3>
-    <label>Name / Url</label>
-    <input id="ContentName" type="text" value="@Model.ThePage.DisplayName"/>
-
-    <label>Page Title</label>
-    <input id="PageTitle" type="text" value="@Model.ThePage.Title"/>
+    
+    <div class="saveContainer container">
+        <a id="SaveDraftButton" class="button secondary">Save Draft</a>
+        <a id="PreviewContentButton" href="/admin/previewcontent/?id=@Model.ThePage.ContentPageId" class="secondary button mobileMarginBottom" target="_blank">Preview</a>
+    </div>    
 
     @{
-		string formattedDate = Convert.ToDateTime(Model.ThePage.PublishDate).ToString("MM/dd/yyyy");
+        bool isActive = Convert.ToBoolean(Model.ThePage.IsActive);
+        string formattedDate = isActive ? Convert.ToDateTime(Model.ThePage.PublishDate).ToString("MM/dd/yyyy @ hh:mm") : "(Draft)" ;
+        string publishedLabel = isActive ? "Update" : "Publish";
+        string statLabel = isActive ? "Published" : "Draft";
     }
-    <div class="publishContainer">
-        <b>Publish date : </b>
-        <input id="PublishDate" value="@formattedDate" type="text" autocomplete=off>
+    
+    
+    <a id="SaveContentButton" class="button mobileMarginBottom">@publishedLabel</a>
+    <div id="SaveSpinner" class="standaloneSpinner"></div>
+    
+    <div class="contentStatus container">
+        <label>Status : <a id="StatusLabel" href="#">@statLabel</a></label>
+        
+        <div id="DraftStatusContainer">
+            
+            @{
+                string draftSelected = !isActive ? "selected=selected" : "";
+                string pubSelected = isActive ? "selected=selected" : "";
+            }
+
+            <select id="DraftStatusSelector" autocomplete="off">
+                <option value="draft" @draftSelected>Draft</option>
+                <option value="published" @pubSelected>Published</option>
+            </select>        
+            
+            <a id="CloseDraftStatus" href="#">Close</a>
+
+        </div>
+
+        
+    </div>
+
+    <div class="publishContainer clearfix container">
+        Last Published : <span id="PublishedDate">@formattedDate</span>
     </div>
 
 </div>
@@ -33,6 +62,33 @@
     </select>
 </div>
 
+@{
+    string hideSchemaClass = !Model.ShowSchemaSelector ? "hide" : "";
+}
+<div class="panel @hideSchemaClass">
+    <h3>Schema</h3>
+                
+    <select id="SchemaSelector" autocomplete="off">
+                    
+        @{
+            string noneSelected = (Model.ThePage.SchemaId == null || Model.ThePage.SchemaId <= 0) ? "selected=selected" : "";
+        }
+        <option data-id="-1" @noneSelected>None</option>
+        @{
+            foreach (var schema in Model.Schemas)
+            {
+                string selected = schema.SchemaId == Model.ThePage.SchemaId ? "selected=selected" : "";
+                <option @selected data-id="@schema.SchemaId">@schema.DisplayName</option>
+            }
+        }
+    </select>
+            
+    <div class="panelActions">
+        <a id="RefreshSchemaLink" href="#">Refresh <i class="fa fa-refresh"></i></a> | <a id="EditSchemaLink" href="/admin/editschema/@Model.ThePage.SchemaId" target="_blank">Edit Schema <i class="fa fa-external-link"></i></a>
+    </div>
+
+</div> 
+
 
 <div class="panel setMetaInformation">
     <h4>SEO / Meta</h4>
@@ -40,9 +96,9 @@
 </div>
 
 <div class="panel reviewRevisions">
-    <h4>Revisions</h4>
+    <h4>History</h4>
     
     <div id="RevisionsList">
-        @Html.Partial("Partials/RevisionsListInnerPartial", Model.Revisions)
+        @Html.Partial("~/Areas/Admin/Views/Shared/Partials/RevisionsListInnerPartial.cshtml", Model.Revisions)
     </div>
 </div>

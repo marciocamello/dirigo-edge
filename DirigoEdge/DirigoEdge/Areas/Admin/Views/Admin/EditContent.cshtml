@@ -6,28 +6,60 @@
 @model DirigoEdge.Areas.Admin.Models.ViewModels.EditContentViewModel
 @using DirigoEdge.Utils
 
-<div class="editContent" data-id="@Model.ThePage.ContentPageId">
-    <div class="row">
-        <div class="twelve columns">
-            <h2>Edit Content</h2>
-        </div>
-    </div>
+<div class="editContent" data-id="@Model.BasePageId">
+    
+    @Html.Partial("Partials/BlogEditHeaderPartial")
 
-    <div class="row" id="ContentRowContainer">
+    <div class="row visibleOverflow" id="ContentRowContainer">
         <div id="ContentRow" class="nine columns">
+            
+            @{
+                string permaLinkModded = !String.IsNullOrEmpty(@Model.ThePage.Permalink) ? "True" : "False";
+            }
 
-            <dl class="tabs">
-                <dd class="active"><a href="#Html">HTML</a></dd>
+            <div class="contentTitle">
+                <input id="PageTitle" class="required" type="text" value="@Model.ThePage.Title" autocomplete=off />
+                <span class="permHint">Permalink: </span>
+                <span id="SiteUrl">@Model.SiteUrl</span><span id="PermaLinkEnd" data-modified="@permaLinkModded">@ContentUtils.GetFormattedUrl(Model.ThePage.Permalink)</span>
+                <input id="PermaLinkEditPane" type="text" class="hide autogrow" autocomplete="off" /><span>/</span>
+                <a id="EditPermaLink" href="javascript:void(0);">edit</a>
+                <a id="ViewPermaLink" href="@Model.SiteUrl@Model.ThePage.Permalink" target="_blank">view live page</a>
+            </div>
+            
+            @{
+                // If no schema is assigned, show the html tab by default
+                bool hasSchema = Model.ThePage.SchemaId != null && Model.ThePage.SchemaId > 0;
+                string fieldEditorActive = (hasSchema && Model.ShowSchemaSelector) ? "active" : "";
+                string htmlEditorActive = (!hasSchema || !Model.ShowSchemaSelector) ? "active" : "";
+                string hideFieldEditorClass = !Model.ShowSchemaSelector ? "hide" : "";
+            }
+
+            <dl class="tabs contained">
+                <dd class="@fieldEditorActive @hideFieldEditorClass"><a href="#Editor">Fields</a></dd>
+                <dd class="@htmlEditorActive"><a href="#Html">HTML</a></dd>
                 <dd><a href="#CSS">CSS</a></dd>
                 <dd><a href="#JS">Javascript</a></dd>
             </dl>
 
-            <a id="InsertContentImage" href="#" data-reveal-id="InsertImageModal">Insert Image</a>
+            <a id="InsertContentImage" href="#" class="button secondary small"><i class="fa fa-picture-o"></i>&nbsp; Insert Image</a>
 
-            <ul class="tabs-content">
+            <ul class="tabs-content contained">
+                
+                @*Schema Editor*@
+                <li class="relative editTabArea @fieldEditorActive" id="EditorTab" data-schemaid="@Model.ThePage.SchemaId">
+                    @{
+                        if (Model.ThePage.SchemaId == null || Model.ThePage.SchemaId < 1)
+                        {
+                            <p>No Schema assigned.</p>
+                        }
+                    }
+                </li>
+
                 @*HTML*@
-                <li class="active relative editTabArea" id="HtmlTab">
-                    <div class="aceEditArea" id="HTMLContent">@Model.ThePage.HTMLContent</div>
+                <li class="relative editTabArea @htmlEditorActive" id="HtmlTab">
+                    <div class="aceEditArea" id="HTMLContent">@Model.ThePage.HTMLUnparsed</div>
+                    
+                    <div class="tipContainer">Tip: Insert values from the Fields tab via <a href="https://github.com/janl/mustache.js" target="_blank">mustache.js</a>. Example: {{Field Label}} or {{{Field Label}}} for raw/unescaped html.</div>
                 </li>
 
                 @*CSS*@
@@ -51,14 +83,6 @@
                         <label for="WordWrap"><input type="checkbox" id="WordWrap" style="display: none;" @Checked><span class="custom checkbox"></span> WordWrap</label>    
                     </form>
                 </div>
-
-                <div class="saveContainer">
-                    <a id="SaveContentButton" class="button mobileMarginBottom">Save</a>
-                    <a id="PreviewContentButton" class="secondary button mobileMarginBottom">Preview</a>
-                    <div id="SaveSpinner" class="standaloneSpinner"></div>
-                </div>
-
-
             </div>
 
         </div>
@@ -74,14 +98,27 @@
 @section scripts {
     <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="/Scripts/jquery/plugins/dropzone/dropzone.js"></script>
-
     <link href="/Scripts/jquery/plugins/dropzone/css/dropzone.css" type="text/css" rel="stylesheet">
     <link href="/Scripts/jquery/plugins/dropzone/css/basic.css" type="text/css" rel="stylesheet">
+    
+    @*CKEditor and Mustache required for Schema Editor*@
+    <script src="/scripts/ckeditor/ckeditor.js"></script>
+    <script src="/Areas/Admin/Scripts/mustache/mustache.js"></script>
+    <script src="/Areas/Admin/Scripts/fieldEditor.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // AutoGrow Input
+            $("input.autogrow").autoGrowInput();
+        });
+    </script>
 }
 
 @section Modals {
 
-    @Html.Partial("Partials/InsertImageModalPartial")
+    <div id="FileBrowserModal" class="reveal-modal large">
+        @* Content is loaded via Ajax in CKEditor insertimage plugin *@
+    </div>
 
     @Html.Partial("Partials/RevisionDetailPartial")
 

@@ -45,7 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.WebHelpers.3.1.1\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -55,8 +66,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -64,8 +75,32 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.1.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Providers">
       <HintPath>..\packages\Microsoft.AspNet.Providers.Core.1.1\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.1.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.1.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
@@ -77,9 +112,6 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -91,46 +123,18 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.20710.0\lib\net40\System.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -140,13 +144,17 @@
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="WebMatrix.WebData, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.1.1\lib\net45\WebMatrix.WebData.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\BlogAdminController.cs" />
@@ -154,13 +162,20 @@
     <Compile Include="Areas\Admin\Controllers\ContentAdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\EventCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\EventAdminController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ListBlogsController.cs" />
     <Compile Include="Areas\Admin\Controllers\MediaUploadController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PluginsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SettingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SlideAdminController.cs" />
-    <Compile Include="Areas\Admin\Controllers\TestController.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\EditSchemaViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\FileBrowserViewModel.cs" />
     <Compile Include="Areas\Admin\Models\DataModels\DefaultAdminModules.cs" />
+    <Compile Include="Areas\Admin\Models\PermissionsFilter.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\ManageSchemasViewModel.cs" />
+    <Compile Include="Entities\Plugin.cs" />
+    <Compile Include="Entities\RolePermissions.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\BlogSettingsViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\ManageUserRolesViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\EditEventViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\EditSlideShowViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\DashBoardViewModel.cs" />
@@ -169,6 +184,7 @@
     <Compile Include="Areas\Admin\Models\ViewModels\EditModuleViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\FeatureSettingsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageBlogsViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ViewModels\ManageBlogAuthorsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageCategoriesViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageContentViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageEventCategoriesViewModel.cs" />
@@ -177,7 +193,17 @@
     <Compile Include="Areas\Admin\Models\ViewModels\ManageModulesViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ViewModels\ManageUsersViewModel.cs" />
     <Content Include="Areas\Admin\Content\themes\base\adminEdit.css" />
+    <Content Include="Areas\Admin\Content\themes\base\CSS\base.css" />
+    <Content Include="Areas\Admin\Content\themes\base\CSS\common.css" />
+    <Content Include="Areas\Admin\Content\themes\base\CSS\foundation.css" />
     <Content Include="Areas\Admin\Content\themes\base\CSS\jquery.dataTables.css" />
+    <Content Include="Areas\Admin\Content\themes\base\CSS\kendo.common.min.css" />
+    <Content Include="Areas\Admin\Content\themes\base\CSS\msftStyles.css" />
+    <Content Include="Areas\Admin\Content\themes\base\CSS\offcanvas.css" />
+    <Content Include="Areas\Admin\Content\themes\base\CSS\print.css" />
+    <Content Include="Areas\Admin\Content\themes\base\file-browser.css" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\ajaxLoader.gif" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\ajaxLoaderTransparent.gif" />
     <Content Include="Areas\Admin\Content\themes\base\Images\builder\template_1.jpg" />
     <Content Include="Areas\Admin\Content\themes\base\Images\builder\template_2.jpg" />
     <Content Include="Areas\Admin\Content\themes\base\Images\builder\template_3.jpg" />
@@ -198,15 +224,75 @@
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_both.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_desc.png" />
     <Content Include="Areas\Admin\Content\themes\base\Images\TableSorter\sort_desc_disabled.png" />
+    <Content Include="Areas\Admin\Content\themes\base\Images\User_white.png" />
     <Content Include="Areas\Admin\Scripts\adminContentEditorModal.js" />
     <Content Include="Areas\Admin\Scripts\adminSave.js" />
+    <Content Include="Areas\Admin\Scripts\common.js" />
     <Content Include="Areas\Admin\Scripts\eventCategoriesAdmin.js" />
     <Content Include="Areas\Admin\Scripts\eventAdmin.js" />
+    <Content Include="Areas\Admin\Scripts\fieldEditor.js" />
+    <Content Include="Areas\Admin\Scripts\filebrowser.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\app.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\foundation.min.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.accordion.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.alerts.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.buttons.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.clearing.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.forms.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.joyride.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.magellan.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.mediaQueryToggle.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.navigation.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.orbit.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.reveal.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.tabs.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.tooltips.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.foundation.topbar.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.offcanvas.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\jquery.placeholder.js" />
+    <Content Include="Areas\Admin\Scripts\foundation\modernizr.foundation.js" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\css\smoothness\jquery-ui-1.9.2.custom.css" />
+    <Content Include="Areas\Admin\Scripts\jqueryui\js\jquery-ui-1.9.2.custom.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\dropzone\css\basic.css" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\dropzone\css\dropzone.css" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\dropzone\dropzone.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\dropzone\images\spritemap.png" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\formbuilder\backbone-min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\formbuilder\jquery.formbuilder.css" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\formbuilder\jquery.formbuilder.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\formbuilder\rivets.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\jquery.autogrowinput.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\jquery.dataTables.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\jquery.noty.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\jquery.noty.layout.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\jquery.noty.theme.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\jquery.validate.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\jquery.zclip.min.js" />
+    <Content Include="Areas\Admin\Scripts\jquery\plugins\zclip\ZeroClipboard.swf" />
+    <Content Include="Areas\Admin\Scripts\modernizr-2.6.2.min.js" />
+    <Content Include="Areas\Admin\Scripts\mustache\mustache.js" />
+    <Content Include="Areas\Admin\Scripts\roleAdmin.js" />
+    <Content Include="Areas\Admin\Scripts\mediaAdmin.js" />
+    <Content Include="Areas\Admin\Scripts\schemaEditor.js" />
+    <Content Include="Areas\Admin\Scripts\sidebar.js" />
     <Content Include="Areas\Admin\Scripts\siteSettings.js" />
-    <Content Include="Areas\Admin\Scripts\mediaUploadWidget.js" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\themes\base\css\blog.css" />
     <Content Include="Content\uploaded\dirigoLogo.jpg" />
+    <Content Include="Content\uploaded\Images\content\edge_logo_head.png" />
     <Content Include="Content\uploaded\Media\ph.txt" />
     <Compile Include="Areas\Admin\Models\ViewModels\SiteSettingsViewModel.cs" />
     <Compile Include="Context\DataContext.cs" />
@@ -230,6 +316,7 @@
     <Compile Include="Entities\EventAdminModules.cs" />
     <Compile Include="Entities\EventCategory.cs" />
     <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\Schema.cs" />
     <Compile Include="Entities\SiteSettings.cs" />
     <Compile Include="Entities\SlideshowModule.cs" />
     <Compile Include="Entities\User.cs" />
@@ -245,6 +332,9 @@
     <Compile Include="Models\BlogModel.cs" />
     <Compile Include="Models\DataModels\ContentTemplates.cs" />
     <Compile Include="Models\DataModels\FeedResult.cs" />
+    <Compile Include="Models\ImageResizing\ImageFileResult.cs" />
+    <Compile Include="Models\Shortcodes\CurrentYearShortcode.cs" />
+    <Compile Include="Models\Shortcodes\LatestBlogsShortcode.cs" />
     <Compile Include="Models\ViewModels\BlogHomeViewModel.cs" />
     <Compile Include="Models\ViewModels\BlogsByUserViewModel.cs" />
     <Compile Include="Models\ViewModels\BlogSingleHomeViewModel.cs" />
@@ -260,17 +350,31 @@
     <Compile Include="Models\ViewModels\EventCategorySingleViewModel.cs" />
     <Compile Include="Models\ViewModels\EventSingleHomeViewModel.cs" />
     <Compile Include="Models\ViewModels\EventHomeViewModel.cs" />
+    <Compile Include="Models\ViewModels\LatestBlogsViewModel.cs" />
     <Compile Include="Models\ViewModels\TweetViewModel.cs" />
     <Compile Include="Models\ViewModels\HomeViewModel.cs" />
+    <Compile Include="PluginFramework\ActionUtils.cs" />
+    <Compile Include="PluginFramework\DB.cs" />
+    <Compile Include="PluginFramework\IPlugin.cs" />
+    <Compile Include="PluginFramework\PluginAreaBootstrapper.cs" />
+    <Compile Include="PluginFramework\PluginAssemblyLoader.cs" />
+    <Compile Include="PluginFramework\PluginRazorViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ContentGlobals.cs" />
     <Compile Include="Utils\ContentUtils.cs" />
+    <Compile Include="Utils\Extensions\ControllerExtensions.cs" />
+    <Compile Include="Utils\DiskOutputCacheProvider.cs" />
     <Compile Include="Utils\DynamicModules.cs" />
-    <Compile Include="Utils\HtmlHelperExtensions.cs" />
+    <Compile Include="Utils\Extensions\FileSystemExtensions.cs" />
+    <Compile Include="Utils\Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Utils\Extensions\HttpResponseExtensions.cs" />
+    <Compile Include="Utils\Extensions\LinqExtensions.cs" />
     <Compile Include="Utils\HTTPUtils.cs" />
+    <Compile Include="Utils\ImageUtils.cs" />
     <Compile Include="Utils\Sitemap.cs" />
     <Compile Include="Utils\SiteSettingsUtils.cs" />
     <Compile Include="Utils\TwitterUtils.cs" />
+    <Compile Include="Utils\UserRoleUtilities.cs" />
     <Compile Include="Utils\UserUtils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -339,9 +443,6 @@
     <Content Include="Content\themes\base\css\base.css" />
     <Content Include="Content\themes\base\css\common.css" />
     <Content Include="Content\themes\base\css\foundation.css" />
-    <Content Include="Content\themes\base\css\isotope.css" />
-    <Content Include="Content\themes\base\css\kendo.common.min.css" />
-    <Content Include="Content\themes\base\css\kendo.default.min.css" />
     <Content Include="Content\themes\base\css\keyframes.css" />
     <Content Include="Content\themes\base\css\mediaqueries.css" />
     <Content Include="Content\themes\base\css\msftStyles.css" />
@@ -384,6 +485,7 @@
     <Content Include="Lib\SquishIt\SquishIt.Mvc.pdb" />
     <Content Include="Lib\SquishIt\Yahoo.Yui.Compressor.dll" />
     <Content Include="Lib\SquishIt\yui-license.txt" />
+    <Content Include="Plugins\AppStorePlugin.dll" />
     <Content Include="Scripts\blog_class.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\build-config.js" />
@@ -684,9 +786,11 @@
     <Content Include="Scripts\ckeditor\plugins\codemirror\theme\xq-dark.css" />
     <Content Include="Scripts\ckeditor\plugins\dialog\dialogDefinition.js" />
     <Content Include="Scripts\ckeditor\plugins\fakeobjects\images\spacer.gif" />
+    <Content Include="Scripts\ckeditor\plugins\insertimage\dialogs\insertimage.js" />
+    <Content Include="Scripts\ckeditor\plugins\insertimage\icons\insertimage.png" />
+    <Content Include="Scripts\ckeditor\plugins\insertimage\plugin.js" />
     <Content Include="Scripts\ckeditor\plugins\icons.png" />
     <Content Include="Scripts\ckeditor\plugins\image\dialogs\image.js" />
-    <Content Include="Scripts\ckeditor\plugins\image\images\noimage.png" />
     <Content Include="Scripts\ckeditor\plugins\link\dialogs\anchor.js" />
     <Content Include="Scripts\ckeditor\plugins\link\dialogs\link.js" />
     <Content Include="Scripts\ckeditor\plugins\link\images\anchor.png" />
@@ -808,25 +912,22 @@
     <Content Include="Scripts\jquery\plugins\dropzone\css\dropzone.css" />
     <Content Include="Scripts\jquery\plugins\dropzone\dropzone.js" />
     <Content Include="Scripts\jquery\plugins\dropzone\images\spritemap.png" />
-    <Content Include="Scripts\jquery\plugins\isotope\isotope.centeredMasonry.js" />
-    <Content Include="Scripts\jquery\plugins\isotope\jquery.isotope.min.js" />
     <Content Include="Scripts\jquery\jquery-1.8.2.min.js" />
-    <Content Include="Scripts\jquery\plugins\jquery-css-transform.js" />
     <Content Include="Scripts\jquery\plugins\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery\plugins\jquery.form.js" />
     <Content Include="Scripts\jquery\plugins\jquery.noty.js" />
     <Content Include="Scripts\jquery\plugins\jquery.noty.layout.js" />
     <Content Include="Scripts\jquery\plugins\jquery.noty.theme.js" />
     <Content Include="Scripts\jquery\plugins\jquery.validate.js" />
+    <Content Include="Scripts\jquery\plugins\jquery.zclip.min.js" />
     <Content Include="Scripts\jquery\plugins\qaptcha\images\bg_draggable_qaptcha.jpg" />
     <Content Include="Scripts\jquery\plugins\qaptcha\jquery.ui.touch.js" />
     <Content Include="Scripts\jquery\plugins\qaptcha\QapTcha.jquery.css" />
     <Content Include="Scripts\jquery\plugins\qaptcha\QapTcha.jquery.js" />
     <Content Include="Scripts\jquery\plugins\qaptcha\QapTcha.jquery.min.js" />
-    <Content Include="Scripts\kendo\kendo.core.min.js" />
-    <Content Include="Scripts\kendo\kendo.upload.min.js" />
+    <Content Include="Scripts\jquery\plugins\zclip\ZeroClipboard.swf" />
     <Content Include="Scripts\mcp.js" />
-    <Content Include="Scripts\modernizr-2.6.2.min.js" />
+    <Content Include="Scripts\modernizr-2.8.2.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -853,12 +954,16 @@
     <Content Include="readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\OutputCache\" />
+    <Folder Include="Content\uploaded\Images\images\" />
     <Folder Include="Content\uploaded\ModuleThumbs\" />
     <Folder Include="Content\uploaded\Sliders\" />
+    <Folder Include="Scripts\ckeditor\plugins\image\images\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\ckeditor\CHANGES.md" />
@@ -1000,6 +1105,18 @@
     <Content Include="Content\uploaded\EventFeaturedImages\ph" />
     <Content Include="Content\uploaded\EventImages\ph" />
     <Content Include="Areas\Admin\Views\Admin\FeatureSettings.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ManageBlogAuthors.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ManageUserRoles.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\NotAuthorized.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\GetRoleUsers.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\MediaRowPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\MediaListingPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\FileBrowserPartial.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\BlogEditHeaderPartial.cshtml" />
+    <Content Include="Plugins\AppStorePlugin\Views\AppStore\Index.cshtml" />
+    <Content Include="Plugins\AppStorePlugin\Views\Web.config" />
+    <Content Include="Areas\Admin\Views\Admin\EditSchema.cshtml" />
+    <Content Include="Areas\Admin\Views\Admin\ManageSchemas.cshtml" />
     <None Include="Properties\PublishProfiles\Dirigo5 edge.dirigodev.com.pubxml" />
     <Content Include="Views\Home\Tweet.cshtml" />
     <Content Include="Views\Home\Event.cshtml" />
@@ -1015,6 +1132,9 @@
     <Content Include="Views\Shared\Partials\BlogArticleSinglePartial.cshtml" />
     <Content Include="Views\Shared\Partials\BlogArchivePartial.cshtml" />
     <Content Include="Views\Shared\Partials\BlogArchiveSinglePartial.cshtml" />
+    <Content Include="Views\Home\Error404.cshtml" />
+    <Content Include="Views\Shared\Partials\LatestBlogsPartial.cshtml" />
+    <Content Include="App_Code\_Helpers.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -1035,7 +1155,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

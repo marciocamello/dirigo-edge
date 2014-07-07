@@ -30,6 +30,26 @@
                                 <a class="delete button secondary small mobileMarginBottom" href="javascript:void(0);" data-id="@module.ContentModuleId">Delete</a>
 
                                 <a class="hide button small mobileTop" href="@Url.Action("EditModule", "Admin", new { id = @module.ContentModuleId })" >Basic Edit</a>
+                                
+                                
+                                
+                                <div href="#" class="secondary small button dropdown">
+                                  <i class="fa fa-gear"></i>
+                                  <ul>
+                                    <li><a href="@Url.Action("CloneModule", "Admin", new { id = @module.ContentModuleId })"><i class="fa fa-copy"></i> Clone</a></li>
+                                    
+                                    <li class="hide divider"></li>
+                                    
+                                  </ul>
+                                </div>
+
+
+                                
+                                
+                                
+                                
+                                
+
                                 <a class="button small mobileTop" href="@Url.Action("EditModule", "Admin", new { id = @module.ContentModuleId })" >Code Edit <span class="hide-for-small">{ }</span></a>
                             </td>
                         </tr>
@@ -60,7 +80,7 @@
         // Only load if there is a good reason to
         if (Model.Modules.Count > 0)
         {
-            <script src="/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+            <script src="/Areas/Admin/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
 
             <script>
                     $(document).ready(function () {

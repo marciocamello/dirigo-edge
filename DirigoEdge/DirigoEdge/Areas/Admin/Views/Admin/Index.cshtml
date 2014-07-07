@@ -5,76 +5,71 @@
 @model  DirigoEdge.Areas.Admin.Models.ViewModels.DashBoardViewModel
 
 
-<div class="manageBlogs module2">
+<div class="row">
+    <div class="twelve columns">
+        <h3><i class="fa fa-home"></i> Dashboard</h3>
+    </div>
+</div>
 
-    <div class="row">
-        <div class="twelve columns">
-            <h3>Dashboard</h3>
+<div class="row">
+    <div class="six columns">
 
-            <h4>Welcome to Dirigo Edge!</h4>
-        </div>
+        <h5>At a glance</h5>
+        <table class="twelve bordered sansserif">
+            <thead>
+                <tr>
+                    @*<th class="hide">Id</th>*@
+                    <th>Type</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Blogs</td>
+                    <td>@Model.BlogCount</td>
+                </tr>
+                <tr>
+                    <td>Pages</td>
+                    <td>@Model.PagesCount</td>
+                </tr>
+                <tr>
+                    <td>Modules</td>
+                    <td>@Model.ModuleCount</td>
+                </tr>
+                <tr>
+                    <td>Users</td>
+                    <td>@Model.UsersCount</td>
+                </tr>
+                <tr>
+                    <td>Featured Blogs</td>
+                    <td>@Model.FeaturedBlogsCount</td>
+                </tr>
+
+                <tr class="hide">
+                    <td>Disqus Comments</td>
+                    <td><a href="#disqus_thread">Comments</a></td>
+                </tr>
+                <tr class="hide">
+                    <td>Facebook Comments</td>
+                    <td>0</td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 
-    <div class="row">
-        <div class="six columns">
-
-            <h5>At a glance</h5>
-            <table class="twelve bordered sansserif">
-                <thead>
-                    <tr>
-                        @*<th class="hide">Id</th>*@
-                        <th>Type</th>
-                        <th>Count</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Blogs</td>
-                        <td>@Model.BlogCount</td>
-                    </tr>
-                    <tr>
-                        <td>Pages</td>
-                        <td>@Model.PagesCount</td>
-                    </tr>
-                    <tr>
-                        <td>Modules</td>
-                        <td>@Model.ModuleCount</td>
-                    </tr>
-                    <tr>
-                        <td>Users</td>
-                        <td>@Model.UsersCount</td>
-                    </tr>
-                    <tr>
-                        <td>Featured Blogs</td>
-                        <td>@Model.FeaturedBlogsCount</td>
-                    </tr>
-
-                    <tr class="hide">
-                        <td>Disqus Comments</td>
-                        <td><a href="#disqus_thread">Comments</a></td>
-                    </tr>
-                    <tr class="hide">
-                        <td>Facebook Comments</td>
-                        <td>0</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-
-        <div class="six columns">
-            <h5>Quick Actions</h5>
-            <ul class="quickActions">
-                <li>
-                    <a href="@Url.Action("AddBlog", "Admin")">New Blog +</a>
-                </li>
-                <li>
-                    <a href="@Url.Action("NewContentPage", "Admin")">New Page +</a>
-                </li>
-                <li>
-                    <a href="@Url.Action("NewContentModule", "Admin")">New Module +</a>
-                </li>
-            </ul>
-        </div>
+    <div class="six columns">
+        <h5>Quick Actions</h5>
+        <ul class="quickActions">
+            <li>
+                <a href="@Url.Action("AddBlog", "Admin")">New Blog +</a>
+            </li>
+            <li>
+                <a href="@Url.Action("NewContentPage", "Admin")">New Page +</a>
+            </li>
+            <li>
+                <a href="@Url.Action("NewContentModule", "Admin")">New Module +</a>
+            </li>
+        </ul>
     </div>
 </div>

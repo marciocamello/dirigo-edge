@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using DirigoEdge.PluginFramework;
 
 namespace DirigoEdge
 {
@@ -14,21 +18,28 @@ namespace DirigoEdge
 
 	public class MvcApplication : System.Web.HttpApplication
 	{
-		protected void Application_Start()
-		{
-			AreaRegistration.RegisterAllAreas();
+        protected void Application_Start()
+        {
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            RouteCollection rc = RouteTable.Routes;
 
-			WebApiConfig.Register(GlobalConfiguration.Configuration);
-			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-			RouteConfig.RegisterRoutes(RouteTable.Routes);
-			BundleConfig.RegisterBundles(BundleTable.Bundles);
-			AuthConfig.RegisterAuth();
-		}
+            // Load all Plugins from plugin Directory, adding any plugin routes to the collection
+            PluginAssemblyLoader.Load(rc);
 
-		// May need to store host in distributed applications
-		protected void Application_BeginRequest()
-		{
-			//string host = Request.Url.Host;
-		}
+            // Register the stock routes plus the plugin routes
+            RouteConfig.RegisterRoutes(rc);
+
+            // Registers Containing Area, such as /Admin
+            AreaRegistration.RegisterAllAreas();
+
+            // Add the new View Engine for our plugins to use
+            ViewEngines.Engines.Add(new PluginRazorViewEngine());
+        }
+
+        // May need to store host in distributed or multi-tenant applications
+        protected void Application_BeginRequest()
+        {
+            //string host = Request.Url.Host;      
+        }
 	}
 }

@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Plugins";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="http://appstore.dirigodev.com/content/css/app.css" />
+}
+
+<div class="row">
+    <div class="twelve columns">
+        <h2>Plugins</h2>
+        
+        <div id="AppStoreContent">
+            <table class="modules clearfix">
+                <thead>
+                    <tr>
+                        <th>Plugin Name</th>
+                        <th>Version</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var plugin in Model.PluginListing)
+                    {
+                        //string thumbLoc = module.ThumbnailLocation.Contains("http") ? module.ThumbnailLocation : "http://appstore.dirigodev.com" + module.ThumbnailLocation;
+                        string updateInstall = plugin.NeedsUpdate ? "Update" : "Install";
+                        string alreadyInstalled = plugin.Installed && !plugin.NeedsUpdate ? "disabled" : "";
+                        
+                        <tr data-id="@plugin.PluginId">
+                            <td>@plugin.PluginDisplayName</td>
+                            <td>@plugin.Version</td>
+                            <td>@plugin.Description</td>
+                            <td class="actions">
+                            @{
+                                if ((!plugin.Installed && !plugin.NeedsUpdate) || plugin.NeedsUpdate)
+                                {
+                                    <a href="@plugin.FilePath" class="install button @alreadyInstalled" data-version="@plugin.Version" data-desc="@plugin.Description" data-display="@plugin.PluginDisplayName">@updateInstall</a>                                
+                                }
+                                if (plugin.Installed)
+                                {
+                                    <a class="removePlugin button secondary" href="@plugin.FilePath">Remove</a>    
+                                }
+                            }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+        
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+    <script src="http://appstore.dirigodev.com/scripts/mcp.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            appStore.initPageEvents();
+        });
+    </script>
+}

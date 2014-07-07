@@ -1,0 +1,90 @@
+﻿@model DirigoEdge.Areas.Admin.Models.ViewModels.FileBrowserViewModel
+
+<div class="browser clearfix">
+    <ul class="folders">
+        @foreach (var folder in Model.FolderListing)
+        {
+            <li>
+                <a href="/content/uploaded/Images/@folder.Name" class="directory" data-directory="@folder.Name">
+                    <i class="fa fa-folder"></i> 
+                    <span>@folder.Name</span>
+                    <span class="fileCount badge">@folder.FileCount</span>
+                </a>
+            </li>
+        }
+    </ul>
+    <div class="files">
+        
+        <a class="close-reveal-modal"><i class="fa fa-times"></i></a>
+
+        <ul class="files__list">
+            
+            @{
+                if (Model.FileListing.Count == 0)
+                {
+                    <p style="margin-left:16px;color:#888;">This folder is empty.</p>
+                }
+            }
+
+            @foreach (var file in Model.FileListing)
+            {
+                <li class="file-container" data-path="@file.WebPath" data-icon="@file.Icon">
+                    <a href="@file.WebPath" class="thumbnail" target="_blank">
+                        @if (file.Icon == "picture-o")
+                        {
+                            <img src="/content/uploaded/Images/@file.Folder/@file.Filename" />
+                        }
+                        else
+                        {
+                            <i class="fa fa-@file.Icon"></i>
+                        }
+                        <div class="zoom"><i class="fa fa-search"></i></div>
+                    </a>
+                    <a href="#" class="file">
+                        <i class="fa fa-@file.Icon"></i> @file.Filename
+                        <span class="insert">
+                            <i class="fa fa-plus"></i> Insert
+                        </span>
+                    </a>
+                    <div class="settings clearfix">
+                        @if (file.Icon != "picture-o")
+                        {
+                            <div class="input-group">
+                                <label>
+                                    <span class="input-label">Link Text &rsaquo;</span>
+                                    <input type="text" class="link-text">
+                                </label>
+                            </div>
+                        }
+
+                        @{
+                            var altLabel = file.Icon == "picture-o" ? "Alt Text" : "Title";
+                        }
+                        <div class="input-group">
+                            <label>
+                                <span class="input-label">@altLabel &rsaquo;</span>
+                                <input type="text" class="alt-text">
+                            </label>
+                        </div>
+
+                        @if (file.Icon == "picture-o")
+                        {
+                            <div class="input-group">
+                                <label><span class="input-label">Align &rsaquo;</span></label>
+                                <label><input type="radio" name="align" value="left"> Left</label>
+                                <label><input type="radio" name="align" value="right"> Right</label>
+                                <label><input type="radio" name="align" value="auto">Auto</label>    
+                            </div>
+                        }
+
+                        <span class="insert">
+                            <i class="fa fa-plus"></i> Insert
+                        </span>
+                    </div>
+                </li>
+            }
+        </ul>
+
+    </div>
+    <div class="toolbar">Drag files onto the list to upload or <button class="button small">select files...</button></div>
+</div>

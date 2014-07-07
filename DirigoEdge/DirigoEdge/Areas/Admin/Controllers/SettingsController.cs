@@ -50,6 +50,7 @@ namespace DirigoEdge.Areas.Admin.Controllers
 					siteSettings.GoogleAnalyticsId = entity.GoogleAnalyticsId;
 					siteSettings.ContentPageRevisionsEnabled = entity.ContentPageRevisionsEnabled;
 					siteSettings.ContentPageRevisionsRetensionCount = entity.ContentPageRevisionsRetensionCount;
+                    siteSettings.DefaultUserRole = entity.DefaultUserRole;
 
 					context.SaveChanges();
 				}

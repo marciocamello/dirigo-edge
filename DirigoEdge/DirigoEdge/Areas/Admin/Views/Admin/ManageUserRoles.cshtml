@@ -1,0 +1,212 @@
+﻿@{
+	ViewBag.Title = "Manage User Roles";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@using System.ComponentModel.DataAnnotations
+@model DirigoEdge.Areas.Admin.Models.ViewModels.ManageUserRolesViewModel
+
+<div class="row manageUsers">
+
+    <div class="twelve columns">
+
+        <div class="contain">
+            <h2 class="left"><i class="fa fa-users"></i> Manage User Roles</h2>
+            <h2><a id="NewUser" class="right button" data-reveal-id="NewUserRoleModal">New Role +</a></h2>
+        </div>
+
+        <div id="ManageUserTableContainer">
+            <table id="ManageUserRolesTable" class="twelve manageUserRolesTable manageTable">
+                <thead>
+                    <tr>
+                        <th>Role Name</th>
+                        <th class="hide-for-small" style="min-width:130px">Users in Role</th>
+                        <th class="hide-for-small">Permissions</th>
+                        <th class="actions" style="min-width:374px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+					    foreach (var roleKvp in Model.RoleUsersKVP)
+					    {
+					        string userList = "";
+					        foreach (var user in roleKvp.Value)
+					        {
+					            string trailingComma = user != roleKvp.Value.Last() ? ", " : "";
+                                userList += user + trailingComma;
+					        }
+
+                            // Loop through permissions
+					        var permissionsList = new List<string>();
+                            
+                            if (roleKvp.Key.Permissions != null)
+                            {
+                                var permType = roleKvp.Key.Permissions.GetType();
+                                var permProps = permType.GetProperties();
+
+                                foreach (var prop in permProps)
+                                {
+                                    if (prop.CanRead && prop.Name.Contains("Can"))
+                                    {
+                                        
+                                        bool isEnabled = Convert.ToBoolean(roleKvp.Key.Permissions.GetType().GetProperty(prop.Name).GetValue(roleKvp.Key.Permissions, null));
+                                        if (isEnabled)
+                                        {
+                                            // User Reflection to get custom atttributes
+                                            Attribute[] attrs = System.Attribute.GetCustomAttributes(prop);
+                                            var attr = attrs.FirstOrDefault();
+                                            var dispAttr = (DisplayAttribute)attr;
+
+                                            permissionsList.Add(dispAttr.Name);    
+                                        }
+                                    }
+                                }
+                            }
+
+					        bool isAdmin = roleKvp.Key.RoleName == "Administrators";
+                            string permsLabel = isAdmin ? "All Permissions" : String.Join(", ", permissionsList);
+
+                            <tr>
+                                <td class="roleName">@roleKvp.Key.RoleName</td>
+                                <td class="has-tip hide-for-small" title="@userList">@roleKvp.Value.Count</td>
+                                <td class="permsList hide-for-small">@permsLabel</td>
+                                <td>
+                                    <a class="button small secondary showUsers" href="javascript:void(0);" data-id="@roleKvp.Key.RoleId">Users</a>
+                                    
+                                    @{
+                                        if (!isAdmin)
+                                        {
+                                            <a class="button small secondary showPermissions" href="javascript:void(0);" data-id="@roleKvp.Key.RoleId">Permissions</a>
+                                        }
+                                    }
+                                    
+                                    <a class="button small secondary regCodes" href="javascript:void(0);" data-code="@roleKvp.Key.RegistrationCode" data-id="@roleKvp.Key.RoleId">Registration Code</a>
+                                    
+                                    @{
+                                        if (!isAdmin)
+                                        {
+                                            <a class="deleteUserRole button small secondary" href="javascript:void(0);" data-id="@roleKvp.Key.RoleId">Delete</a>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+					    }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Modals {
+    <div id="NewUserRoleModal" class="reveal-modal">
+        <div class="content">
+            <h2>Create New User Role :</h2>
+            <p class="hide lead">Create a new Username</p>
+
+            <form class="custom">
+                <label>Role Name</label>
+                <input class="required" id="RoleName" type="text" placeholder="" autocomplete="off" />
+                
+                <hr/>
+                
+                <h3>Permissions : </h3>
+                <ul class="rolePermissionsList">
+                    @{
+                        foreach (var kvp  in Model.RolePersmissionsList)
+                        {
+                            string htmlId = kvp.Key.Replace(" ", "").ToLower();
+                            <li>
+                                <label for="@htmlId"><input id="@htmlId" type="checkbox" data-key="@htmlId" autocomplete="off"/> @kvp.Key</label>
+                            </li>
+                        }
+                    }
+                </ul>
+            </form>
+
+            <a id="CreateUserRoleButton" class="button right">Create Role</a>
+        </div>
+
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    
+    
+    <div id="EditUsersInRoleModal" class="reveal-modal">
+        <div class="content">
+            <h4>Add / Remove Users From "<span id="EditUsersNRole"></span>"</h4>   
+            <br/>         
+            <form class="custom">
+                <div id="UserListing"></div>
+            </form>
+            
+            <p id="UsersChangedContainer"><span id="UserModCount"></span> user(s) modified.</p>
+
+            <a id="ModifyUserInRoleButton" class="button right">Update Users</a>
+        </div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+    
+    <div id="EditRoleRegistrationModal" class="reveal-modal">
+        <div class="content">
+            <h4>Edit Registration Code </h4>   
+            <p>User's can enter this code during registration to be automatically entered into this Role.</p>
+
+            <input id="RegCodeInput" type="text" autocomplete="off"/>
+
+            <a id="ModifyRegCodeButton" class="button right">Update Registration Code</a>
+        </div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+
+    <div id="EditUserRolePermissionsModal" class="reveal-modal">
+        <div class="content">
+            <h2>Modify Permissions</h2>
+            <p class="lead">For Role "<span id="EditUserRole"></span>"</p>
+            <form class="custom">
+                <h3>Permissions : </h3>
+                <ul class="rolePermissionsList">
+                   @{
+                       foreach (var kvp  in Model.RolePersmissionsList)
+                       {
+                            string htmlId = kvp.Key.Replace(" ", "").ToLower();
+                            <li>
+                                <label for="@htmlId"><input id="@htmlId" type="checkbox" data-key="@htmlId" autocomplete="off"/> <span class="key">@kvp.Key</span></label>
+                            </li>
+                       }
+                   }
+                </ul>
+            </form>
+
+            <a id="ModifyPermissionsButton" class="button right">Update Permissions</a>
+        </div>
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+
+    <div id="DeleteUserRoleModal" class="reveal-modal">
+        <div class="content">
+            <h2>Delete User Role</h2>
+            <p class="lead"><em>Permanently</em> delete the <span id="DelUserRole"></span> Role?</p>
+            <p>This change cannot be undone.</p>
+
+            <a id="DeleteUserRoleButton" class="button right confirmModalButton">Delete</a>
+            <a id="CancelDeleteButton" class="button right secondary">Cancel</a>    
+        </div>
+        
+        <a class="close-reveal-modal">&#215;</a>
+    </div>
+}
+
+@section Styles {
+    <style>
+        .rolePermissionsList {
+            margin-left:20px; 
+            list-style:none;
+        }
+    </style>
+}
+@section Scripts {
+    @{
+        <script src="/Areas/Admin/Scripts/jquery/plugins/jquery.dataTables.min.js"></script>
+    }
+}

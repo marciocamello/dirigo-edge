@@ -1,0 +1,31 @@
+﻿@model DirigoEdge.Areas.Admin.Models.ViewModels.EditContentViewModel
+
+@{
+    // Check to see if the user is editing the newest version
+    if (Model.IsNewerVersion)
+    {
+        string message = "There is a newer version of this page (Draft) available.";
+        if (Model.ThePage.ParentContentPageId == Model.NewerVersionId)
+        {
+            message = "You are currently editing a draft that is outdated; the Published version is newer.";
+        }
+        string editUrl = Request.Url.ToString().Contains("editcontentbasic") ? "/admin/editcontentbasic/" : "/admin/editcontent/";
+        editUrl += Model.NewerVersionId + "/";
+            
+        <div id="VersionInfoContainer" class="row">
+            <div class="twelve columns">
+                <div class="alert-box topAlert">
+                    @message 
+                    Would you like to <a href="@editUrl">edit it</a> instead?
+                    <a href="#" class="close">&times;</a>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<div class="row">
+    <div class="twelve columns">
+        <h3><i class="fa fa-file-text-o"></i> Edit Page</h3>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿@model List<DirigoEdge.Areas.Admin.Models.ViewModels.Media>
+
+
+<table class="manageTable twelve bordered manageTable">
+    <thead>
+        <tr>
+            <th class="thumbnail hide-for-small"></th>
+            <th class="name">Name</th>
+            <th class="date">Create Date</th>
+            <th class="location hide-for-small">Location</th>
+            <th class="actions">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var media in Model)
+        {
+            <tr>
+                <td class="thumbnail hide-for-small">
+                    <div class="image @media.FileExtensionClass" data-image="@media.IsImage.ToString().ToLower()" data-thumb="@media.ThumbnailPath">
+                        @{
+                            if (!media.IsImage)
+                            {
+                                <i class="fa fa fa-file-text"></i>
+                            }
+                        }
+                    </div>
+                </td>
+                <td class="title">
+                    @media.Path.Split('/').Last()
+                </td>
+                <td>
+                    @media.CreateDate.ToString("MM/dd/yyyy")
+                </td>
+                <td class="hide-for-small copyImg">
+                    <input type="text" name="copy" class="copyText" value="@media.Path" />
+                    <button class="button small secondary copy">Copy</button>
+                </td>
+                <td>
+                    <a class="preview button secondary small tabletMarginBottom" href="@media.Path" target="_blank" data-src="@media.Path">Preview</a>
+                    <button class="delete button secondary small tabletMarginBottom" data-src="@media.Path">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

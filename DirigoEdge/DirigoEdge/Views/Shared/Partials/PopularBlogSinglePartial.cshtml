@@ -22,8 +22,11 @@
         <li class="blogItem relative" data-id="@blog.BlogId">
             
             <a href="@blogUrl">@blog.Title</a>
-
-            <p class="byLine">Written by <a href="@blogAuthorUrl">@user</a> in <a class="categoryLink" href="/blog/categories/@ContentUtils.GetFormattedUrl(blog.MainCategory)">@blog.MainCategory</a></p>
+            
+            @{
+                string inCategoryLanguage = String.IsNullOrEmpty(blog.MainCategory) ? "" : " in <a class='categoryLink' href='/blog/categories/" + ContentUtils.GetFormattedUrl(blog.MainCategory) + "'/>" + blog.MainCategory + "</a>";
+            }
+            <p class="byLine">Written by <a href="@blogAuthorUrl">@user</a>@Html.Raw(inCategoryLanguage)</p>
                 
             <p class="dateLine">@blog.Date.ToLongDateString()</p>
            

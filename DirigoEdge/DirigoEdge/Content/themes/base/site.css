@@ -1,8 +1,10 @@
 ﻿html, body {
 	height: 100%;
 }
-h1, h2, h3, h4, h5, h6 {
-	font-family: 'Open Sans', sans-serif;
+
+a.logoHead {
+    display: block;
+    margin-top: 20px;
 }
 
 /*Site Modules*/ 
@@ -20,18 +22,9 @@ p.message-success {
 	color: green;
 	font-weight: bold;
 }
-/** Featured Orbit Slider - Graceful loading state **/
-div.graceFulOrbit { background: url(./Images/ajaxLoaderTransparent.gif) center center #f4f4f4 no-repeat; height: 300px; }
-div.graceFulOrbit img { display: none; }
-div.graceFulOrbit.orbit { background: none;height: auto; }
-div.graceFulOrbit.orbit img { display: block;width: 100%; }
 
-div.newBlog { display: none; }
-
-
-.button.loadMore {
-    width: 100%;
-}
+/* Load More button for Blog, Event, etc */
+.button.loadMore { width: 100%; }
 
 /** Facebook Comments and like container Responsive adjustements */
 div.fbLikeContainer iframe { height: 40px !important;}
@@ -40,13 +33,8 @@ iframe{ width:100% !important; }
 .fb_iframe_widget span { width: 100% !important;max-width: 480px;}
 
 /* login custom error styles */
-.validation-summary-errors ul {
-    list-style-type: none;
-}
-
-.validation-summary-errors ul li {
-    margin: 12px 0;
-}
+.validation-summary-errors ul { list-style-type: none; }
+.validation-summary-errors ul li { margin: 12px 0; }
 
 .field-validation-error {
     display: block;

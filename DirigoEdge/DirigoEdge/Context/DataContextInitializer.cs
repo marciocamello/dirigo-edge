@@ -10,12 +10,7 @@ public class DataContextInitializer : CreateDatabaseIfNotExists<DataContext>
 {
     protected override void Seed(DataContext context)
     {
-		// Setup default user for admin access
-		WebSecurity.Register("admin", "admin123", "admin@yoursite.com", true, "Demo", "Demo");
-		Roles.CreateRole("Administrators");
-		Roles.AddUserToRole("admin", "Administrators");
-
-		// Set up 
+		// Set up Content
 		AddPlaceholderModules(context);
 
 	    // Set up some basic blog related info to showcase functionality
@@ -64,6 +59,7 @@ public class DataContextInitializer : CreateDatabaseIfNotExists<DataContext>
 		};
 		context.SlideshowModules.Add(slideShow);
 
+        // Must Save the slideshow before we can add slides
 		context.SaveChanges();
 
 		// Add some slides to the slideshow
@@ -88,30 +84,49 @@ public class DataContextInitializer : CreateDatabaseIfNotExists<DataContext>
 		context.ContentModules.Add(new ContentModule
 		{
 			CreateDate = DateTime.Now,
-			ModuleName = "Homepage Module 1",
-			HTMLContent = "<p><img src=\"http://placehold.it/400x300&amp;text=[img]\"></p><h4>This is an editable content area.</h4><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+			ModuleName = "homepage-module-1",
+            HTMLContent = "<p><img src=\"http://placehold.it/400x300&amp;text=[img]\" alt=\"Placeholder Image\"></p><h4>This is an editable content area.</h4><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
 		});
 
 		context.ContentModules.Add(new ContentModule
 		{
 			CreateDate = DateTime.Now,
-			ModuleName = "Homepage Module 2",
-			HTMLContent = "<p><img src=\"http://placehold.it/400x300&amp;text=[img]\"></p><h4>This is an editable content area.</h4><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+			ModuleName = "homepage-module-2",
+            HTMLContent = "<p><img src=\"http://placehold.it/400x300&amp;text=[img]\" alt=\"Placeholder Image\"></p><h4>This is an editable content area.</h4><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
 		});
 
 		context.ContentModules.Add(new ContentModule
 		{
 			CreateDate = DateTime.Now,
-			ModuleName = "Homepage Module 3",
-			HTMLContent = "<p><img src=\"http://placehold.it/400x300&amp;text=[img]\"></p><h4>This is an editable content area.</h4><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
+			ModuleName = "homepage-module-3",
+			HTMLContent = "<p><img src=\"http://placehold.it/400x300&amp;text=[img]\" alt=\"Placeholder Image\"></p><h4>This is an editable content area.</h4><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
 		});
 
 		context.ContentModules.Add(new ContentModule
 		{
 			CreateDate = DateTime.Now,
-			ModuleName = "Header Logo Image",
-			HTMLContent = "<a href=\"/\"><img src=\"http://placehold.it/400x100&amp;text=Logo\" alt=\"\"></a>"
+			ModuleName = "header-logo-image",
+			HTMLContent = "<a href=\"/\"><img src=\"http://placehold.it/400x100&amp;text=Logo\" alt=\"Placeholder Logo Image\"></a>"
 		});
+
+        context.ContentModules.Add(new ContentModule
+        {
+            CreateDate = DateTime.Now,
+            ModuleName = "header",
+            HTMLContent = "<div class=\"three columns\"> <a class=\"logoHead\" href=\"/\"><img alt=\"Edge Logo\" src=\"/content/uploaded/images/content/edge_logo_head.png\" /></a> </div>  <nav class=\"nine columns\"> <ul class=\"nav-bar right\"> <li><a href=\"/\">Home</a></li> <li><a href=\"/about\">About</a></li>         <li><a href=\"/contact\">Contact</a></li>         <li><a href=\"/blog\">Blog</a></li> </ul> </nav>"
+        });
+
+        // Homepage
+	    context.ContentPages.Add(new ContentPage
+	    {
+            ContentPageId = 1,            
+            Permalink = "home",
+            DisplayName = "home",
+            Title = "Home",
+            CreateDate = DateTime.Now,
+            IsActive = true,
+            HTMLContent = "<div class=\"row\"><div class=\"twelve columns\"><h3>Welcome Home</h3><p><img src=\"http://placehold.it/1200x400&amp;text=[Hero Image]\"></p></div></div><div class=\"row\"><div class=\"four columns\">[homepage-module-1]</div><div class=\"four columns\">[homepage-module-2]</div><div class=\"four columns\">[homepage-module-3]</div></div> <div class=\"row\"><div class=\"twelve columns\"><div class=\"panel\"><h4>Get in touch!</h4><div class=\"row\"><div class=\"nine columns\"><p>We'd love to hear from you, you attractive person you.</p></div><div class=\"three columns\"><a class=\"radius button right\" href=\"/contact\">Contact Us</a></div></div></div></div></div>"
+        });
 	}
 
 	private static void AddBlog(DataContext context)
