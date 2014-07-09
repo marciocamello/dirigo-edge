@@ -802,27 +802,27 @@
 
 
 
-//(function () {
-//    Formbuilder.registerField('radio', {
-//        order: 15,
-//        view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div>\n    <label class='fb-option'>\n      <input type='radio' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>\n    </label>\n  </div>\n<% } %>\n\n<% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>\n  <div class='other-option'>\n    <label class='fb-option'>\n      <input type='radio' />\n      Other\n    </label>\n\n    <input type='text' />\n  </div>\n<% } %>",
-//        edit: "<%= Formbuilder.templates['edit/options']({ includeOther: true }) %>",
-//        addButton: "<span class=\"symbol\"><span class=\"fa fa-circle-o\"></span></span> Multiple Choice",
-//        defaultAttributes: function (attrs) {
-//            attrs.field_options.options = [
-//              {
-//                  label: "",
-//                  checked: false
-//              }, {
-//                  label: "",
-//                  checked: false
-//              }
-//            ];
-//            return attrs;
-//        }
-//    });
+(function () {
+    Formbuilder.registerField('radio', {
+        order: 15,
+        view: "<% for (i in (rf.get(Formbuilder.options.mappings.OPTIONS) || [])) { %>\n  <div>\n    <label class='fb-option'>\n      <input type='radio' <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].checked && 'checked' %> onclick=\"javascript: return false;\" />\n      <%= rf.get(Formbuilder.options.mappings.OPTIONS)[i].label %>\n    </label>\n  </div>\n<% } %>\n\n<% if (rf.get(Formbuilder.options.mappings.INCLUDE_OTHER)) { %>\n  <div class='other-option'>\n    <label class='fb-option'>\n      <input type='radio' />\n      Other\n    </label>\n\n    <input type='text' />\n  </div>\n<% } %>",
+        edit: "<%= Formbuilder.templates['edit/options']({ includeOther: true }) %>",
+        addButton: "<span class=\"symbol\"><span class=\"fa fa-circle-o\"></span></span> Multiple Choice",
+        defaultAttributes: function (attrs) {
+            attrs.field_options.options = [
+              {
+                  label: "",
+                  checked: false
+              }, {
+                  label: "",
+                  checked: false
+              }
+            ];
+            return attrs;
+        }
+    });
 
-//}).call(this);
+}).call(this);
 
 //(function () {
 //    Formbuilder.registerField('section_break', {

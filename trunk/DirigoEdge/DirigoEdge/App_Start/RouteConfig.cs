@@ -187,7 +187,7 @@ namespace DirigoEdge
                 name: "DynamicImagesMed",
                 url: "images/med/{*path}",
                 defaults: new { controller = "Images", action = "RenderWithResize", width = 1024, height = 800, directory = "med" }
-            );
+            );           
 
             #endregion
 

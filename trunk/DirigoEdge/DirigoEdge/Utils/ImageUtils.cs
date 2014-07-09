@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
+using DirigoEdge.Models;
 using DirigoEdge.Models.ImageResizing;
+using ImageResizer;
 
 namespace DirigoEdge.Utils
 {
@@ -17,6 +19,12 @@ namespace DirigoEdge.Utils
             return ImageExtensions.Contains(Path.GetExtension(imagePath).ToUpperInvariant());
         }
 
+        /// <summary>
+        /// Returns fully qualified path of a thumbnail, given a relative image path
+        /// </summary>
+        /// <param name="imagePath">The relative Image Path</param>
+        /// <param name="relative">True if image is relative to a given directory. Ex: /images/myimage.jpg</param>
+        /// <returns></returns>
         public static string GetImageThumbPath(string imagePath, bool relative = false)
         {
             string currentDirectory = Path.GetDirectoryName(imagePath);
@@ -34,12 +42,12 @@ namespace DirigoEdge.Utils
         }
 
         /// <summary>
-        /// Generates a thumbnail based on an existing image path
+        /// Generates a thumbnail in /thumbs/ in the directory where the current image exists. Ex : /image/test.jpg will generate /image/thumbs/test.jpg
         /// </summary>
-        /// <param name="imagePath"></param>
-        /// <param name="width">Optional width of image to be resized</param>
-        /// <param name="height">Optional height of image to be resized</param>
-        /// <returns></returns>
+        /// <param name="path">Realtive path to the image</param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="preserveAspectRatio"></param>
         public static void GenerateThumbnail(string path, int width = 120, int height = 120, bool preserveAspectRatio = true)
         {
             // Save image to a sub directory called thumb
@@ -56,13 +64,23 @@ namespace DirigoEdge.Utils
             }
 
             // Don't save over the image if it already exists
-            if (!System.IO.File.Exists(newImagePath))
+            if (!File.Exists(newImagePath))
             {
-                // Resize the image
-                var image = new WebImage(HttpContext.Current.Server.MapPath("~" + path));
-                image.Resize(width, height, preserveAspectRatio, true);
+                string resizeQuery = String.Empty;
 
-                image.Save(newImagePath, "png", false);
+                // Resize parameters based on user input
+                if (height > 0 || preserveAspectRatio)
+                {
+                    // fit to specified width and height
+                    resizeQuery = String.Format("maxwidth={0}&maxheight={1}", width, height);
+                }
+                else
+                {
+                    // Leave off height to preserve aspect ratio
+                    resizeQuery = String.Format("maxwidth={0}", width);
+                }
+
+                ImageBuilder.Current.Build(HttpContext.Current.Server.MapPath("~/" + path), newImagePath, new ResizeSettings(resizeQuery));
             }
         }
 
@@ -75,9 +93,10 @@ namespace DirigoEdge.Utils
         /// <param name="height">if preserveAspectRatio is false, will crop image to this height</param>
         /// <param name="preserveAspectRatio">If set to true will preserve original image's aspect ratio</param>
         /// <returns>An ImageFileResult Object</returns>
-        public static ImageFileResult GenerateThumbnail(string currentImagePath, string newDirectory, int width = 120, int height = 120, bool preserveAspectRatio = true)
+        public static ImageFileResult GenerateThumbnail(string currentImagePath, string newDirectory, int width = 120, int? height = null, bool preserveAspectRatio = true)
         {
             string filename = Path.GetFileName(currentImagePath);
+
             string rootDirectory = HttpContext.Current.Server.MapPath("/images/" + newDirectory);
             string newImagePath = rootDirectory + "\\" + currentImagePath.Replace("/", "\\");
             newDirectory = newImagePath.Replace(filename, "");
@@ -91,14 +110,33 @@ namespace DirigoEdge.Utils
             // Don't save over the image if it already exists
             if (!File.Exists(newImagePath))
             {
-                // Resize the image
-                var image = new WebImage(HttpContext.Current.Server.MapPath("~/" + currentImagePath));
-                image.Resize(width, height, preserveAspectRatio, true);
+                // If no height specified set height to absurdly large value so it resizes based on width
 
-                image.Save(newImagePath, "png", false);
+                int imageHeight = height.GetValueOrDefault();
+                string resizeQuery = String.Empty;
+
+                // Resize parameters based on user input
+                if (imageHeight > 0 || preserveAspectRatio)
+                {
+                    // fit to specified width and height
+                    resizeQuery = String.Format("maxwidth={0}&maxheight={1}", width, imageHeight);
+                }
+                else
+                {
+                    // Leave off height to preserve aspect ratio
+                    resizeQuery = String.Format("maxwidth={0}", width);
+                }
+
+                ImageBuilder.Current.Build(HttpContext.Current.Server.MapPath("~/" + currentImagePath), newImagePath, new ResizeSettings(resizeQuery));
             }
 
             return new ImageFileResult(newImagePath);
         }
+    }
+
+    public class BackgroundImage
+    {
+        public string Filepath { get; set; }
+        public int? Width { get; set; }
     }
 }

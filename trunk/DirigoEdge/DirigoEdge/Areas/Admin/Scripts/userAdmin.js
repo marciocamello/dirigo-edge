@@ -181,6 +181,8 @@ user_class.prototype.manageUserAdminEvents = function() {
             }
         };
 
+        var $container = $("#DeleteUserModal > div.content");
+        common.showAjaxLoader($container);
         $.ajax({
             url: "/Admin/DeleteUser",
             type: "POST",
@@ -188,12 +190,16 @@ user_class.prototype.manageUserAdminEvents = function() {
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data, null, 2),
             success: function(data) {
+
+                common.hideAjaxLoader($container);
+
                 // Close the dialog box
                 $('#DeleteUserModal').trigger('reveal:close');
 
                 self.refreshUserTable(noty({ text: 'User Successfully Deleted.', type: 'success', timeout: 3000 }));
             },
-            error: function(data) {
+            error: function (data) {
+                common.hideAjaxLoader($container);
                 $('#ModifyUserModal').trigger('reveal:close');
                 var noty_id = noty({ text: 'There was an error processing your request.', type: 'error' });
             }
@@ -262,11 +268,16 @@ user_class.prototype.manageChangePasswordEvents = function () {
 
 user_class.prototype.refreshUserTable = function(fSuccess) {
     //Refresh the inner content to show the new user
-    $("#ManageUserTableContainer").load("/Admin/ManageUsers #ManageUserTable", function(data) {
+    var $container = $("#ManageUserTableContainer");
+
+    common.showAjaxLoader($container);
+    $container.load("/admin/manageusers/ #ManageUserTable", function (data) {
         var noty_id = fSuccess;
 
         // Sort the table again since the html has changed
         user.sortUsers();
+
+        common.hideAjaxLoader($container);
     });
 };
 

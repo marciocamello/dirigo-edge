@@ -82,9 +82,8 @@ body.sideBarClosed #Main {
 #sidebar > ul > li.has-dropdown.active > a:hover,
 .sidebar > ul > li.has-dropdown.active > a:hover {
     background: #f2f2f2;
-        color: #666;
+    color: #666;
 }
-
 
 #sidebarButton {
 	float: right;
@@ -883,12 +882,13 @@ p.labelDescription {
     position: relative;
     top: -5px;
 }
-div.wysiwyg  p.labelDescription { top: 5px; }
+div.wysiwyg p.labelDescription { top: 5px; }
 
+div.formContainer { margin-bottom: 12px; }
+div.formContainer select { margin-bottom: 12px; }
 div.formContainer.small input[type=text] { max-width: 280px; }
 div.formContainer.medium input[type=text] { max-width: 560px; }
 
-div.radioContainer label { display: inline; }
 #FieldEntry div.formContainer.image .upload.button {
     float: left;
     position: relative;

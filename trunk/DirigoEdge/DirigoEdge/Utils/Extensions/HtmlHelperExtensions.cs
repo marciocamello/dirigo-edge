@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using DirigoEdge.Entities;
+using DirigoEdge.Models.ImageResizing;
 using DirigoEdge.Utils;
 
 namespace MvcHtmlHelpers
@@ -116,6 +119,37 @@ namespace MvcHtmlHelpers
             }
 
             return new MvcHtmlString(string.Empty);
+        }
+
+        /// <summary>
+        /// Creates a new div and loads resized versions of the image provided into media queries.
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="className">The class that will be applied to the DIV, and used in the CSS selectors</param>
+        /// <param name="path">Path to the original/default version of the image</param>
+        /// <returns></returns>
+        public static MvcHtmlString RenderBackgroundImage(this HtmlHelper helper, string className, string path)
+        {
+            var images = new List<BackgroundImage>
+                {
+                    new BackgroundImage { Filepath = path },
+                    new BackgroundImage { Filepath = "/images/medium" + path, Width = 1024 },
+                    new BackgroundImage { Filepath = "/images/small" + path, Width = 480 }
+                };
+
+            return RenderBackgroundImage(helper, className, images);
+        }
+
+        /// <summary>
+        /// Creates a new div and loads resized versions of the image provided into media queries.
+        /// </summary>
+        /// <param name="helper"></param>
+        /// <param name="className">The class that will be applied to the DIV, and used in the CSS selectors</param>
+        /// <param name="images">A list of BackgroundImages</param>
+        /// <returns></returns>
+        public static MvcHtmlString RenderBackgroundImage(this HtmlHelper helper, string className, List<BackgroundImage> images)
+        {
+            return helper.Partial("Partials/ResponsiveBackgroundImage", new ResponsiveBackgroundImageViewModel(className, images));
         }
 	}
 }

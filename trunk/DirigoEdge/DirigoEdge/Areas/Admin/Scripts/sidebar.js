@@ -1,5 +1,5 @@
 ﻿sidebar_class = function() {
-
+    this.minWidth = 1200;
 };
 
 sidebar_class.prototype.initPageEvents = function () {
@@ -40,7 +40,7 @@ sidebar_class.prototype.initPageEvents = function () {
     self.timeout = {};
     $("body #sidebar").hover(function () {
 
-        if ($(window).width() < 1025) {
+        if ($(window).width() < self.minWidth) {
             return;
         }
 
@@ -49,7 +49,7 @@ sidebar_class.prototype.initPageEvents = function () {
         $("body").addClass("sidebarOpen");
     }, function () {
 
-        if ($(window).width() < 1025) {
+        if ($(window).width() < self.minWidth) {
             return;
         }
         

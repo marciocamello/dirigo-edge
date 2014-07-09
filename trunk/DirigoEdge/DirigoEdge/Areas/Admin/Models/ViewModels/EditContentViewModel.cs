@@ -10,6 +10,8 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 {
 	public class EditContentViewModel
 	{
+	    public string Heading = "Edit Page";
+
 		public ContentPage ThePage;
 		public Dictionary<string, ContentTemplate> Templates;
 		public bool UseWordWrap;
@@ -22,6 +24,7 @@ namespace DirigoEdge.Areas.Admin.Models.ViewModels
 
         public List<Schema> Schemas;
 	    public bool ShowSchemaSelector = false;
+        public bool ShowFieldEditor = false;
 
 		public EditContentViewModel(int id)
 		{

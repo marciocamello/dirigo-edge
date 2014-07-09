@@ -416,7 +416,7 @@ content_class.prototype.getPageData = function() {
             OGUrl: $("#OGUrl").attr("value"),
             Canonical: $("#Canonical").attr("value"),
             SchemaId: $("#SchemaSelector option:selected").attr("data-id"),
-            SchemaEntryValues : self.getSchemaValues()
+            SchemaEntryValues: JSON.stringify(self.getSchemaValues())
         },
         // Let Ajax handler know if we're using an advanced editor or basic editor
         // Basic editor does not send over JS / CSS rules so we should leave the content as is in the controller
@@ -432,9 +432,10 @@ content_class.prototype.getSchemaValues = function () {
     // Key Value Pairs of labels / selected value
     var oValues = {};
 
-    // Text , Image, and Paragraph / TextArea Values
+    // Text , Image, and Paragraph / TextArea Values, DropDown
     $("#FieldEntry div.formContainer.text input[type=text], "  +
         "#FieldEntry div.formContainer.image input[type=text], " +
+        "#FieldEntry div.formContainer.dropdown select, " +
         "#FieldEntry div.formContainer.paragraph textarea").each(function () {
         
         var label = $(this).attr("data-label");
@@ -453,60 +454,43 @@ content_class.prototype.getSchemaValues = function () {
     // Radio Boxes
     $("#FieldEntry div.radioContainer").each(function () {
         var label = $(this).attr("data-label");
+        var $radioChecked = $(this).find("input[type=radio]:checked");
         var value = $(this).find("input[type=radio]:checked").attr("data-label");
+
+        if ($radioChecked.hasClass("otherInput")) {
+            value = $radioChecked.closest(".radioSingle").find("input.otherSpecifyInput").val();
+        }
         
         oValues[label] = value;
     });
 
-    return JSON.stringify(oValues);
+    // Check Boxes
+    $("#FieldEntry div.checkContainer").each(function () {
+        var label = $(this).attr("data-label");
+        var values = [];
+        $(this).find("input[type='checkbox']:checked").each(function() {
+
+            var inputValue = "";
+            if ($(this).hasClass("otherInput")) {
+                inputValue = $(this).closest(".checkSingle").find("input.otherSpecifyInput").val();
+            }
+            else {
+                inputValue = $(this).attr("data-label");
+            }
+
+            values.push(inputValue);
+        });
+
+        oValues[label] = values;
+    });    
+
+    return oValues;
 };
 
 content_class.prototype.parseSchemaContent = function (htmlContent) {
-
     // Use mustache to set variables to be replaced / operated on in editor
-    var mustacheTemplate = htmlContent;
-    var data = {};
 
-    // Text Fields
-    $("#FieldEntry div.formContainer.text input[type='text']").each(function () {
-
-        var label = $(this).attr("data-label");
-        var val = $(this).val();
-
-        data[label] = val;
-    });
-    
-    // Image Fields
-    $("#FieldEntry div.formContainer.image input[type='text']").each(function () {
-
-        var label = $(this).attr("data-label");
-        var val = $(this).val();
-
-        data[label] = val;
-    });
-    
-    // Paragraph / Text Area
-    $("#FieldEntry div.formContainer.paragraph textarea").each(function () {
-
-        var label = $(this).attr("data-label");
-        var val = $(this).val();
-        
-        data[label] = val;
-    });
-    
-    // WYSIWYG Fields
-    $("#FieldEntry div.formContainer.wysiwyg textarea").each(function () {
-
-        var label = $(this).attr("data-label");
-        var id = $(this).attr("id");
-        var html = CKEDITOR.instances[id].getData();
-        
-        data[label] = html;
-    });
-    
-    htmlContent = Mustache.to_html(mustacheTemplate, data);
-
-    return htmlContent;
+    return Mustache.to_html(htmlContent, this.getSchemaValues());
 };
 
 // Set publish button text, drop down selected

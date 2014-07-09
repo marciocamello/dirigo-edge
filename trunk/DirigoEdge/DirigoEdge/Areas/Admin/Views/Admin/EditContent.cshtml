@@ -14,7 +14,7 @@
         <div id="ContentRow" class="nine columns">
             
             @{
-                string permaLinkModded = !String.IsNullOrEmpty(@Model.ThePage.Permalink) ? "True" : "False";
+                string permaLinkModded = !String.IsNullOrEmpty(Model.ThePage.Permalink) ? "True" : "False";
             }
 
             <div class="contentTitle">
@@ -29,9 +29,9 @@
             @{
                 // If no schema is assigned, show the html tab by default
                 bool hasSchema = Model.ThePage.SchemaId != null && Model.ThePage.SchemaId > 0;
-                string fieldEditorActive = (hasSchema && Model.ShowSchemaSelector) ? "active" : "";
-                string htmlEditorActive = (!hasSchema || !Model.ShowSchemaSelector) ? "active" : "";
-                string hideFieldEditorClass = !Model.ShowSchemaSelector ? "hide" : "";
+                string fieldEditorActive = (hasSchema && Model.ShowFieldEditor) ? "active" : "";
+                string htmlEditorActive = (!hasSchema || !Model.ShowFieldEditor) ? "active" : "";
+                string hideFieldEditorClass = !Model.ShowFieldEditor ? "hide" : "";
             }
 
             <dl class="tabs contained">

@@ -200,7 +200,7 @@ namespace DirigoEdge.Utils
                 string tagNoName = tag.Replace(code.Name + " ", ""); // Remove the tag name so we only have parameters left
 
                 // Get each key / value pair where a value is inside of quotes
-                const string pattern = @"<=\w[\w\s]*(?="")|\w+|""[\w\s.]*""";
+                const string pattern = @"<=.*(?="")|[\w\s]+|""[\w\s./-]*""";
                 var matches = Regex.Matches(tagNoName, pattern);
 
                 // Now setup the kvp's

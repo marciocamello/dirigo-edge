@@ -1,6 +1,7 @@
 ﻿@{
-	ViewBag.Title = "Manage Content";
+    ViewBag.Title = Model.Heading;
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    bool hasSchema = Model.SchemaId >= 0;
 }
 
 @model DirigoEdge.Areas.Admin.Models.ViewModels.ManageContentViewModel
@@ -9,8 +10,19 @@
 
     <div class="row">
         <div class="twelve columns">
-            <h3><i class="fa fa-file-text-o"></i> Manage Content Pages</h3>
-            <a id="NewContentPage" class="button mobileMarginBottom mobileBlockStatic" href="@Url.Action("NewContentPage", "Admin")">New Page +</a>
+            <h3><i class="fa fa-file-text-o"></i> @Model.Heading</h3>
+            
+            @{
+                string newButtonUrl = Url.Action("NewContentPage", "Admin");
+                // If a schema is assigned, pass the variable along
+                if (hasSchema)
+                {
+                    newButtonUrl = Url.Action("NewContentPage", "Admin", new { schemaId = Model.SchemaId, editContentHeading = Model.EditContentHeading });
+                }
+            }
+
+            <a id="NewContentPage" class="button mobileMarginBottom mobileBlockStatic" href="@newButtonUrl">@Model.NewButtonText</a>
+
             <table class="manageTable twelve bordered manageTable">
                 <thead>
                     <tr>
@@ -24,8 +36,18 @@
                     @{
 					    foreach(var page in Model.Pages)
 					    {
-                            <tr>
-                                <td class="title"><a href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">@page.Title</a></td>
+                            string codeEditUrl;
+					        if (hasSchema)
+					        {
+                                codeEditUrl = Url.Action("EditContent", "Admin", new { id = page.ContentPageId, schema = Model.SchemaId, editContentHeading = Model.EditContentHeading });
+					        }
+					        else
+					        {
+					            codeEditUrl = Url.Action("EditContent", "Admin", new {id = page.ContentPageId});
+					        }
+
+					        <tr>
+                                <td class="title"><a href="@codeEditUrl">@page.Title</a></td>
                                 <td class="hide-for-small">@Convert.ToDateTime(page.CreateDate).ToString("MM/dd/yyyy")</td>
                                 
                                 @{
@@ -40,9 +62,16 @@
                                             string url = "/" + page.Permalink + "/";
                                     }
                                     <a class="button secondary small tabletMarginBottom" href="@url" target=_blank>Preview</a>
-
-                                    <a class="button small tabletMarginBottom" href="@Url.Action("EditContentBasic", "Admin", new { id = @page.ContentPageId })">WYSIWYG Edit</a>
-                                    <a class="button small" href="@Url.Action("EditContent", "Admin", new { id = @page.ContentPageId })">Code Edit { }</a>
+                                    
+                                    @{
+                                        // Don't show WYSIWYG for schema editors
+                                        if (!hasSchema)
+                                        {
+                                            <a class="button small tabletMarginBottom" href="@Url.Action("EditContentBasic", "Admin", new { id = @page.ContentPageId })">WYSIWYG Edit</a>        
+                                        }
+                                    }
+                                    
+                                    <a class="button small" href="@codeEditUrl">Code Edit { }</a>
                                 </td>
                             </tr>
 					    }

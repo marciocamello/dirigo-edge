@@ -363,7 +363,7 @@ role_class.prototype.refreshUserRoleTable = function (fSuccess) {
     
     common.showAjaxLoader($container);
     //Refresh the inner content to show the new user
-    $("#ManageUserTableContainer").load("/Admin/ManageUserRoles #ManageUserRolesTable", function (data) {
+    $("#ManageUserTableContainer").load("/admin/manageuserroles/ #ManageUserRolesTable", function (data) {
         var noty_id = fSuccess;
 
         // Sort the table again since the html has changed

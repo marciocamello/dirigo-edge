@@ -5,17 +5,17 @@
 
 @model DirigoEdge.Areas.Admin.Models.ViewModels.ManageBlogAuthorsViewModel
 
-<div class="row manageUsers">
+<div class="row manageAuthors">
 
     <div class="twelve columns">
 
         <div class="contain">
             <h2 class="left"><i class="fa fa-users"></i> Manage Blog Authors</h2>
-            <h2><a id="NewUser" class="right button" data-reveal-id="NewUserModal">New Author +</a></h2>
+            <h2><a id="NewAuthor" class="right button" data-reveal-id="NewAuthorModal">New Author +</a></h2>
         </div>
 
-        <div id="ManageUserTableContainer">
-            <table id="ManageUserTable" class="twelve manageUsersTable manageTable">
+        <div id="ManageAuthorTableContainer">
+            <table id="ManageAuthorTable" class="twelve manageUsersTable manageTable">
                 <thead>
                     <tr>
                         <th class="hide-for-small">Thumbnail</th>
@@ -51,7 +51,7 @@
 </div>
 
 @section Modals {
-    <div id="NewUserModal" class="reveal-modal">
+    <div id="NewAuthorModal" class="reveal-modal">
         <div class="content">
             <h2>Create New Author :</h2>
             <p class="hide lead">Create a new Username</p>
@@ -69,39 +69,42 @@
                 </label>
             </form>
 
-            <a id="CreateUserButton" class="button right">Create</a>
+            <a id="CreateAuthorButton" class="button right">Create</a>
         </div>
 
         <a class="close-reveal-modal">&#215;</a>
     </div>
 
-    <div id="ModifyUserModal" class="reveal-modal">
-        <h2>Modify User.</h2>
-        <p class="hide lead">Modify a blog user.</p>
+    <div id="ModifyAuthorModal" class="reveal-modal">
+        <div class="content">
+            <h2>Modify Author.</h2>
+            <p class="hide lead">Modify a blog user.</p>
 
-        <form class="custom">
-            <label>User Name</label>
-            <input type="text" id="ModUserName" autocomplete="off" />
+            <form class="custom">
+                <label>User Name</label>
+                <input type="text" id="ModUserName" autocomplete="off" />
 
-            <label>Image Location</label>
-            <input type="text" id="ModUserImageLocation" autocomplete="off" />
+                <label>Image Location</label>
+                <input type="text" id="ModUserImageLocation" autocomplete="off" />
 
-            <label for="ModUserIsActiveBox">
-                <input type="checkbox" id="ModUserIsActiveBox" style="display: none;" autocomplete="off">
-                <span id="ModUserIsActiveBoxOver" class="custom checkbox"></span><span> Is Active</span>
-            </label>
-        </form>
+                <label for="ModUserIsActiveBox">
+                    <input type="checkbox" id="ModUserIsActiveBox" style="display: none;" autocomplete="off">
+                    <span id="ModUserIsActiveBoxOver" class="custom checkbox"></span><span> Is Active</span>
+                </label>
+            </form>
 
-        <a id="ModifyUserButton" class="button right">Update</a>
+            <a id="ModifyAuthorButton" class="button right">Update</a>
+        </div>
+        
         <a class="close-reveal-modal">&#215;</a>
     </div>
 
-    <div id="DeleteUserModal" class="reveal-modal">
-        <h2>Delete User.</h2>
+    <div id="DeleteAuthorModal" class="reveal-modal">
+        <h2>Delete Author.</h2>
         <p class="lead">Do you want to <em>permanently</em> delete <span id="DelUserName"></span>?</p>
         <p>Note : User Uploaded Images will need to be manually removed from the file system.</p>
 
-        <a id="DeleteUserButton" class="button right confirmModalButton">Delete</a>
+        <a id="DeleteAuthorButton" class="button right confirmModalButton">Delete</a>
         <a id="CancelDeleteButton" class="button right secondary">Cancel</a>
         <a class="close-reveal-modal">&#215;</a>
     </div>
