@@ -115,6 +115,19 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		}
 
         [PermissionsFilter(Permissions = "Can Edit Pages")]
+        public ActionResult ManageEntity(string heading, string buttonText, string editHeading, int schemaId)
+        {
+            var model = new ManageContentViewModel(schemaId)
+            {
+                Heading = heading,
+                NewButtonText = buttonText,
+                EditContentHeading = editHeading
+            };
+
+            return View("ManageContent", model);
+        }
+
+        [PermissionsFilter(Permissions = "Can Edit Pages")]
 		public ActionResult EditSlideShow(int id)
 		{
 			var model = new EditSlideShowViewModel(id);
@@ -122,12 +135,31 @@ namespace DirigoEdge.Areas.Admin.Controllers
 		}
 
         [PermissionsFilter(Permissions = "Can Edit Pages")]
-		public ActionResult NewContentPage()
+		public ActionResult NewContentPage(string schemaId, string editContentHeading)
 		{
 			// Create a new Content Page to be passed to the edit content action
 			using (var context = new DataContext())
 			{
 				ContentPage page = getDefaultContentPage();
+
+                // If a schema was passed in, we will want to assign that schema id to the newly created page
+                // We will also want to copy over html from an existing page that uses that html. That way the user has a consistent editor.
+			    int iSchemaId = Int32.Parse(schemaId);
+			    if (iSchemaId > 0)
+			    {
+			        page.SchemaId = iSchemaId;
+
+			        var pageToCloneFrom = context.ContentPages.FirstOrDefault(x => x.SchemaId == iSchemaId);
+			        if (pageToCloneFrom != null)
+			        {
+			            page.HTMLContent = pageToCloneFrom.HTMLContent;
+                        page.HTMLUnparsed = pageToCloneFrom.HTMLUnparsed;
+			            page.JSContent = pageToCloneFrom.JSContent;
+			            page.CSSContent = pageToCloneFrom.CSSContent;
+			            page.Template = pageToCloneFrom.Template;
+			        }
+			    }
+			   
 				context.ContentPages.Add(page);
 				context.SaveChanges();
 
@@ -135,14 +167,35 @@ namespace DirigoEdge.Areas.Admin.Controllers
 				page.DisplayName = "Page " + page.ContentPageId;
 				context.SaveChanges();
 
-				return RedirectToAction("EditContent", "Admin", new { id = page.ContentPageId });
+                // Pass content Heading along if it exists
+			    object routeParameters = new { id = page.ContentPageId };
+                if (!String.IsNullOrEmpty(editContentHeading))
+                {
+                    routeParameters = new { id = page.ContentPageId, schema = schemaId, editContentHeading };                    
+                }
+
+                return RedirectToAction("EditContent", "Admin", routeParameters);
 			}
 		}
 
         [PermissionsFilter(Permissions = "Can Edit Pages")]
-		public ActionResult EditContent(int id)
-		{
-			var model = new EditContentViewModel(id);
+        public ActionResult EditContent(int id, string schema, string editContentHeading)
+        {
+            var model = new EditContentViewModel(id);
+            schema = schema ?? "0";
+
+            // If Schema is Assigned, make sure to show the Field Editor
+            int schemaId = Int32.Parse(schema);
+            if (schemaId > 0)
+            {
+                model.ShowFieldEditor = true;
+            }
+
+            if (!String.IsNullOrEmpty(editContentHeading))
+            {
+                model.Heading = editContentHeading;
+            }
+			
 			return View(model);
 		}
 
@@ -608,6 +661,12 @@ namespace DirigoEdge.Areas.Admin.Controllers
 				{
 					var UserToDelete = context.Users.FirstOrDefault(x => x.UserId == user.UserId);
 
+                    // Make sure user even exists
+				    if (UserToDelete == null)
+				    {
+				        return result;
+				    }
+
                     // Clean up Roles First
                     foreach (var role in Roles.GetRolesForUser(UserToDelete.Username))
 				    {
@@ -617,6 +676,9 @@ namespace DirigoEdge.Areas.Admin.Controllers
                     // Clean Up CodeFirst Items
 				    var eventModule = context.EventAdminModules.Where(x => x.User.UserId == UserToDelete.UserId);
 				    context.EventAdminModules.RemoveRange(eventModule);
+
+                    var blogModule = context.BlogAdminModules.Where(x => x.User.UserId == UserToDelete.UserId);
+                    context.BlogAdminModules.RemoveRange(blogModule);
 
 				    context.SaveChanges();
 

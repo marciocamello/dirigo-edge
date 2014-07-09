@@ -26,11 +26,11 @@ namespace DirigoEdge
             // Load all Plugins from plugin Directory, adding any plugin routes to the collection
             PluginAssemblyLoader.Load(rc);
 
-            // Register the stock routes plus the plugin routes
-            RouteConfig.RegisterRoutes(rc);
-
             // Registers Containing Area, such as /Admin
             AreaRegistration.RegisterAllAreas();
+
+            // Register the stock routes plus the plugin routes
+            RouteConfig.RegisterRoutes(rc);
 
             // Add the new View Engine for our plugins to use
             ViewEngines.Engines.Add(new PluginRazorViewEngine());

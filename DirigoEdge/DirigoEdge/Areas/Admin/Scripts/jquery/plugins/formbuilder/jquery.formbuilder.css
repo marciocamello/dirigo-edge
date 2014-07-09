@@ -5,6 +5,8 @@
     font-size: 14px !important;
 }
 
+.fb-button:hover { background-color: #2284a1; }
+
 #editField input[type="text"], 
 #editField input[type="password"], 
 #editField input[type="date"], 
@@ -16,8 +18,9 @@
 #editField input[type="time"], 
 #editField input[type="url"] {
     width: auto;
-    
 }
+
+#editField input.option-label-input { max-width: 186px; }
 
 .fb-tab-pane code { background: none; font-weight: normal; }
 .fb-button{display:inline-block;margin:0;padding:.563rem .844rem;border:0 none;color:#fff;text-align:center;text-decoration:none;font-size:12px;line-height:1.5;cursor:pointer;border-radius:.125rem;border:thin solid #2A95B2;border-bottom: 2px solid #2A95B2; }
@@ -54,6 +57,7 @@
 .edit-response-field input:focus,.edit-response-field textarea:focus,.edit-response-field select:focus{outline:none;border: thin solid #2BA6CB; }
 .edit-response-field select{font-size:14px}
 .fb-field-wrapper .actions-wrapper a.js-duplicate,.fb-edit-field-wrapper .js-add-option{background-color:#2BA6CB;border:none}
+.js-add-option { margin-bottom: 12px; }
 .fb-field-wrapper .actions-wrapper a.js-clear,.fb-edit-field-wrapper .js-remove-option{background-color:#e74c3c;border:none}
 .fb-field-wrapper .subtemplate-wrapper{border:1px dashed transparent;margin-bottom:10px;padding:10px;position:relative}
 .fb-field-wrapper .subtemplate-wrapper .cover{position:absolute;top:0;left:0;height:100%;width:100%;z-index:2}

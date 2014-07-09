@@ -89,7 +89,6 @@ fieldEditor_class.prototype.loadSchemaIntoFields = function (schemaId, moduleId)
                 CKEDITOR.replace($(this).attr("id"));
             });
                  
-
             // End Loading
             $("#RefreshSchemaLink i.fa-refresh").removeClass("fa-spin");
             common.hideAjaxLoader($container);
@@ -104,19 +103,56 @@ fieldEditor_class.prototype.loadSchemaValues = function (schemaValues) {
 
     $.each(schemaValues, function (key, value) {
 
+        var label = key;
         var inputName = key.toLowerCase().replace(/ /g, '-');
 
-        // Currently Only handles text inputs and textareas
+        //text inputs
         $("#FieldEntry input[name='" + inputName + "']").val(value);
         
-        $("#FieldEntry textarea[name='" + inputName + "']").val(value);        
+        // Text Area / Paragraphs
+        $("#FieldEntry textarea[name='" + inputName + "']").val(value);
+
+        // Select Boxes
+        $("#FieldEntry select[name='" + inputName + "']").val(value);
+
+        // Checkboxes
+        $("#FieldEntry div.checkContainer[data-label='" + label + "']").each(function() {
+            var nValues = value;
+            var $this = $(this);
+
+            $.each(nValues, function(key, val) {
+
+                var $input = $this.find("input[data-label='" + val + "']");
+                if ($input.length > 0) {
+                    $input.prop("checked", true);
+                }
+                else {
+                    // Other / Specify
+                    $this.find("input.otherInput").prop("checked", true);
+                    $this.find("input.otherSpecifyInput").val(val);
+                }
+            });
+        });
+
+        // Radio Buttons
+        $("#FieldEntry div.radioContainer[data-label='" + label + "']").each(function () {
+            var $input = $(this).find("input[data-label='" + value + "']");
+            if ($input.length > 0) {
+                $input.prop("checked", true);
+            }
+            else {
+                // Other / Specify
+                $(this).find("input.otherInput").prop("checked", true);
+                $(this).find("input.otherSpecifyInput").val(value);
+            }
+        });
     });
 };
 
 fieldEditor_class.prototype.buildSchemaContent = function(fields) {
 
     var $content = $("<form id='FieldEntry'>");
-
+    
     // loop through the fields
     $.each(fields, function (index, value) {
         var oItem = value;
@@ -130,8 +166,8 @@ fieldEditor_class.prototype.buildSchemaContent = function(fields) {
         var options = oItem.field_options;
         var description = options.description || "";
         var sizeClass = options.size || "";
-
-
+        var includeOther = options.include_other_option || false;
+        
         // Text Fields
         if (type == "text") {
 
@@ -206,16 +242,99 @@ fieldEditor_class.prototype.buildSchemaContent = function(fields) {
 
                 var $radioContainer = $("<div class='radioSingle' />");
 
-                $radioContainer.append("<input id='" + radioId + "'  name='" + radioName + "' type='radio' data-label='" + radioLabel + "' class='" + requiredClass + "' value='test' data-id='" + cId + "' autocomplete='off' " + checked + " />");
-                $radioContainer.append("<label for='" + radioId + "' class='radioLabel inline'>" + radioLabel + "</label>");
+                var inputHtml = "<input id='" + radioId + "'  name='" + radioName + "' type='radio' data-label='" + radioLabel + "' class='" + requiredClass + "' data-id='" + cId + "' autocomplete='off' " + checked + " />";
+                $radioContainer.append("<label for='" + radioId + "' class='radioLabel'>" + inputHtml + " " + radioLabel + "</label>");
 
                 $formContainer.append($radioContainer);
             });
+
+            // Add Other choice if necessary
+            if (includeOther) {
+                var checkId = inputName + "OtherRadio";
+                var checkName = label.toLowerCase().replace(/ /g, '-');
+                var checkLabel = "Other";
+                var checked = "";
+
+                var $checkContainer = $("<div class='radioSingle' />");
+
+                var inputHtml = "<input id='" + checkId + "'  name='" + checkName + "' type='radio' data-label='" + checkLabel + "' class='otherInput " + requiredClass + "' data-id='" + cId + "' autocomplete='off' " + checked + " />";
+                $checkContainer.append("<label for='" + checkId + "' class='radioLabel'>" + inputHtml + " " + checkLabel + "</label>");
+                $checkContainer.append('<input type="text" class="otherSpecifyInput" autocomplete="off" />');
+
+                $formContainer.append($checkContainer);
+            }
             
             $content.append($formContainer);
         }
 
+        // CheckBoxes
+        if (type == "checkboxes") {
+
+            var $formContainer = $("<div class='formContainer checkContainer" + sizeClass + "' data-label='" + label + "'>");
+            $formContainer.append("<label>" + label + "</label>");
+
+            // Add CheckBox Options
+            $.each(options.options, function (key, value) {
+                var checkLabel = value.label;
+                var checkId = value.label.toLowerCase().replace(/ /g, '-'); // lowercase, replace spaces with dashes
+                var checked = value.checked == true ? "checked=checked" : "";
+                var checkName = label.toLowerCase().replace(/ /g, '-');
+
+                var $checkContainer = $("<div class='checkSingle' />");
+
+                var inputHtml = "<input id='" + checkId + "'  name='" + checkName + "' type='checkbox' data-label='" + checkLabel + "' class='" + requiredClass + "' value='test' data-id='" + cId + "' autocomplete='off' " + checked + " />";
+                $checkContainer.append("<label for='" + checkId + "' class='radioLabel'>" + inputHtml + " " + checkLabel + "</label>");
+
+                $formContainer.append($checkContainer);
+            });
+
+            // Add Other choice if necessary
+            if (includeOther) {
+                var checkId = inputName + "OtherCheck";
+                var checkName = inputName + "Check1";
+                var checkLabel = "Other";
+                var checked = "";
+
+                var $checkContainer = $("<div class='checkSingle' />");
+
+                var inputHtml = "<input id='" + checkId + "'  name='" + checkName + "' type='checkbox' data-label='" + checkLabel + "' class='otherInput " + requiredClass + "' value='test' data-id='" + cId + "' autocomplete='off' " + checked + " />";
+                $checkContainer.append("<label for='" + checkId + "' class='radioLabel'>" + inputHtml + " " + checkLabel + "</label>");
+                $checkContainer.append('<input type="text" class="otherSpecifyInput"/>');
+
+                $formContainer.append($checkContainer);
+            }
+
+            $content.append($formContainer);
+        }
+
+        // Select Boxes / Dropdown
+        if (type == "dropdown") {
+            var $formContainer = $("<div class='formContainer dropdown'>");
+
+            $formContainer.append("<label>" + label + sRequiredTokend + "</label>");
+            var $select = $("<select name='" + inputName + "' data-label='" + label + "' ></select>");
+
+            $.each(options.options, function(key, value) {
+
+                var label = value.label;
+                var checked = value.checked;
+                var selectedText = checked ? "selected=selected" : "";
+
+                $select.append("<option " + selectedText +" >" +label + "</option>");
+            });
+
+            $formContainer.append($select);
+
+            if (description.length > 0) {
+                $formContainer.append("<p class='labelDescription'>" + description + "</p>");
+            }
+
+            $content.append($formContainer);
+        }
     });
+
+    // Wrap each form container in list items for better viewing
+    $content.find("div.formContainer").wrapAll("<ol></ol>").wrapInner("<li></li>");
 
     return $content;
 };
