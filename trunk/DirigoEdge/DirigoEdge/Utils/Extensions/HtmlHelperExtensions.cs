@@ -7,6 +7,7 @@ using System.Web.Mvc.Html;
 using DirigoEdge.Entities;
 using DirigoEdge.Models.ImageResizing;
 using DirigoEdge.Utils;
+using Newtonsoft.Json.Linq;
 
 namespace MvcHtmlHelpers
 {
@@ -150,6 +151,50 @@ namespace MvcHtmlHelpers
         public static MvcHtmlString RenderBackgroundImage(this HtmlHelper helper, string className, List<BackgroundImage> images)
         {
             return helper.Partial("Partials/ResponsiveBackgroundImage", new ResponsiveBackgroundImageViewModel(className, images));
+        }
+
+        /// <summary>
+        /// Returns whether or not application is running in Debug or Release Mode
+        /// </summary>
+        /// <param name="htmlHelper"></param>
+        /// <returns>True if in Debug Mode, false if in Release mode</returns>
+        public static bool IsDebug(this HtmlHelper htmlHelper)
+        {
+            #if DEBUG
+                return true;
+            #else
+                return false;
+            #endif
+        }
+
+        /// <summary>
+        /// Get a Field Value from a given module
+        /// </summary>
+        /// <param name="htmlHelper"></param>
+        /// <param name="moduleName">The name of the module in which you want to retrieve a field value from</param>
+        /// <param name="fieldName">The name / label of the field you want to retrieve a value from</param>
+        /// <returns></returns>
+        public static MvcHtmlString GetFieldValue(this HtmlHelper htmlHelper, string moduleName, string fieldName)
+        {
+            string result = String.Empty;
+
+            using (var context = new DataContext())
+            {
+                var module = context.ContentModules.FirstOrDefault(x => x.ModuleName == moduleName);
+
+                if (module != null)
+                {
+                    var source = module.SchemaEntryValues;
+                    dynamic data = JObject.Parse(source);
+
+                    if (data[fieldName] != null)
+                    {
+                        return new MvcHtmlString(data[fieldName].ToString());
+                    }
+                }
+            }
+
+            return new MvcHtmlString(result);
         }
 	}
 }

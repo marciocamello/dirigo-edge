@@ -85,9 +85,18 @@ fieldEditor_class.prototype.loadSchemaIntoFields = function (schemaId, moduleId)
             );
             
             // Setup CKEditors
-            $('#FieldEntry textarea.editor').each(function() {
-                CKEDITOR.replace($(this).attr("id"));
-            });
+            // Timeout needed for CKEditor Bug
+            setTimeout(function () {
+                $('#FieldEntry textarea.editor').each(function () {
+                    var id = $(this).attr("id");
+                    var $el = $("#" + id);
+
+                    if (!$el.hasClass("activated")) {
+                        CKEDITOR.replace(id);
+                        $el.addClass("activated");
+                    }
+                });
+            }, 300);
                  
             // End Loading
             $("#RefreshSchemaLink i.fa-refresh").removeClass("fa-spin");
